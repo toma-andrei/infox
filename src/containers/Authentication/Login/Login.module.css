@@ -1,0 +1,208 @@
+::placeholder {
+  color: #fff;
+}
+
+.RegisterLinkDiv {
+  text-align: center;
+}
+
+.RegisterLink {
+  text-decoration: none;
+}
+
+.FailedAuthBadge {
+  border-radius: 7px;
+  padding: 1px;
+  margin-right: 2px;
+  line-height: 24px;
+}
+
+.DisableSubmitButton {
+  pointer-events: none;
+}
+
+.ReasonBadgeWrapper {
+  text-align: center;
+  display: flex;
+  justify-content: space-around;
+}
+
+.FailedAuthDiv {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+.loginWrapper,
+.register-wrapper {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.LoginForm,
+.register-form,
+.restore-form {
+  position: relative;
+  width: 100%;
+  max-width: 380px;
+  padding: 60px 40px 40px;
+  background: rgba(0, 0, 0, 0.7);
+  border-radius: 10px;
+  color: var(--main-txt-color-always-light);
+  box-shadow: 0 15px 25px rgba(0, 0, 0, 0.5);
+}
+
+.LoginForm::before,
+.register-form::before,
+.restore-form::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 50%;
+  height: 100%;
+  background: rgba(255, 255, 255, 0.08);
+  transform: skewX(-22deg);
+  transform-origin: bottom left;
+  border-radius: 10px;
+  pointer-events: none;
+}
+
+@media only screen and (max-width: 370px) {
+  .LoginForm::before,
+      /*.register-form::before,*/
+      .restore-form::before {
+    transform: skewX(-19deg);
+  }
+}
+
+.register-form::before {
+  transform: skewX(-17deg);
+}
+
+@media only screen and (max-width: 370px) {
+  .register-form::before {
+    transform: skewX(-15deg);
+  }
+}
+
+.LoginH2,
+.RegisterH2,
+.RestorePasswordH2 {
+  text-align: center;
+  letter-spacing: 1px;
+  color: var(--main-txt-color-always-light);
+}
+
+#labels_div #label_failed {
+  visibility: hidden;
+  text-align: center;
+}
+.register-form #failed_email,
+.register-form #failed_unknown,
+.register-form #failed_passwords,
+.register-form #failed_null,
+.restore-form #no_email,
+.restore-form #failed_unknown,
+.restore-form #failed_passwords {
+  text-align: center;
+  letter-spacing: 1px;
+  color: var(--main-txt-color-always-light);
+  display: none;
+  margin-top: 5px;
+  margin-bottom: 1rem;
+  min-width: 100%;
+}
+
+.social-login {
+  text-align: center;
+  margin-bottom: 15px;
+}
+
+.LoginForm .inputGroup,
+.register-form .inputGroup,
+.restore-form .inputGroup {
+  position: relative;
+}
+
+.LoginForm .inputGroup input,
+.register-form .inputGroup input,
+.restore-form .inputGroup input {
+  width: 100%;
+  padding: 10px 0;
+  font-size: 1rem;
+  letter-spacing: 1px;
+  margin-bottom: 30px;
+  border: none;
+  border-bottom: 1px solid #fff;
+  outline: none;
+  background-color: transparent;
+  color: inherit;
+}
+
+.LoginInputLabel,
+.RegisterInputLabel,
+.RestoreInputLabel {
+  position: absolute;
+  top: 0;
+  left: 0;
+  padding: 10px 0;
+  font-size: 1rem;
+  pointer-events: none;
+  transition: 0.3s ease-out;
+}
+
+.LoginForm .inputGroup input:focus + label,
+.LoginForm .inputGroup input:valid + label,
+.register-form .inputGroup input:focus + label,
+.register-form .inputGroup input:valid + label,
+.restore-form .inputGroup input:focus + label,
+.restore-form .inputGroup input:valid + label {
+  transform: translateY(-18px);
+  color: var(--main-txt-color-always-light);
+  font-size: 0.8rem;
+}
+
+.loginSubmitBtn,
+.register-submit-btn {
+  color: var(--main-txt-color-always-light);
+  width: 100%;
+  text-shadow: 1px 1px black;
+  display: block;
+  margin-left: auto;
+  border: none;
+  outline: none;
+  background: darkcyan;
+  font-size: 1rem;
+  letter-spacing: 1px;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.loginSubmitBtnDisabled {
+  opacity: 0.6;
+  pointer-events: none;
+}
+
+.loginSubmitBtn:hover,
+.register-submit-btn:hover {
+  background: rgba(0, 139, 139, 0.7);
+}
+
+.forgotPw {
+  color: inherit;
+}
+
+.forgotPw:hover {
+  color: var(--main-txt-color-one);
+}
+.small_navbar_avatar {
+  opacity: 0.8;
+}
+.small_navbar_avatar:hover {
+  opacity: 1;
+}

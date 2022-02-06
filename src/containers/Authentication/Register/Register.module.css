@@ -1,0 +1,168 @@
+::placeholder {
+  color: #fff;
+}
+
+.DisableSubmitButton {
+  pointer-events: none;
+}
+
+.ReasonBadgeWrapper {
+  text-align: center;
+  display: flex;
+  justify-content: space-around;
+}
+
+.FailedAuthDiv {
+  text-align: center;
+}
+
+.loginWrapper,
+.RegisterWrapper {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.loginForm,
+.RegisterForm,
+.RestoreForm {
+  position: relative;
+  width: 100%;
+  max-width: 380px;
+  padding: 60px 40px 40px;
+  background: rgba(0, 0, 0, 0.7);
+  border-radius: 10px;
+  color: var(--main-txt-color-always-light);
+  box-shadow: 0 15px 25px rgba(0, 0, 0, 0.5);
+}
+
+.loginForm::before,
+.RegisterForm::before,
+.RestoreForm::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 50%;
+  height: 100%;
+  background: rgba(255, 255, 255, 0.08);
+  transform: skewX(-22deg);
+  transform-origin: bottom left;
+  border-radius: 10px;
+  pointer-events: none;
+}
+
+@media only screen and (max-width: 370px) {
+  .RestoreForm::before {
+    transform: skewX(-19deg);
+  }
+}
+
+.RegisterForm::before {
+  transform: skewX(-14deg);
+}
+
+@media only screen and (max-width: 370px) {
+  .RegisterForm::before {
+    transform: skewX(-15deg);
+  }
+}
+
+.RegisterH2,
+.RestorePasswordH2 {
+  text-align: center;
+  letter-spacing: 1px;
+  color: var(--main-txt-color-always-light);
+}
+
+#labels_div #label_failed {
+  visibility: hidden;
+  text-align: center;
+}
+.RegisterForm #failed_email,
+.RegisterForm #failed_unknown,
+.RegisterForm #failed_passwords,
+.RegisterForm #failed_null,
+.RestoreForm #no_email,
+.RestoreForm #failed_unknown,
+.RestoreForm #failed_passwords {
+  text-align: center;
+  letter-spacing: 1px;
+  color: var(--main-txt-color-always-light);
+  display: none;
+  margin-top: 5px;
+  margin-bottom: 1rem;
+  min-width: 100%;
+}
+
+.SocialLogin {
+  text-align: center;
+  margin-bottom: 15px;
+}
+
+.RegisterForm .InputGroup,
+.RestoreForm .InputGroup {
+  position: relative;
+}
+
+.RegisterForm .InputGroup input,
+.RestoreForm .InputGroup input {
+  width: 100%;
+  padding: 10px 0;
+  font-size: 1rem;
+  letter-spacing: 1px;
+  margin-bottom: 30px;
+  border: none;
+  border-bottom: 1px solid #fff;
+  outline: none;
+  background-color: transparent;
+  color: inherit;
+}
+
+.RegisterInputLabel,
+.RestoreInputLabel {
+  position: absolute;
+  top: 0;
+  left: 0;
+  padding: 10px 0;
+  font-size: 1rem;
+  pointer-events: none;
+  transition: 0.3s ease-out;
+}
+
+.RegisterForm .InputGroup input:focus + label,
+.RegisterForm .InputGroup input:valid + label,
+.RestoreForm .InputGroup input:focus + label,
+.RestoreForm .InputGroup input:valid + label {
+  transform: translateY(-18px);
+  color: var(--main-txt-color-always-light);
+  font-size: 0.8rem;
+}
+
+.RegisterSubmitBtn {
+  color: var(--main-txt-color-always-light);
+  width: 100%;
+  text-shadow: 1px 1px black;
+  display: block;
+  margin-left: auto;
+  border: none;
+  outline: none;
+  background: darkcyan;
+  font-size: 1rem;
+  letter-spacing: 1px;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.RegisterSubmitBtn:hover {
+  background: rgba(0, 139, 139, 0.7);
+}
+
+.small_navbar_avatar {
+  opacity: 0.8;
+}
+.small_navbar_avatar:hover {
+  opacity: 1;
+}

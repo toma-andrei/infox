@@ -1,0 +1,7 @@
+.MoveRight {
+  margin-left: auto;
+}
+
+.Transition {
+  transition: all 1s ease-out;
+}

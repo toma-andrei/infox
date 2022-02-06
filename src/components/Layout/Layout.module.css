@@ -1,0 +1,59 @@
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+textarea:-webkit-autofill,
+textarea:-webkit-autofill:hover,
+textarea:-webkit-autofill:focus,
+select:-webkit-autofill,
+select:-webkit-autofill:hover,
+select:-webkit-autofill:focus {
+  border: none;
+  -webkit-text-fill-color: black;
+  transition: background-color 5000s ease-in-out 0s;
+}
+:root {
+  --main-bg-color: #208f8f;
+  --main-txt-color-light: #ffffff;
+  --main-txt-color-dark: #222222;
+  --main-txt-color-one: #cdff33;
+  --main-txt-color-two: #343a40;
+  --main-txt-color-always-light: #fff;
+  --main-txt-color-very_light_green: #dfd;
+  --main-txt-color-very_light_red: #fdd;
+  /*  
+  --main-bg-color: #fff;
+  --main-txt-color-light: #130333;
+  --main-txt-color-dark: #222222;
+  --main-txt-color-one: #3D1703;
+  --main-txt-color-two: #3D1703;
+  --main-txt-color-always-light: #fff
+          
+      
+  --main-bg-color: #000;
+  --main-txt-color-light: #fff;
+  --main-txt-color-dark: #aaa;
+  --main-txt-color-one: green;
+  --main-txt-color-two: green;
+  --main-txt-color-always-light: #000    
+  */
+}
+
+body {
+  background-color: #208f8f;
+  margin: 0;
+  font-family: Roboto, Arial, Helvetica, sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
+    Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+}
+
+body::-webkit-scrollbar {
+  width: 12px; /* width of the entire scrollbar */
+}
+body::-webkit-scrollbar-track {
+  background: var(--main-bg-color); /* color of the tracking area */
+}
+body::-webkit-scrollbar-thumb {
+  background-color: var(--main-txt-color-two); /* color of the scroll thumb */
+  border-radius: 20px; /* roundness of the scroll thumb */
+  border: 1px solid var(--main-bg-color); /* creates padding around scroll thumb */
+}

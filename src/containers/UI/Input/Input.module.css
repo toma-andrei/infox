@@ -1,0 +1,11 @@
+.Invalid {
+  border-bottom: 1px solid #c94b02 !important;
+}
+
+.Valid {
+  border-bottom: 1px solid #1da80d !important;
+}
+
+.NotModified {
+  border-bottom: 1px solid #fff !important;
+}
