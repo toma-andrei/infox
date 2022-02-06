@@ -1,10 +1,9 @@
-import React, { Component, useState } from "react";
+import React, { useState } from "react";
 import styles from "./Restore.module.css";
 import Input from "../../UI/Input/Input";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
 
-const RestoreF = (props) => {
+const Restore = (props) => {
   const [restoreForm, setRestoreForm] = useState({
     email: {
       elementType: "input",
@@ -61,17 +60,19 @@ const RestoreF = (props) => {
   };
 
   const inputChangedHandler = (id, event) => {
-    const element = restoreForm[id];
+    let element = restoreForm[id];
     element.value = event.target.value;
     element.touched = true;
-    element.valid = this.checkValidity(element.value, element.validation);
+    element.valid = checkValidity(element.value, element.validation);
 
     let allValid = true;
 
     for (let key in restoreForm) {
       allValid = allValid && restoreForm[key].valid;
     }
-    setRestoreForm(element);
+    setRestoreForm((prevState) => {
+      return { [id]: { ...element } };
+    });
     setFormIsValid(allValid);
   };
 
@@ -79,8 +80,6 @@ const RestoreF = (props) => {
     event.preventDefault();
     setSuccess(true);
   };
-
-  //===========
 
   const formElementArray = [];
 
@@ -154,159 +153,5 @@ const RestoreF = (props) => {
     </div>
   );
 };
-/*
-class Restore extends Component {
-  state = {
-    restoreForm: {
-      email: {
-        elementType: "input",
-        elementConfig: { type: "text", placeholder: "Adresa de email" },
-        value: "",
-        validation: {
-          required: true,
-          minLength: 5,
-          acceptsEmailFormat: true,
-        },
-        valid: false,
-        touched: false,
-      },
-    },
-    formIsValid: false,
-    loading: false,
-    somethingWentWrong: false,
-    reasonForRestoreFail: "???\n /auth/restore",
-    success: false,
-  };
 
-  checkValidity(value, rules) {
-    let isValid = true;
-
-    if (rules.required) {
-      isValid = value.trim() !== "" && isValid;
-    }
-
-    if (rules.minLength) {
-      isValid = !(value.trim().length < rules.minLength) && isValid;
-    }
-
-    if (rules.maxLength) {
-      isValid = !(value.trim().length > rules.maxLength) && isValid;
-    }
-
-    if (rules.matchField) {
-      isValid =
-        value.trim() === this.state.restoreForm[rules.matchField].value &&
-        isValid;
-    }
-    //simple verification for a valid email address
-    if (rules.acceptsEmailFormat) {
-      isValid =
-        value.indexOf("@") >= 1 &&
-        value.lastIndexOf(".") - value.indexOf("@") > 1 &&
-        value.lastIndexOf(".") < value.length - 1 &&
-        value[value.indexOf("@") - 1] !== "." &&
-        isValid;
-    }
-
-    return isValid;
-  }
-
-  inputChangedHandler(id, event) {
-    const stateCopy = { ...this.state };
-    const element = stateCopy.restoreForm[id];
-    element.value = event.target.value;
-    element.touched = true;
-    element.valid = this.checkValidity(element.value, element.validation);
-
-    let allValid = true;
-
-    for (let key in this.state.restoreForm) {
-      allValid = allValid && this.state.restoreForm[key].valid;
-    }
-
-    this.setState({ element, formIsValid: allValid });
-  }
-
-  restoreButtonPressedHandler(event) {
-    event.preventDefault();
-    this.setState({ success: true });
-  }
-
-  render() {
-    const formElementArray = [];
-
-    let navigate = useNavigate();
-
-    for (let key in this.state.restoreForm) {
-      formElementArray.push({ id: key, config: this.state.restoreForm[key] });
-    }
-
-    //if login is successfull redirect to /main
-    if (this.state.success) {
-      return navigate("/main");
-    }
-
-    let form = (
-      <form
-        id="restoreForm"
-        className={styles.RestoreForm}
-        name="restoreForm"
-        autoComplete="off"
-      >
-        <h2 className={styles.RestoreH2}>Recuperare cont</h2>
-
-        <div className="alert alert-primary" role="alert">
-          Recomandăm să autentificați folosind Google sau Facebook
-        </div>
-        <div className="alert alert-secondary" role="alert">
-          După ce apăsați recuperare veți primii un e-mail care vă va ajuta să
-          vă recuperați contul!
-        </div>
-        {formElementArray.map((elem) => {
-          return (
-            <div className={styles.InputGroup} key={elem.id}>
-              <Input
-                classes={styles.InputElement}
-                invalid={!elem.config.valid}
-                shouldValidate={elem.config.validation}
-                touched={elem.config.touched}
-                key={elem.id}
-                elementType={elem.id}
-                elementConfig={elem.config.elementConfig}
-                value={elem.config.value}
-                changed={this.inputChangedHandler.bind(this, elem.id)}
-              />
-            </div>
-          );
-        })}
-        <input
-          id="restoreButton"
-          type="button"
-          value="Recuperare"
-          style={this.state.formIsValid ? {} : { opacity: 0.6 }}
-          className={styles.RestoreSubmitBtn}
-          onClick={this.restoreButtonPressedHandler.bind(this)}
-        />
-
-        <div
-          id="failed"
-          className={styles.FailedAuthDiv}
-          style={{ marginTop: "10px" }}
-        >
-          <span className="bg bg-danger">
-            {this.state.reasonForRestoreFail}
-          </span>
-        </div>
-        <div id="failed" className={styles.FailedAuthDiv}></div>
-      </form>
-    );
-
-    return (
-      <div style={{ margin: 30 }}>
-        <main className={styles.RestoreWrapper}>{form}</main>
-      </div>
-    );
-  }
-}
-*/
-export default RestoreF;
+export default Restore;
