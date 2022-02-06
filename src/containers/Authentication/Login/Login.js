@@ -1,9 +1,10 @@
 import styles from "./Login.module.css";
 import Input from "../../UI/Input/Input";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router";
 import { Link } from "react-router-dom";
+import { requestIP } from "../../../env";
 
 const Login = (props) => {
   const [loginForm, setLoginForm] = useState({
@@ -90,6 +91,7 @@ const Login = (props) => {
   };
 
   const loginButtonPressedHandler = (event) => {
+    console.log("good");
     event.preventDefault();
     const email = loginForm.email.value;
     const password = loginForm.password.value;
@@ -99,7 +101,7 @@ const Login = (props) => {
 
       axios({
         method: "post",
-        url: "http://192.168.0.101/",
+        url: "http://" + requestIP,
         data: JSON.stringify({
           url: "https://infox.ro/new/auth/login",
           email: email,
@@ -136,11 +138,14 @@ const Login = (props) => {
     formElementArray.push({ id: key, config: loginForm[key] });
   }
 
-  let navigate = useNavigate("");
-  //if login is successfull redirect to /main
-  if (success) {
-    return navigate("main");
-  }
+  let navigate = useNavigate();
+
+  //this code executes only if
+  useEffect(() => {
+    if (success) {
+      return navigate("/main");
+    }
+  }, [success]);
 
   //create a form element and inputs using loginForm field in state
   let form = (
@@ -179,7 +184,7 @@ const Login = (props) => {
         value="Autentificare"
         className={styles.loginSubmitBtn}
         style={formIsValid ? {} : { opacity: 0.6 }}
-        onClick={() => loginButtonPressedHandler()}
+        onClick={(e) => loginButtonPressedHandler(e)}
       />
       <div id="failed" className={styles.FailedAuthDiv}>
         {somethingWentWrong ? (

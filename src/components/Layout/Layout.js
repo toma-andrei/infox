@@ -5,7 +5,7 @@ import NavbarAuth from "../Navbar/NavbarAuth";
 
 const Layout = (props) => {
   const infoxJWT = localStorage.getItem("infoxJWT");
-  return infoxJWT === "undefined" ? (
+  return infoxJWT === null ? (
     <Fragment>
       <Navbar />
       {props.children}

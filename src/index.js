@@ -8,10 +8,10 @@ import Layout from "./components/Layout/Layout";
 import { BrowserRouter } from "react-router-dom";
 
 ReactDOM.render(
-  <BrowserRouter>
-    <Layout>
+  <Layout>
+    <BrowserRouter>
       <App />
-    </Layout>
-  </BrowserRouter>,
+    </BrowserRouter>
+  </Layout>,
   document.getElementById("root")
 );
