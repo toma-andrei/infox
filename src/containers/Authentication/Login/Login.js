@@ -91,7 +91,6 @@ const Login = (props) => {
   };
 
   const loginButtonPressedHandler = (event) => {
-    console.log("good");
     event.preventDefault();
     const email = loginForm.email.value;
     const password = loginForm.password.value;
@@ -139,8 +138,6 @@ const Login = (props) => {
   }
 
   let navigate = useNavigate();
-
-  //this code executes only if
   useEffect(() => {
     if (success) {
       return navigate("/main");
