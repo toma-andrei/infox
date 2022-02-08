@@ -16,7 +16,6 @@
   text-align: center;
 }
 
-.loginWrapper,
 .RegisterWrapper {
   width: 100%;
   display: flex;
@@ -24,9 +23,7 @@
   align-items: center;
 }
 
-.loginForm,
-.RegisterForm,
-.RestoreForm {
+.RegisterForm {
   position: relative;
   width: 100%;
   max-width: 380px;
@@ -37,9 +34,7 @@
   box-shadow: 0 15px 25px rgba(0, 0, 0, 0.5);
 }
 
-.loginForm::before,
-.RegisterForm::before,
-.RestoreForm::before {
+.RegisterForm::before {
   content: "";
   position: absolute;
   top: 0;
@@ -53,12 +48,6 @@
   pointer-events: none;
 }
 
-@media only screen and (max-width: 370px) {
-  .RestoreForm::before {
-    transform: skewX(-19deg);
-  }
-}
-
 .RegisterForm::before {
   transform: skewX(-14deg);
 }
@@ -69,8 +58,7 @@
   }
 }
 
-.RegisterH2,
-.RestorePasswordH2 {
+.RegisterH2 {
   text-align: center;
   letter-spacing: 1px;
   color: var(--main-txt-color-always-light);
@@ -83,10 +71,7 @@
 .RegisterForm #failed_email,
 .RegisterForm #failed_unknown,
 .RegisterForm #failed_passwords,
-.RegisterForm #failed_null,
-.RestoreForm #no_email,
-.RestoreForm #failed_unknown,
-.RestoreForm #failed_passwords {
+.RegisterForm #failed_null {
   text-align: center;
   letter-spacing: 1px;
   color: var(--main-txt-color-always-light);
@@ -101,13 +86,11 @@
   margin-bottom: 15px;
 }
 
-.RegisterForm .InputGroup,
-.RestoreForm .InputGroup {
+.RegisterForm .InputGroup {
   position: relative;
 }
 
-.RegisterForm .InputGroup input,
-.RestoreForm .InputGroup input {
+.RegisterForm .InputGroup input {
   width: 100%;
   padding: 10px 0;
   font-size: 1rem;
@@ -120,8 +103,7 @@
   color: inherit;
 }
 
-.RegisterInputLabel,
-.RestoreInputLabel {
+.RegisterInputLabel {
   position: absolute;
   top: 0;
   left: 0;
@@ -132,9 +114,7 @@
 }
 
 .RegisterForm .InputGroup input:focus + label,
-.RegisterForm .InputGroup input:valid + label,
-.RestoreForm .InputGroup input:focus + label,
-.RestoreForm .InputGroup input:valid + label {
+.RegisterForm .InputGroup input:valid + label {
   transform: translateY(-18px);
   color: var(--main-txt-color-always-light);
   font-size: 0.8rem;
@@ -158,11 +138,4 @@
 
 .RegisterSubmitBtn:hover {
   background: rgba(0, 139, 139, 0.7);
-}
-
-.small_navbar_avatar {
-  opacity: 0.8;
-}
-.small_navbar_avatar:hover {
-  opacity: 1;
 }

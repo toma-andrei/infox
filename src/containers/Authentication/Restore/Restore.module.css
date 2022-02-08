@@ -54,7 +54,6 @@
   }
 }
 
-.RegisterH2,
 .RestoreH2 {
   text-align: center;
   letter-spacing: 1px;
@@ -65,10 +64,7 @@
   visibility: hidden;
   text-align: center;
 }
-.RegisterForm #failed_email,
-.RegisterForm #failed_unknown,
-.RegisterForm #failed_passwords,
-.RegisterForm #failed_null,
+
 .RestoreForm #no_email,
 .RestoreForm #failed_unknown,
 .RestoreForm #failed_passwords {
@@ -86,12 +82,10 @@
   margin-bottom: 15px;
 }
 
-.RegisterForm .InputGroup,
 .RestoreForm .InputGroup {
   position: relative;
 }
 
-.RegisterForm .InputGroup input,
 .RestoreForm .InputGroup input {
   width: 100%;
   padding: 10px 0;
@@ -105,7 +99,6 @@
   color: inherit;
 }
 
-.RegisterInputLabel,
 .RestoreInputLabel {
   position: absolute;
   top: 0;
@@ -139,15 +132,4 @@
   padding: 10px 20px;
   border-radius: 5px;
   cursor: pointer;
-}
-
-.RegisterSubmitBtn:hover {
-  background: rgba(0, 139, 139, 0.7);
-}
-
-.small_navbar_avatar {
-  opacity: 0.8;
-}
-.small_navbar_avatar:hover {
-  opacity: 1;
 }

@@ -20,22 +20,6 @@ select:-webkit-autofill:focus {
   --main-txt-color-always-light: #fff;
   --main-txt-color-very_light_green: #dfd;
   --main-txt-color-very_light_red: #fdd;
-  /*  
-  --main-bg-color: #fff;
-  --main-txt-color-light: #130333;
-  --main-txt-color-dark: #222222;
-  --main-txt-color-one: #3D1703;
-  --main-txt-color-two: #3D1703;
-  --main-txt-color-always-light: #fff
-          
-      
-  --main-bg-color: #000;
-  --main-txt-color-light: #fff;
-  --main-txt-color-dark: #aaa;
-  --main-txt-color-one: green;
-  --main-txt-color-two: green;
-  --main-txt-color-always-light: #000    
-  */
 }
 
 body {
