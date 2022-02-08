@@ -1,6 +1,9 @@
 import { useNavigate } from "react-router";
 import whiteInfoXLogo from "../../assets/img/infox_logo_white.svg";
 import styles from "./Navbar.module.css";
+import { Link } from "react-router-dom";
+import { AuthContext } from "../Layout/Layout";
+import { useContext } from "react";
 
 const NavbarAuth = () => {
   const collapseNavLinks = () => {
@@ -10,9 +13,11 @@ const NavbarAuth = () => {
 
   const navigate = useNavigate();
 
+  const fromContext = useContext(AuthContext);
+
   const logout = () => {
-    console.log("logout");
     localStorage.removeItem("infoxJWT");
+    fromContext.updateJWT(null);
     navigate("/main");
   };
 
@@ -135,7 +140,6 @@ const NavbarAuth = () => {
           <li className="nav-item">
             <button
               className={"nav-link xnavbar-item " + styles.ClearButton}
-              href="/user/logout"
               onClick={() => logout()}
             >
               Logout

@@ -12,6 +12,7 @@ function App() {
       <Route path="/user/login" exact element={<Login />} />
       <Route path="/user/register" exact element={<Register />} />
       <Route path="/user/restore" exact element={<Restore />} />
+      <Route path="/user/logout" exact element={<Main />} />
       <Route path="/" exact element={<Main />} />
     </Routes>
   );
