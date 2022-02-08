@@ -1,10 +1,11 @@
 import styles from "./Login.module.css";
 import Input from "../../UI/Input/Input";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router";
 import { Link } from "react-router-dom";
 import { requestIP } from "../../../env";
+import { AuthContext } from "../../../components/Layout/Layout";
 
 const Login = (props) => {
   const [loginForm, setLoginForm] = useState({
@@ -31,6 +32,8 @@ const Login = (props) => {
   const [somethingWentWrong, setSomethingWentWrong] = useState(false);
   const [reasonForLoginFail, setReasonForLoginFail] = useState("");
   const [success, setSuccess] = useState(false);
+
+  const fromContext = useContext(AuthContext);
 
   const checkValidity = (value, rules) => {
     /**
@@ -113,7 +116,9 @@ const Login = (props) => {
           if (res.data.success) {
             if (res.data.jwt) {
               localStorage.setItem("infoxJWT", res.data.jwt);
+              fromContext.updateJWT(res.data.jwt);
               setSuccess(true);
+              return;
             }
           } else {
             setReasonForLoginFail(res.data.reason);
@@ -121,6 +126,7 @@ const Login = (props) => {
           }
         })
         .catch((err) => {
+          console.log(err);
           const response = err.hasOwnProperty("response")
             ? ""
             : err.response.data.reason;

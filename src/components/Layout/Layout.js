@@ -3,30 +3,24 @@ import Navbar from "../Navbar/Navbar";
 import "./Layout.module.css";
 import NavbarAuth from "../Navbar/NavbarAuth";
 
+export const AuthContext = createContext({});
+
 const Layout = (props) => {
   const [infoxJWT, setInfoxJWT] = useState(localStorage.getItem("infoxJWT"));
-  const AuthContext = createContext({
-    infoxJWT: infoxJWT,
-    setInfoxJWT: setInfoxJWT,
-  });
   return (
-    <AuthContext value={[infoxJWT, (jwt) => setInfoxJWT(jwt)]}>
-      (infoxJWT === null ? (
-      <AuthContext value>
+    <AuthContext.Provider value={{ updateJWT: setInfoxJWT }}>
+      {infoxJWT === null ? (
         <Fragment>
           <Navbar />
           {props.children}
         </Fragment>
-      </AuthContext>
       ) : (
-      <>
         <Fragment>
           <NavbarAuth />
           {props.children}
         </Fragment>
-      </>
-      ))
-    </AuthContext>
+      )}
+    </AuthContext.Provider>
   );
 };
 
