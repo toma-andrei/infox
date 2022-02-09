@@ -4,6 +4,11 @@ import styles from "./Navbar.module.css";
 import { Link } from "react-router-dom";
 import { AuthContext } from "../Layout/Layout";
 import { useContext } from "react";
+import smallPawn from "../../assets/img/navbarImages/small_pawn.png";
+import smallHorse from "../../assets/img/navbarImages/small_horse.png";
+import smallTower from "../../assets/img/navbarImages/small_tower.png";
+import coinImage from "../../assets/img/coin.png";
+import infoxIcon from "../../assets/img/favicon.ico";
 
 const NavbarAuth = () => {
   const collapseNavLinks = () => {
@@ -20,19 +25,19 @@ const NavbarAuth = () => {
     fromContext.updateJWT(null);
     navigate("/main");
   };
-
+  let classes = "navbar-nav ml-auto " + styles.MoveRight;
   return (
     <nav className="navbar navbar-expand-lg navbar-dark bg-dark sticky-top">
-      <a className="navbar-brand" href="/main">
+      <Link className="navbar-brand" to="/main">
         <img
-          src="../assets/img/infox_logo_white.svg"
+          src={whiteInfoXLogo}
           width="30"
           height="30"
           className="d-inline-block align-top"
           alt="InfoX logo"
         />
         InfoX
-      </a>
+      </Link>
       <button
         className="navbar-toggler"
         type="button"
@@ -44,7 +49,7 @@ const NavbarAuth = () => {
       >
         <span className="navbar-toggler-icon"></span>
       </button>
-      <div className="collapse navbar-collapse" id="navbarSupportedContent">
+      <div className="collapse navbar-collapse " id="navbarSupportedContent">
         <ul className="navbar-nav mr-auto">
           <li className="nav-item">
             <form className="form-inline my-lg-0">
@@ -52,7 +57,7 @@ const NavbarAuth = () => {
                 type="submit"
                 disabled
                 style={{ display: "none" }}
-                ariaHidden="true"
+                aria-hidden="true"
               ></button>
               <input
                 className="form-control mr-lg-2"
@@ -71,7 +76,7 @@ const NavbarAuth = () => {
               style={{ fontSize: "24px", margin: 0, padding: 0 }}
               href="/problems/display_year/9"
             >
-              <img src="/img/necesare/small_pawn.png" />
+              <img src={smallPawn} />
             </a>
           </li>
           <li className="nav-item">
@@ -80,7 +85,7 @@ const NavbarAuth = () => {
               style={{ fontSize: "24px", margin: 0, padding: 0 }}
               href="/problems/display_year/10"
             >
-              <img src="/img/necesare/small_horse.png" />
+              <img src={smallHorse} />
             </a>
           </li>
           <li className="nav-item">
@@ -89,43 +94,36 @@ const NavbarAuth = () => {
               style={{ fontSize: "24px", margin: 0, padding: 0 }}
               href="/problems/display_year/11"
             >
-              <img src="/img/necesare/small_tower.png" />
+              <img src={smallTower} />
             </a>
           </li>
         </ul>
-        <ul className="navbar-nav ml-auto">
-          <li className="nav-item">
-            <a id="user_coins" className="nav-link xnavbar-item">
-              <div className="inline-div" id="user_coins_value"></div>
-              <img
-                src="/img/necesare/coin.png"
-                style={{ width: "25px", verticalAlign: "text-top" }}
-              />
-            </a>
-          </li>
+        <ul className={classes}>
           <li className="nav-item">
             <a
-              href="/user/user_page"
-              style={{
-                border: "1px solid white",
-                width: "35px",
-                padding: "1px",
-                margin: "3px 0 2px 0",
-                borderRadius: "50%",
-              }}
+              id="user_coins"
+              className="nav-link xnavbar-item"
+              style={{ display: "inline-flex" }}
             >
+              <div className="mr-2" id="user_coins_value">
+                999999
+              </div>
               <img
-                className="nav-link xnavbar-item small_navbar_avatar"
-                src="../assets/img/favicon.ico"
+                src={coinImage}
+                style={{
+                  width: "25px",
+                  verticalAlign: "text-top",
+                  marginLeft: "4px",
+                  marginRight: "10px",
+                }}
               />
             </a>
           </li>
-
           <li className="nav-item">
             <a href="/user/show_profile">
               <img
                 className="nav-link xnavbar-item small_navbar_avatar"
-                src=""
+                src={whiteInfoXLogo}
                 style={{
                   border: "1px solid white",
                   width: "35px",
@@ -136,7 +134,6 @@ const NavbarAuth = () => {
               />
             </a>
           </li>
-
           <li className="nav-item">
             <button
               className={"nav-link xnavbar-item " + styles.ClearButton}
