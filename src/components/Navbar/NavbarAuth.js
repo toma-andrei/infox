@@ -19,13 +19,16 @@ const NavbarAuth = () => {
   const navigate = useNavigate();
 
   const fromContext = useContext(AuthContext);
+  console.log(fromContext);
 
   const logout = () => {
     localStorage.removeItem("infoxJWT");
     fromContext.updateJWT(null);
     navigate("/main");
   };
+
   let classes = "navbar-nav ml-auto " + styles.MoveRight;
+
   return (
     <nav className="navbar navbar-expand-lg navbar-dark bg-dark sticky-top">
       <Link className="navbar-brand" to="/main">
@@ -106,7 +109,7 @@ const NavbarAuth = () => {
               style={{ display: "inline-flex" }}
             >
               <div className="mr-2" id="user_coins_value">
-                999999
+                {fromContext.coins}
               </div>
               <img
                 src={coinImage}
@@ -123,7 +126,7 @@ const NavbarAuth = () => {
             <a href="/user/show_profile">
               <img
                 className="nav-link xnavbar-item small_navbar_avatar"
-                src={whiteInfoXLogo}
+                src={fromContext.avatar}
                 style={{
                   border: "1px solid white",
                   width: "35px",
