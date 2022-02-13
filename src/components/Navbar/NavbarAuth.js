@@ -8,7 +8,6 @@ import smallPawn from "../../assets/img/navbarImages/small_pawn.png";
 import smallHorse from "../../assets/img/navbarImages/small_horse.png";
 import smallTower from "../../assets/img/navbarImages/small_tower.png";
 import coinImage from "../../assets/img/coin.png";
-import infoxIcon from "../../assets/img/favicon.ico";
 
 const NavbarAuth = () => {
   const collapseNavLinks = () => {
@@ -74,31 +73,31 @@ const NavbarAuth = () => {
             </form>
           </li>
           <li className="nav-item">
-            <a
+            <Link
               className="nav-link"
               style={{ fontSize: "24px", margin: 0, padding: 0 }}
-              href="/problems/display_year/9"
+              to="/problems/display_year/9"
             >
               <img src={smallPawn} />
-            </a>
+            </Link>
           </li>
           <li className="nav-item">
-            <a
+            <Link
               className="nav-link"
               style={{ fontSize: "24px", margin: 0, padding: 0 }}
-              href="/problems/display_year/10"
+              to="/problems/display_year/10"
             >
               <img src={smallHorse} />
-            </a>
+            </Link>
           </li>
           <li className="nav-item">
-            <a
+            <Link
               className="nav-link"
               style={{ fontSize: "24px", margin: 0, padding: 0 }}
-              href="/problems/display_year/11"
+              to="/problems/display_year/11"
             >
               <img src={smallTower} />
-            </a>
+            </Link>
           </li>
         </ul>
         <ul className={classes}>
@@ -119,11 +118,12 @@ const NavbarAuth = () => {
                   marginLeft: "4px",
                   marginRight: "10px",
                 }}
+                alt="coin image"
               />
             </a>
           </li>
           <li className="nav-item">
-            <a href="/user/show_profile">
+            <Link to="/user/user_page">
               <img
                 className="nav-link xnavbar-item small_navbar_avatar"
                 src={fromContext.avatar}
@@ -135,7 +135,7 @@ const NavbarAuth = () => {
                   borderRadius: "50%",
                 }}
               />
-            </a>
+            </Link>
           </li>
           <li className="nav-item">
             <button
