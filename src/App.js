@@ -5,6 +5,7 @@ import Register from "./containers/Authentication/Register/Register";
 import Restore from "./containers/Authentication/Restore/Restore";
 import UserPage from "./containers/UserPage/UserPage";
 import { Routes, Route } from "react-router-dom";
+import Chapters from "./containers/Chapters/Chapters";
 
 function App() {
   return (
@@ -14,6 +15,7 @@ function App() {
       <Route path="/user/register" exact element={<Register />} />
       <Route path="/user/restore" exact element={<Restore />} />
       <Route path="/user/user_page" exact element={<UserPage />} />
+      <Route path="/problems/display_year/:year" element={<Chapters />} />
       <Route path="/user/logout" exact element={<Main />} />
       <Route path="/" exact element={<Main />} />
     </Routes>

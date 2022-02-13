@@ -1,4 +1,3 @@
-import react from "react";
 import styles from "./UserPage.module.css";
 
 const UserPage = (props) => {

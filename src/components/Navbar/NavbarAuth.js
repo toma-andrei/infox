@@ -18,7 +18,6 @@ const NavbarAuth = () => {
   const navigate = useNavigate();
 
   const fromContext = useContext(AuthContext);
-  console.log(fromContext);
 
   const logout = () => {
     localStorage.removeItem("infoxJWT");
