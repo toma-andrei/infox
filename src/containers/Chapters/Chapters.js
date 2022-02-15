@@ -3,10 +3,11 @@ import axios from "axios";
 import { requestIP } from "../../env";
 import { AuthContext } from "../../components/Layout/Layout";
 import { useContext, useEffect, useState } from "react";
+import Chapter from "./Chapter/Chapter";
+import styles from "./Chapters.module.css";
 
 const Chapters = (props) => {
   const [chapters, setChapters] = useState([]);
-
   const { year } = useParams();
   const { jwt } = useContext(AuthContext);
 
@@ -48,9 +49,20 @@ const Chapters = (props) => {
 
   console.log(subchapters);
 
+  let chapterList = subchapters.map((subch, index) => (
+    <Chapter
+      chapterTitle={subch[0].chapter}
+      key={subch[0].id}
+      subchapters={subch.map((el) => ({
+        id: el.id,
+        title: el.subchapter,
+      }))}
+    />
+  ));
+
   return (
     <main>
-      <div className="chapters"></div>
+      <div className={styles.chapters}>{chapterList}</div>
     </main>
   );
 };
