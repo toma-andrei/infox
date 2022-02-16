@@ -69,6 +69,8 @@
   min-width: 0;
   word-wrap: break-word;
   background-clip: border-box;
+  text-decoration: none;
+  color: aliceblue;
 }
 
 .cards_collection .card .stats {

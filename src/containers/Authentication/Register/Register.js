@@ -140,7 +140,7 @@ const Register = (props) => {
 
       if (formIsValid) {
         setLoading(true);
-
+        console.log("????");
         axios({
           method: "post",
           url: "http://" + requestIP,

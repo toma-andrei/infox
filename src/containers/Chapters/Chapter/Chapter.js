@@ -11,17 +11,6 @@ const Chapter = (props) => {
       <div className={styles.cards_collection}>{subchapterList}</div>
     </div>
   );
-
-  //   console.log(props);
-  //   let subchapters = props.chapterInfo.map((el) => {
-  //     return <Subchapter chapterSubtitle={el["subchapter"]} />;
-  //   });
-  //   return (
-  //     <div className="chapters_show_chapter">
-  //       <div className="chapter_title">{props.chapterInfo[0]["chapter"]}</div>
-  //       <div className="cards_collection">{subchapters}</div>
-  //     </div>
-  //   );
 };
 
 export default Chapter;

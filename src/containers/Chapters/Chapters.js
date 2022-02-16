@@ -26,7 +26,7 @@ const Chapters = (props) => {
     }).then((res) => {
       setChapters(res.data.chapters);
     });
-  }, []);
+  }, [year]);
 
   let currentIndex = 0;
   let position = 0;
@@ -47,9 +47,19 @@ const Chapters = (props) => {
     currentIndex = position + 1;
   }
 
-  console.log(subchapters);
+  // axios({
+  //   method: "post",
+  //   url: "http://" + requestIP,
+  //   data: JSON.stringify({
+  //     method: "get",
+  //     url: "https://infox.ro/new/problems/problems/" + id,
+  //     jwt: jwt,
+  //   }),
+  // }).then((res) => {
+  //   setProblems(res.data.problems);
+  // });
 
-  let chapterList = subchapters.map((subch, index) => (
+  let chapterList = subchapters.map((subch) => (
     <Chapter
       chapterTitle={subch[0].chapter}
       key={subch[0].id}
@@ -59,6 +69,7 @@ const Chapters = (props) => {
       }))}
     />
   ));
+  console.log(subchapters);
 
   return (
     <main>

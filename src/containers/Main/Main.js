@@ -64,10 +64,7 @@ const Main = (props) => {
               </p>
             </div>
           </Link>
-          <Link
-            className={styles.main_page_chapter_select}
-            to="/problems/hard_problems"
-          >
+          <Link className={styles.main_page_chapter_select} to="/problems/hard">
             <div className={styles.box}>
               <i className={styles.chapter_icon} aria-hidden="true">
                 <img src={brainImage} alt="brain" />
