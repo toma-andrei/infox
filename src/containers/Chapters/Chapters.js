@@ -5,32 +5,56 @@ import { AuthContext } from "../../components/Layout/Layout";
 import { useContext, useEffect, useState } from "react";
 import Chapter from "./Chapter/Chapter";
 import styles from "./Chapters.module.css";
+import { ProblemsContext } from "../../App";
 
 const Chapters = (props) => {
   const [chapters, setChapters] = useState([]);
   const { year } = useParams();
   const { jwt } = useContext(AuthContext);
+  let problemContextFromApp = useContext(ProblemsContext);
 
   useEffect(() => {
-    axios({
-      method: "post",
-      url: "http://" + requestIP,
-      data: JSON.stringify({
-        url: "https://infox.ro/new/problems/chapters/" + year,
-        method: "get",
-        jwt: jwt,
-      }),
-      headers: {
-        "Content-Type": "application/json",
-      },
-    }).then((res) => {
-      setChapters(res.data.chapters);
-    });
-  }, [year]);
+    if (Object.keys(problemContextFromApp.problems).length === 0) {
+      const fetchProblems = async () => {
+        let nineGrade = null;
+        let tenGrade = null;
+        let elevenGrade = null;
+        const years = ["9", "10", "11"];
+
+        for (let index = 0; index < years.length; index++) {
+          await axios({
+            method: "post",
+            url: "http://" + requestIP,
+            data: JSON.stringify({
+              url: "https://infox.ro/new/problems/chapters/" + years[index],
+              method: "get",
+              jwt: jwt,
+            }),
+            headers: {
+              "Content-Type": "application/json",
+            },
+          }).then((res) => {
+            if (!nineGrade) nineGrade = res.data.chapters;
+            else if (!tenGrade) tenGrade = res.data.chapters;
+            else elevenGrade = res.data.chapters;
+          });
+        }
+
+        problemContextFromApp.setProblems({
+          9: nineGrade,
+          10: tenGrade,
+          11: elevenGrade,
+        });
+      };
+      fetchProblems();
+    }
+  }, []);
 
   let currentIndex = 0;
   let position = 0;
   let subchapters = [];
+
+  console.log(problemContextFromApp.problems);
 
   while (position < chapters.length - 1) {
     let filteredChapters = chapters.filter((chapter, index) => {
@@ -69,7 +93,6 @@ const Chapters = (props) => {
       }))}
     />
   ));
-  console.log(subchapters);
 
   return (
     <main>
