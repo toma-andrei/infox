@@ -13,12 +13,12 @@ export const ProblemsContext = createContext({});
 
 function App() {
   const [problems, setProblems] = useState({});
-
   return (
     <ProblemsContext.Provider
       value={{
         problems: problems,
         setProblems: (prbl) => {
+          console.log(prbl);
           setProblems(prbl);
         },
       }}
@@ -30,7 +30,7 @@ function App() {
         <Route path="/user/restore" exact element={<Restore />} />
         <Route path="/user/user_page" exact element={<UserPage />} />
         <Route
-          path="/problems/display_year/:year"
+          path="/problems/display_year/:yearParam"
           element={<Chapters problems={problems} />}
         />
         <Route path="/user/logout" exact element={<Main />} />
