@@ -11,14 +11,14 @@ const Chapters = (props) => {
   const [chapters, setChapters] = useState([]);
   const { yearParam } = useParams();
   const { jwt } = useContext(AuthContext);
-  let problemContextFromApp = useContext(ProblemsContext);
-
+  let problemContext = useContext(ProblemsContext);
   useEffect(() => {
-    if (Object.keys(problemContextFromApp.problems).length === 0) {
+    if (Object.keys(problemContext.chapters).length === 0) {
       const fetchProblems = async () => {
         let nineGrade = null;
         let tenGrade = null;
         let elevenGrade = null;
+
         const years = ["9", "10", "11"];
 
         for (let index = 0; index < years.length; index++) {
@@ -34,28 +34,142 @@ const Chapters = (props) => {
               "Content-Type": "application/json",
             },
           }).then((res) => {
-            if (!nineGrade) nineGrade = res.data.chapters;
-            else if (!tenGrade) tenGrade = res.data.chapters;
+            if (nineGrade === null) nineGrade = res.data.chapters;
+            else if (tenGrade === null) tenGrade = res.data.chapters;
             else elevenGrade = res.data.chapters;
           });
         }
 
-        problemContextFromApp.setProblems({
+        let bigWordsContextStructure = {};
+
+        let currentIndex = 0;
+        let position = 0;
+        let subchapters = [];
+        let chaptersFinal = {};
+
+        const problems = {
           9: nineGrade,
           10: tenGrade,
           11: elevenGrade,
-        });
+        };
+
+        //Create structure like {class: {chapterId: [{subchapter: subchTitle, id: subchId}, {...}, {...}]}}
+        for (let year in problems) {
+          currentIndex = 0;
+          position = 0;
+          chaptersFinal = {};
+
+          while (position < problems[year].length - 1) {
+            let filteredChapters = problems[year].filter((chapter, index) => {
+              if (
+                chapter["chapter"] === problems[year][currentIndex]["chapter"]
+              ) {
+                if (index - position > 1 || index - position < -1) {
+                  return false;
+                }
+                position = index;
+                return true;
+              }
+              return false;
+            });
+
+            //Concat '##' to a field only if it already exists
+            if (
+              bigWordsContextStructure[year] !== undefined &&
+              bigWordsContextStructure[year].hasOwnProperty(
+                filteredChapters[0].chapter
+              )
+            ) {
+              bigWordsContextStructure[year] = {
+                ...bigWordsContextStructure[year],
+                [filteredChapters[0].chapter + "##"]: filteredChapters.map(
+                  (subch) => {
+                    return { id: subch.id, subchapter: subch.subchapter };
+                  }
+                ),
+              };
+            }
+
+            bigWordsContextStructure[year] = {
+              ...bigWordsContextStructure[year],
+              [filteredChapters[0].chapter]: filteredChapters.map((subch) => {
+                return { id: subch.id, subchapter: subch.subchapter };
+              }),
+            };
+
+            currentIndex = position + 1;
+          }
+        }
+
+        return bigWordsContextStructure;
+        /*
+        //fetch problems for each subchapter
+        for (let year in bigWordsContextStructure) {
+          for (let ch in bigWordsContextStructure[year]) {
+            for (
+              let index = 0;
+              index < bigWordsContextStructure[year][ch].length;
+              index++
+            ) {
+              const fetchProblemsForEachSubchapter = async () => {
+                let answer = {};
+                await axios({
+                  method: "post",
+                  url: "http://" + requestIP,
+                  data: JSON.stringify({
+                    method: "get",
+                    url:
+                      "https://infox.ro/new/problems/problems/" +
+                      bigWordsContextStructure[year][ch][index].id,
+                    jwt: jwt,
+                  }),
+                }).then((res) => {
+                  answer = {
+                    problems: res.data.problems,
+                  };
+                });
+                return answer;
+              };
+
+              bigWordsContextStructure[year][ch][index] = {
+                ...bigWordsContextStructure[year][ch][index],
+                ...(await fetchProblemsForEachSubchapter()),
+              };
+            }
+          }
+        }
+
+
+        for (let year in bigWordsContextStructure) {
+          for (let ch in bigWordsContextStructure[year]) {
+            for (
+              let subchIndex = 0;
+              subchIndex < bigWordsContextStructure[year][ch].length;
+              subchIndex++
+            ) {
+              // console.log(bigWordsContextStructure[year][ch][0]);
+              // for (
+              //   const i = 0;
+              //   i < bigWordsContextStructure[year][ch][subchIndex].problems.length;
+              //   i++
+              // ) {}
+            }
+          }
+        }
+        */
       };
-      fetchProblems();
+
+      problemContext.setChapters(fetchProblems());
     }
   }, []);
 
+  /*
   let currentIndex = 0;
   let position = 0;
   let subchapters = [];
   let chaptersFinal = {};
 
-  const problems = problemContextFromApp.problems;
+  const problems = problemContext.chapters;
 
   let bigWordsContextStructure = {};
 
@@ -118,58 +232,39 @@ const Chapters = (props) => {
     }
   }
 
-  for (const year in bigWordsContextStructure) {
-    for (const ch in bigWordsContextStructure[year]) {
+  for (let year in bigWordsContextStructure) {
+    for (let ch in bigWordsContextStructure[year]) {
       for (
-        const subchIndex = 0;
+        let subchIndex = 0;
         subchIndex < bigWordsContextStructure[year][ch].length;
         subchIndex++
       ) {
-        console.log(bigWordsContextStructure);
-        for (
-          const i = 0;
-          i < bigWordsContextStructure[year][ch][subchIndex].problems.length;
-          i++
-        ) {
-          console.log(bigWordsContextStructure);
-          const fetchSolutionsForEachSubchapter = async () => {
-            await axios({
-              method: "post",
-              url: "http://" + requestIP,
-              data: JSON.stringify({
-                method: "get",
-                url:
-                  "https://infox.ro/new/solutions/problem/" +
-                  bigWordsContextStructure[year][ch][subchIndex].problems[i],
-                jwt: jwt,
-              }),
-            }).then((res) => {
-              // console.log(res.data);
-              // bigWordsContextStructure[year][ch][subchIndex].problems[i] = {
-              //   ...bigWordsContextStructure[year][ch][subchIndex].problems[i]],
-              //   problems: res.data.problems,
-            });
-          };
-          fetchSolutionsForEachSubchapter();
-        }
+        console.log(bigWordsContextStructure[year][ch]);
+        console.log(bigWordsContextStructure[year][ch][0]);
+        // for (
+        //   const i = 0;
+        //   i < bigWordsContextStructure[year][ch][subchIndex].problems.length;
+        //   i++
+        // ) {}
       }
     }
   }
+  */
 
-  // let chapterList = subchapters.map((subch) => (
-  //   <Chapter
-  //     chapterTitle={subch[0].chapter}
-  //     key={subch[0].id}
-  //     subchapters={subch.map((el) => ({
-  //       id: el.id,
-  //       title: el.subchapter,
-  //     }))}
-  //   />
-  // ));
+  let chaptersList = [];
+  for (let chapter in problemContext.chapters[yearParam]) {
+    chaptersList.push(
+      <Chapter
+        chapterTitle={chapter}
+        key={chapter}
+        subchapters={problemContext.chapters[yearParam][chapter]}
+      />
+    );
+  }
 
   return (
     <main>
-      <div className={styles.chapters}>{}</div>
+      <div className={styles.chapters}>{chaptersList}</div>
     </main>
   );
 };

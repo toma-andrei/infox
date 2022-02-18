@@ -12,14 +12,17 @@ import { createContext, useState } from "react";
 export const ProblemsContext = createContext({});
 
 function App() {
-  const [problems, setProblems] = useState({});
+  const [chapters, setChapters] = useState({});
   return (
     <ProblemsContext.Provider
       value={{
-        problems: problems,
-        setProblems: (prbl) => {
-          console.log(prbl);
-          setProblems(prbl);
+        chapters: chapters,
+        setChapters: (prbl) => {
+          if (Object.prototype.toString.call(prbl) === "[object Promise]") {
+            prbl.then((response) => {
+              setChapters(response);
+            });
+          }
         },
       }}
     >
@@ -31,13 +34,13 @@ function App() {
         <Route path="/user/user_page" exact element={<UserPage />} />
         <Route
           path="/problems/display_year/:yearParam"
-          element={<Chapters problems={problems} />}
+          element={<Chapters problems={chapters} />}
         />
         <Route path="/user/logout" exact element={<Main />} />
         <Route
           path="/problems/display_subchapter/:id"
           exact
-          element={<AllProblems problems={problems} />}
+          element={<AllProblems problems={chapters} />}
         />
         <Route path="/problems/hard" exact element={<AllProblems />} />
         <Route path="/" exact element={<Main />} />
