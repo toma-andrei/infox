@@ -1,0 +1,40 @@
+.problem_page {
+  max-width: 1200px;
+  margin: auto;
+  padding: 10px 0 10px 0;
+}
+
+.problem,
+.code_editor {
+  display: flex;
+  flex-direction: column;
+  background-color: white;
+  flex: 1;
+  padding: 20px;
+  min-width: 400px;
+}
+
+.tab {
+  overflow: hidden;
+  background-color: inherit;
+}
+.tablink {
+  background-color: inherit;
+  float: left;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  padding: 14px 16px;
+  transition: 0.2s;
+  border-radius: 10px 10px 0 0;
+}
+
+/* Change background color of buttons on hover */
+.tab button:hover {
+  background-color: #ddd;
+}
+
+/* Create an active/current tablink class */
+.tablink.active {
+  background-color: #fff;
+}

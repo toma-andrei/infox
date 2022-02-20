@@ -6,6 +6,7 @@ import { useContext, useEffect, useState } from "react";
 import Chapter from "./Chapter/Chapter";
 import styles from "./Chapters.module.css";
 import { ProblemsContext } from "../../App";
+import Loading from "../UI/Loading/Loading";
 
 const Chapters = (props) => {
   const [chapters, setChapters] = useState([]);
@@ -233,7 +234,6 @@ const Chapters = (props) => {
     }
   }
   */
-
   let chaptersList = [];
   for (let chapter in problemContext.chapters[yearParam]) {
     chaptersList.push(
@@ -245,9 +245,11 @@ const Chapters = (props) => {
     );
   }
 
+  let toBeShown = chaptersList.length === 0 ? <Loading /> : chaptersList;
+
   return (
     <main>
-      <div className={styles.chapters}>{chaptersList}</div>
+      <div className={styles.chapters}>{toBeShown}</div>
     </main>
   );
 };

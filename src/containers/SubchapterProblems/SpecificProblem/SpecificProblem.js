@@ -5,9 +5,19 @@ import { AuthContext } from "../../../components/Layout/Layout";
 import { requestIP } from "../../../env";
 import Loading from "../../UI/Loading/Loading";
 import Unapproved from "./Unapproved/Unapproved";
+import styles from "./SpecificProblem.module.css";
 
 const SpecificProblem = (props) => {
   const [problem, setProblem] = useState(useLocation().state);
+
+  const [tabs, setTabs] = useState([
+    { className: [styles.tablink, styles.active], text: "Enunț" },
+    { className: [styles.tablink], text: "Soluțiile tale + Adaugă soluție" },
+    { className: [styles.tablink], text: "Indicații + Teste de evaluare" },
+    { className: [styles.tablink], text: "Soluții corecte" },
+    { className: [styles.tablink], text: "Discuții" },
+  ]);
+
   const { id } = useParams();
   const { jwt } = useContext(AuthContext);
 
@@ -36,17 +46,38 @@ const SpecificProblem = (props) => {
     }
   }, []);
 
+  const toggleActive = (index) => {
+    let tabsCopy = tabs.map((tab) => {
+      return { className: [styles.tablink], text: tab.text };
+    });
+    tabsCopy[index].className.push(styles.active);
+
+    setTabs(tabsCopy);
+  };
+
   let toBeShown = problem ? (
     problem.approved === "0" ? (
       <Unapproved />
     ) : (
-      <div>{problem.id}</div>
+      <div className={styles.problem_page}>
+        <div className="tab">
+          {tabs.map((tab, index) => (
+            <button
+              className={tab.className.join(" ")}
+              key={tab.text}
+              onClick={() => toggleActive(index)}
+            >
+              {tab.text}
+            </button>
+          ))}
+        </div>
+      </div>
     )
   ) : (
     <Loading />
   );
 
-  return <div>{toBeShown}</div>;
+  return <main>{toBeShown}</main>;
 };
 
 export default SpecificProblem;

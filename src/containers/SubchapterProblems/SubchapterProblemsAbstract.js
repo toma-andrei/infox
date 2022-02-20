@@ -6,6 +6,7 @@ import { AuthContext } from "../../components/Layout/Layout";
 import styles from "./SubchapterProblems.module.css";
 import SubchapterProblemAbstract from "./SubchaperProblemAbstract/SubchapterProblemAbstract";
 import { ProblemsContext } from "../../App";
+import Loading from "../UI/Loading/Loading";
 
 const SubchapterProblemsAbstract = (props) => {
   const { id } = useParams();
@@ -62,9 +63,11 @@ const SubchapterProblemsAbstract = (props) => {
     });
   }
 
+  let toBeShown = problemsList.length === 0 ? <Loading /> : problemsList;
+
   return (
     <main>
-      <div className={styles.abstracts}>{problemsList}</div>
+      <div className={styles.abstracts}>{toBeShown}</div>
     </main>
   );
 };
