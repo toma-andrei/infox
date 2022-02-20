@@ -7,7 +7,9 @@ const Chapter = (props) => {
 
   return (
     <div className={styles.chapters_show_chapter}>
-      <div className={styles.chapter_title}>{props.chapterTitle}</div>
+      <div className={styles.chapter_title}>
+        {props.chapterTitle.replace("##", "")}
+      </div>
       <div className={styles.cards_collection}>{subchapterList}</div>
     </div>
   );

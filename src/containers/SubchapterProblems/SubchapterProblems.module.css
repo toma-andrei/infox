@@ -1,0 +1,11 @@
+.abstracts {
+  max-width: 800px;
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: row;
+  justify-content: center;
+  padding: 0 20px;
+  flex-grow: 1;
+  margin: auto;
+  margin-top: 50px;
+}
