@@ -1,0 +1,19 @@
+.arrows {
+  width: 100%;
+  margin-top: 10px;
+  height: fit-content;
+}
+
+.arrowSpans {
+  width: 100%;
+  margin-left: 80%;
+}
+
+.left {
+}
+
+.arrow {
+  background-color: #fff;
+  padding: 5px;
+  width: 50px;
+}

@@ -6,6 +6,7 @@ import { requestIP } from "../../../env";
 import Loading from "../../UI/Loading/Loading";
 import Unapproved from "./Unapproved/Unapproved";
 import styles from "./SpecificProblem.module.css";
+import Requirements from "./Tabs/Requirements";
 
 const SpecificProblem = (props) => {
   const [problem, setProblem] = useState(useLocation().state);
@@ -18,14 +19,24 @@ const SpecificProblem = (props) => {
     { className: [styles.tablink], text: "Discuții" },
   ]);
 
+  const tHeads = [
+    { th: "Autor", corespondent: "author_id" },
+    { th: "Sursa problemei", corespondent: "source" },
+    { th: "Clasa", corespondent: "" },
+    { th: "Capitol", corespondent: "" },
+    { th: "Subcapitol", corespondent: "" },
+    { th: "Limită de timp", corespondent: "" },
+    { th: "Limită de memorie", corespondent: "" },
+  ];
+
   const { id } = useParams();
   const { jwt } = useContext(AuthContext);
 
   useEffect(() => {
     if (problem === null) {
-      const getProblem = async () => {
+      const getProblem = () => {
         let problemPromise = null;
-        await axios
+        axios
           .post(
             "http://" + requestIP,
             JSON.stringify({
@@ -71,6 +82,7 @@ const SpecificProblem = (props) => {
             </button>
           ))}
         </div>
+        <Requirements problem={problem} metadataIdentifiers={tHeads} />
       </div>
     )
   ) : (

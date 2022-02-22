@@ -9,6 +9,7 @@ import { Routes, Route } from "react-router-dom";
 import Chapters from "./containers/Chapters/Chapters";
 import SubchapterProblemsAbstract from "./containers/SubchapterProblems/SubchapterProblemsAbstract";
 import SpecificProblem from "./containers/SubchapterProblems/SpecificProblem/SpecificProblem";
+import HardProblems from "./containers/HardProblems/HardProblems";
 
 export const ProblemsContext = createContext({});
 
@@ -44,11 +45,7 @@ function App(props) {
           exact
           element={<SpecificProblem />}
         />
-        <Route
-          path="/problems/hard"
-          exact
-          element={<SubchapterProblemsAbstract />}
-        />
+        <Route path="/problems/hard" exact element={<HardProblems />} />
         <Route path="/user/logout" exact element={<Main />} />
       </Routes>
     </ProblemsContext.Provider>

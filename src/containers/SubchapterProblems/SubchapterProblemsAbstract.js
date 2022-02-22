@@ -11,8 +11,8 @@ import Loading from "../UI/Loading/Loading";
 const SubchapterProblemsAbstract = (props) => {
   const { id } = useParams();
   const { jwt } = useContext(AuthContext);
-  const [problems, setProblems] = useState([]);
-  const [solutions, setSolutions] = useState([]);
+  const [problemsAbstract, setProblemsAbstract] = useState([]);
+  const [problemsFull, setProblemsFull] = useState([]);
 
   useEffect(() => {
     axios({
@@ -24,12 +24,12 @@ const SubchapterProblemsAbstract = (props) => {
         jwt: jwt,
       }),
     }).then((res) => {
-      setProblems(res.data.problems);
+      setProblemsAbstract(res.data.problems);
     });
   }, []);
 
   useEffect(async () => {
-    let requests = problems.map((problem) => {
+    let requests = problemsAbstract.map((problem) => {
       return axios.post(
         "http://" + requestIP,
         JSON.stringify({
@@ -40,24 +40,23 @@ const SubchapterProblemsAbstract = (props) => {
       );
     });
 
-    let problemSolutions = [];
+    let problemsFullFromRequest = [];
     await axios.all(requests).then((responses) => {
-      problemSolutions = responses.map((response) => {
+      problemsFullFromRequest = responses.map((response) => {
         return response.data.problem;
       });
     });
-
-    setSolutions(problemSolutions);
-  }, [problems]);
+    setProblemsFull(problemsFullFromRequest);
+  }, [problemsAbstract]);
 
   let problemsList = [];
-  console.log(solutions);
-  if (solutions.length) {
-    problemsList = solutions.map((solution, index) => {
+
+  if (problemsFull.length) {
+    problemsList = problemsFull.map((problem, index) => {
       return (
         <SubchapterProblemAbstract
-          key={solution.id}
-          fullProblem={solutions[index]}
+          key={problem.id}
+          fullProblem={problemsFull[index]}
         />
       );
     });

@@ -20,21 +20,130 @@
 }
 .tablink {
   background-color: inherit;
-  float: left;
   border: none;
-  outline: none;
   cursor: pointer;
   padding: 14px 16px;
   transition: 0.2s;
   border-radius: 10px 10px 0 0;
 }
 
-/* Change background color of buttons on hover */
-.tab button:hover {
+.tablink:hover {
   background-color: #ddd;
 }
 
-/* Create an active/current tablink class */
 .tablink.active {
   background-color: #fff;
+}
+
+.tabcontent {
+  display: none;
+  border-top: none;
+  background-color: white;
+}
+
+.tabcontent {
+  animation: fadeEffect 0.2s; /* Fading effect takes 1 second */
+}
+
+.problem h2,
+.problem_points h2 {
+  background-color: lightgrey;
+  font-size: 28px;
+  padding: 3px;
+  border-radius: 3px;
+  margin-top: 15px;
+}
+
+.problem h3,
+.problem_points h3,
+.code_editor h3,
+#output_problem h3 {
+  background-color: rgba(200, 200, 200, 0.3);
+  font-size: 24px;
+  padding: 3px;
+  border-radius: 3px;
+  margin-top: 25px;
+}
+
+.problem h4,
+.problem_points h4,
+.code_editor h4,
+#output_problem h4 {
+  font-size: 18px;
+  padding: 3px;
+  border-radius: 3px;
+}
+
+.text_area_for_code {
+  width: 100%;
+  height: calc(100% - 100px);
+  min-height: 400px;
+  flex: 1;
+  font-family: Consolas, Monaco, "Lucida Console", Courier, monospace;
+}
+
+.problem_meta > p {
+  display: inline;
+}
+
+.problem_meta,
+.problem_page_table {
+  width: 100%;
+  min-width: 100%;
+  text-align: left;
+  border-collapse: collapse;
+  font-family: sans-serif;
+}
+
+.problem_page_table td,
+.problem_page_table th {
+  border: 1px solid #ddd;
+  padding: 8px;
+}
+
+.problem_page_table th {
+  background-color: #ddd;
+}
+
+.problem_page_table tr:nth-child(even) {
+  background-color: #ddd;
+}
+
+.problem_page_table tr:nth-child(odd) {
+  background-color: #f5f5f5;
+}
+
+.problem_page_table td:hover {
+  background-color: #aaa;
+}
+
+@media (max-width: 670px) {
+  .problem_page_table thead {
+    display: none;
+  }
+  .problem_page_table,
+  .problem_page_table tbody,
+  .problem_page_table tr,
+  .problem_page_table td {
+    display: block;
+    width: 100%;
+  }
+  .problem_page_table tr {
+    margin-bottom: 15px;
+  }
+  .problem_page_table td {
+    text-align: right;
+    padding-left: 50%;
+    position: relative;
+  }
+  .problem_page_table td::before {
+    content: attr(data-label);
+    position: absolute;
+    left: 0;
+    width: 50%;
+    padding-left: 15px;
+    font-size: 15px;
+    font-weight: bold;
+    text-align: left;
+  }
 }
