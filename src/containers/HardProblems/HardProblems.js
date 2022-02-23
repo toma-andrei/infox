@@ -5,7 +5,7 @@ import { AuthContext } from "../../components/Layout/Layout";
 import Loading from "../UI/Loading/Loading";
 import SubchapterProblemAbstract from "../SubchapterProblems/SubchaperProblemAbstract/SubchapterProblemAbstract";
 import stylesProblemList from "../SubchapterProblems/SubchapterProblems.module.css";
-import styles from "./HardProblems.module.css";
+import Pagination from "../UI/Pagination/Pagination";
 
 const HardProblems = (props) => {
   const [pageIndex, setPageIndex] = useState(0);
@@ -55,7 +55,7 @@ const HardProblems = (props) => {
   }, [problemsAbstract]);
 
   const incDecPageIndex = (value) => {
-    if (pageIndex != 0) {
+    if (!loading && pageIndex + value >= 0) {
       setPageIndex(pageIndex + value);
     }
   };
@@ -74,14 +74,10 @@ const HardProblems = (props) => {
 
   return (
     <main>
-      <div className={styles.arrows}>
-        <div className={styles.arrowSpans}>
-          <span className={styles.arrow}>{"<"}</span>
-          <span className={styles.number}>{pageIndex}</span>
-          <span className={styles.right}>{">"}</span>
-        </div>
-      </div>
       <div className={stylesProblemList.abstracts}>{toBeShown}</div>
+      {loading ? null : (
+        <Pagination nextPage={incDecPageIndex} pageIndex={pageIndex} />
+      )}
     </main>
   );
 };
