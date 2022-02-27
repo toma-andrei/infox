@@ -1,12 +1,12 @@
 import styles from "./UserPage.module.css";
-
+import { Link } from "react-router-dom";
 const UserPage = (props) => {
   return (
     <main>
       <div className="features">
-        <div
+        <Link
+          to="/user/show_profile"
           className={styles.main_page_chapter_select}
-          onClick="window.location.assign('/user/show_profile');"
         >
           <div className={styles.box}>
             <i className={styles.chapter_icon} aria-hidden="true">
@@ -18,12 +18,9 @@ const UserPage = (props) => {
               Editare date personale (parolă, oraș, etc.)
             </p>
           </div>
-        </div>
+        </Link>
 
-        <div
-          className={styles.main_page_chapter_select}
-          onClick="window.location.assign('/user/problems');"
-        >
+        <Link className={styles.main_page_chapter_select} to="/user/problems">
           <div className={styles.box}>
             <i className={styles.chapter_icon} aria-hidden="true">
               &#127937;
@@ -33,10 +30,10 @@ const UserPage = (props) => {
               Lista problemelor încercate și/sau rezolvate de tine
             </p>
           </div>
-        </div>
-        <div
+        </Link>
+        <Link
           className={styles.main_page_chapter_select}
-          onClick="window.location.assign('/user/proposed_problems');"
+          to="/user/proposed_problems"
         >
           <div className={styles.box}>
             <i className={styles.chapter_icon} aria-hidden="true">
@@ -47,11 +44,11 @@ const UserPage = (props) => {
               Propune o problemă nouă sau editează una propusă anterior.
             </p>
           </div>
-        </div>
+        </Link>
 
-        <div
+        <Link
           className={styles.main_page_chapter_select}
-          onClick="window.location.assign('/user/accept_problems');"
+          to="/user/accept_problems"
         >
           <div className={styles.box}>
             <i className={styles.chapter_icon} aria-hidden="true">
@@ -62,11 +59,8 @@ const UserPage = (props) => {
               Acceptă probleme propuse de alți utilizatori
             </p>
           </div>
-        </div>
-        <div
-          className={styles.main_page_chapter_select}
-          onClick="window.location.assign('/user/admin');"
-        >
+        </Link>
+        <Link className={styles.main_page_chapter_select} to="/user/admin">
           <div className={styles.box}>
             <i className={styles.chapter_icon} aria-hidden="true">
               &#128064;
@@ -74,7 +68,7 @@ const UserPage = (props) => {
             <h3 className={styles.name}>Pagina de administrare</h3>
             <p className="description">Administreaza alti useri</p>
           </div>
-        </div>
+        </Link>
       </div>
     </main>
   );

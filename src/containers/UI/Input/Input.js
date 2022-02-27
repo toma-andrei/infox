@@ -4,7 +4,7 @@ import classes from "./Input.module.css";
 const input = (props) => {
   let element = null;
 
-  const elementStylingClasses = [];
+  const elementStylingClasses = [props.inputStyles];
 
   if (props.invalid && props.shouldValidate && props.touched) {
     elementStylingClasses.push(classes.Invalid);
