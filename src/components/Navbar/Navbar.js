@@ -1,6 +1,7 @@
 import whiteInfoXLogo from "../../assets/img/infox_logo_white.svg";
 import styles from "./Navbar.module.css";
 import { Link } from "react-router-dom";
+
 const Navbar = () => {
   const collapseNavLinks = () => {
     const button = document.getElementById("navbarSupportedContent");

@@ -1,5 +1,4 @@
 .user_info_box {
-  /* margin-top: 15px; */
   display: flex;
   justify-content: space-around;
   align-items: center;
@@ -11,7 +10,6 @@
   position: absolute;
   top: 50%;
   left: 50%;
-  margin-top: 30px;
   transform: translate(-50%, -50%);
 }
 
@@ -30,18 +28,33 @@
   height: 40px;
 }
 
-.profileTitleDiv {
-  position: relative;
-  text-align: center;
-  margin-top: 25px;
-  font-size: 2em;
-  width: 600px;
-  background: rgba(0, 0, 0, 0.1);
+@media only screen and (max-width: 830px) {
+  .user_info_box {
+    flex-direction: column;
+    width: 450px;
+  }
 }
 
-@media only screen and (max-height: 715px) {
-  .profileTitleDiv {
-    display: none;
+@media only screen and (max-height: 950px) {
+  .user_info_box {
+    margin-top: 20%;
+  }
+}
+
+@media only screen and (max-width: 500px) {
+  .user_info_box {
+    flex-direction: column;
+    width: 450px;
+  }
+
+  .profile_picture {
+    width: 100px;
+    height: 100px;
+  }
+
+  .changeProfilePicture {
+    width: 100px;
+    height: 100px;
   }
 }
 

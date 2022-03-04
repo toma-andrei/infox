@@ -8,7 +8,7 @@ import smallPawn from "../../assets/img/navbarImages/small_pawn.png";
 import smallHorse from "../../assets/img/navbarImages/small_horse.png";
 import smallTower from "../../assets/img/navbarImages/small_tower.png";
 import coinImage from "../../assets/img/coin.png";
-
+import defaultAvatar from "../../assets/img/navbarImages/basic_avatar.jpg";
 const NavbarAuth = () => {
   const collapseNavLinks = () => {
     const button = document.getElementById("navbarSupportedContent");
@@ -125,7 +125,11 @@ const NavbarAuth = () => {
             <Link to="/user/user_page">
               <img
                 className="nav-link xnavbar-item small_navbar_avatar"
-                src={fromContext.avatar}
+                src={
+                  fromContext.avatar === "/avatars/basic_avatar.jpg"
+                    ? defaultAvatar
+                    : fromContext.avatar
+                }
                 style={{
                   border: "1px solid white",
                   width: "35px",

@@ -4,7 +4,7 @@ import "./Layout.module.css";
 import NavbarAuth from "../Navbar/NavbarAuth";
 import axios from "axios";
 import { requestIP } from "../../env";
-
+import defaultAvatar from "../../assets/img/navbarImages/basic_avatar.jpg";
 export const AuthContext = createContext({});
 
 const Layout = (props) => {
@@ -35,7 +35,12 @@ const Layout = (props) => {
           lastname: res.data.lastname,
           locality: res.data.locality,
           nickname: res.data.nickname,
-          public: res.data.public,
+          public:
+            res.data.public == "0"
+              ? false
+              : res.data.public == "1"
+              ? true
+              : res.data.public,
           school: res.data.school,
           teacher: res.data.teacher,
         };

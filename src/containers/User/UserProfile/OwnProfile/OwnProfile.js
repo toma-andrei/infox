@@ -6,6 +6,8 @@ import { requestIP } from "../../../../env";
 import Input from "../../../UI/Input/Input";
 import Loading from "../../../UI/Loading/Loading";
 import styles from "../UserProfile.module.css";
+import defaultAvatar from "../../../../assets/img/navbarImages/basic_avatar.jpg";
+
 const OwnProfile = (props) => {
   const fromContext = useContext(AuthContext);
 
@@ -20,10 +22,19 @@ const OwnProfile = (props) => {
   const inputChangedHandler = (id, event) => {
     let elementCopy = { ...profileForm };
     elementCopy[id].value = event.target.value;
+    elementCopy[id].touched = true;
+
     elementCopy[id].valid = checkValidity(
       elementCopy[id].value,
       elementCopy[id].validation
     );
+
+    if (id === "password") {
+      elementCopy["confirmPassword"].valid = checkValidity(
+        elementCopy["confirmPassword"].value,
+        elementCopy["confirmPassword"].validation
+      );
+    }
 
     setProfileForm({ ...elementCopy });
 
@@ -37,7 +48,6 @@ const OwnProfile = (props) => {
   };
 
   const checkValidity = (value, rules) => {
-    console.log("???????");
     let isValid = true;
 
     if (rules.required) {
@@ -64,6 +74,28 @@ const OwnProfile = (props) => {
 
   const submitButtonPressedHandler = (event) => {
     event.preventDefault();
+
+    if (formIsValid) {
+      axios({
+        method: "post",
+        url: "http://" + requestIP,
+        data: {
+          url: "https://infox.ro/new/users/profile",
+          jwt: fromContext.jwt,
+          firstname: profileForm.firstName.value,
+          lastname: profileForm.lastName.value,
+          nickname: profileForm.nickname.value,
+          public: fromContext.public,
+          password: profileForm.password.value,
+          confirmPassword: profileForm.confirmPassword.value,
+          school: profileForm.school.value,
+          county: profileForm.county.value,
+          locality: profileForm.locality.value,
+        },
+      }).then((res) => {
+        console.log(res.data);
+      });
+    }
   };
 
   useEffect(() => {
@@ -86,6 +118,7 @@ const OwnProfile = (props) => {
         validation: {},
         valid: true,
         touched: false,
+        stylingClasses: [],
       },
       lastName: {
         elementType: "input",
@@ -95,6 +128,7 @@ const OwnProfile = (props) => {
         validation: {},
         valid: true,
         touched: false,
+        stylingClasses: [],
       },
       nickname: {
         elementType: "input",
@@ -104,15 +138,20 @@ const OwnProfile = (props) => {
         validation: {},
         valid: true,
         touched: false,
+        stylingClasses: [],
       },
       password: {
         elementType: "input",
         label: { id: "passwordId", text: "Parola" },
         elementConfig: { type: "password", placeholder: "Parolă" },
         value: "",
-        validation: { required: true, minLength: 5 },
+        validation: {
+          required: true,
+          minLength: 5,
+        },
         valid: false,
         touched: false,
+        stylingClasses: [],
       },
       confirmPassword: {
         elementType: "input",
@@ -125,33 +164,44 @@ const OwnProfile = (props) => {
         validation: { required: true, minLength: 5, matchField: "password" },
         valid: false,
         touched: false,
+        stylingClasses: [],
       },
       school: {
         elementType: "input",
         label: { id: "schoolId", text: "Școala" },
         elementConfig: { type: "text", placeholder: "Școala" },
-        value: fromContext.school,
+        value:
+          fromContext.school === "Nu este setată școala"
+            ? ""
+            : fromContext.school,
         validation: {},
         valid: true,
         touched: false,
+        stylingClasses: [],
       },
       county: {
         elementType: "input",
         label: { id: "countyId", text: "Județ" },
         elementConfig: { type: "text", placeholder: "Județ" },
-        value: fromContext.county,
+        value:
+          fromContext.county === "Setează județul" ? "" : fromContext.county,
         validation: {},
         valid: true,
         touched: false,
+        stylingClasses: [],
       },
       locality: {
         elementType: "input",
         label: { id: "localityId", text: "Localitate" },
         elementConfig: { type: "text", placeholder: "Localitate" },
-        value: fromContext.locality,
+        value:
+          fromContext.locality === "Setează localitatea"
+            ? ""
+            : fromContext.locality,
         validation: {},
         valid: true,
         touched: false,
+        stylingClasses: [],
       },
     });
   }, [fromContext]);
@@ -169,7 +219,7 @@ const OwnProfile = (props) => {
               value={profileForm[key.id].value}
               inputStyles={styles.formInput}
               touched={key.config.touched}
-              invalid={key.config.isValid}
+              invalid={!key.config.valid}
               shouldValidate={key.config.validation}
               elementType={key.config.elementType}
               elementConfig={{
@@ -202,7 +252,11 @@ const OwnProfile = (props) => {
           <div>
             <img
               className={styles.profile_picture}
-              src={fromContext.avatar}
+              src={
+                fromContext.avatar === "/avatars/basic_avatar.jpg"
+                  ? defaultAvatar
+                  : fromContext.avatar
+              }
               alt="avatar"
             />
             <div

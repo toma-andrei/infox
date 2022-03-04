@@ -40,7 +40,10 @@ const Register = (props) => {
       elementType: "input",
       elementConfig: { type: "password", placeholder: "Parolă" },
       value: "",
-      validation: { required: true, minLength: 5 },
+      validation: {
+        required: true,
+        minLength: 5,
+      },
       valid: false,
       touched: false,
     },
@@ -96,20 +99,33 @@ const Register = (props) => {
   };
 
   const inputChangedHandler = (id, event) => {
-    const element = registerForm[id];
-    element.value = event.target.value;
-    element.touched = true;
-    element.valid = checkValidity(element.value, element.validation);
+    const element = { ...registerForm };
+    element[id].value = event.target.value;
+    element[id].touched = true;
+    element[id].valid = checkValidity(
+      element[id].value,
+      element[id].validation
+    );
+
+    if (id === "password") {
+      element["confirmPassword"].valid = checkValidity(
+        element["confirmPassword"].value,
+        element["confirmPassword"].validation
+      );
+    } else if (id === "confirmPassword") {
+      element["password"].valid = checkValidity(
+        element["password"].value,
+        element["password"].validation
+      );
+    }
+
+    setRegisterForm({ ...element });
 
     let allValid = true;
 
     for (let key in registerForm) {
       allValid = allValid && registerForm[key].valid;
     }
-
-    setRegisterForm((prevState) => {
-      return { ...prevState, [id]: { ...element } };
-    });
 
     setFormIsValid(allValid);
   };
@@ -140,7 +156,6 @@ const Register = (props) => {
 
       if (formIsValid) {
         setLoading(true);
-        console.log("????");
         axios({
           method: "post",
           url: "http://" + requestIP,
