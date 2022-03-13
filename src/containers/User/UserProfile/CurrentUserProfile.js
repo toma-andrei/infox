@@ -1,14 +1,14 @@
 import axios from "axios";
 import { useContext, useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
-import { AuthContext } from "../../../../components/Layout/Layout";
-import { requestIP } from "../../../../env";
-import Input from "../../../UI/Input/Input";
-import Loading from "../../../UI/Loading/Loading";
-import styles from "../UserProfile.module.css";
-import defaultAvatar from "../../../../assets/img/navbarImages/basic_avatar.jpg";
+import { AuthContext } from "../../../components/Layout/Layout";
+import { requestIP } from "../../../env";
+import Input from "../../UI/Input/Input";
+import Loading from "../../UI/Loading/Loading";
+import styles from "./UserProfile.module.css";
+import defaultAvatar from "../../../assets/img/navbarImages/basic_avatar.jpg";
 
-const OwnProfile = (props) => {
+const CurrentUserProfile = (props) => {
   const fromContext = useContext(AuthContext);
 
   const [profileForm, setProfileForm] = useState({});
@@ -246,8 +246,8 @@ const OwnProfile = (props) => {
   );
 
   return (
-    <>
-      <div className={styles.user_profile}>
+    <main>
+      <div className={styles.userProfile}>
         <div className={styles.user_info_box}>
           <div>
             <img
@@ -275,8 +275,8 @@ const OwnProfile = (props) => {
           <div className={styles.profile_editable_data}>{ownProfileForm}</div>
         </div>
       </div>
-    </>
+    </main>
   );
 };
 
-export default OwnProfile;
+export default CurrentUserProfile;

@@ -10,6 +10,7 @@ import Requirements from "./Tabs/Requirements";
 
 const SpecificProblem = (props) => {
   const [problem, setProblem] = useState(useLocation().state);
+  console.log(problem);
 
   const [tabs, setTabs] = useState([
     { className: [styles.tablink, styles.active], text: "Enunț" },

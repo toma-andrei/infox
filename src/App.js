@@ -10,7 +10,8 @@ import Chapters from "./containers/Chapters/Chapters";
 import SubchapterProblemsAbstract from "./containers/SubchapterProblems/SubchapterProblemsAbstract";
 import SpecificProblem from "./containers/SubchapterProblems/SpecificProblem/SpecificProblem";
 import HardProblems from "./containers/HardProblems/HardProblems";
-import UserProfile from "./containers/User/UserProfile/UserProfile";
+import UserProfile from "./containers/User/UserProfile/CurrentUserProfile";
+import UserTriedProblems from "./containers/User/UserTriedProblems/UserTriedProblems";
 
 export const ProblemsContext = createContext({});
 
@@ -33,7 +34,7 @@ function App(props) {
         <Route path="/user/restore" exact element={<Restore />} />
         <Route path="/user/user_page" exact element={<UserPage />} />
         <Route path="/user/show_profile" exact element={<UserProfile />} />
-        <Route path="/user/problems" exact element={<Main />} />
+        <Route path="/user/problems" exact element={<UserTriedProblems />} />
         <Route path="/user/proposed_problems" exact element={<Main />} />
         <Route path="/user/accept_problems" exact element={<Main />} />
         <Route path="/user/admin" exact element={<Main />} />
