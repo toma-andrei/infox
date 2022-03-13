@@ -17,12 +17,21 @@ export const ProblemsContext = createContext({});
 
 function App(props) {
   const [chapters, setChapters] = useState({});
+  const [solvedProblems, setSolvedProblems] = useState({
+    solvedProblemsArray: null,
+    lastFetched: Date.now(),
+  });
+
   return (
     <ProblemsContext.Provider
       value={{
         chapters: chapters,
+        solvedProblems: solvedProblems,
         setChapters: (prbl) => {
           setChapters({ ...chapters, ...prbl });
+        },
+        setSolvedProblems: (solvedPrbl) => {
+          setSolvedProblems(solvedPrbl);
         },
       }}
     >

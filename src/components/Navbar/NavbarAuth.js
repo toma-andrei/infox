@@ -9,6 +9,7 @@ import smallHorse from "../../assets/img/navbarImages/small_horse.png";
 import smallTower from "../../assets/img/navbarImages/small_tower.png";
 import coinImage from "../../assets/img/coin.png";
 import defaultAvatar from "../../assets/img/navbarImages/basic_avatar.jpg";
+
 const NavbarAuth = () => {
   const collapseNavLinks = () => {
     const button = document.getElementById("navbarSupportedContent");
@@ -20,8 +21,9 @@ const NavbarAuth = () => {
   const fromContext = useContext(AuthContext);
 
   const logout = () => {
-    localStorage.removeItem("infoxJWT");
+    localStorage.clear();
     fromContext.updateJWT(null);
+    fromContext.updateUserInfo(null);
     navigate("/main");
   };
 

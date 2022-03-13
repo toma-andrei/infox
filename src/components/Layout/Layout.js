@@ -12,7 +12,7 @@ const Layout = (props) => {
   let [userInfo, setUserInfo] = useState({});
 
   useEffect(() => {
-    if (infoxJWT != null) {
+    if (infoxJWT) {
       axios({
         method: "post",
         url: "http://" + requestIP,
@@ -48,11 +48,16 @@ const Layout = (props) => {
         setUserInfo(userInfo);
       });
     }
-  }, []);
+  }, [infoxJWT]);
 
   return (
     <AuthContext.Provider
-      value={{ jwt: infoxJWT, updateJWT: setInfoxJWT, ...userInfo }}
+      value={{
+        jwt: infoxJWT,
+        updateJWT: setInfoxJWT,
+        updateUserInfo: setUserInfo,
+        ...userInfo,
+      }}
     >
       {infoxJWT === null ? (
         <Fragment>

@@ -1,11 +1,12 @@
 import styles from "../SpecificProblem.module.css";
 
+/**
+ * Specific Problem Page Requirement Tab
+ */
 const Requirements = (props) => {
   let problem = props.problem;
   let data = [];
   let delimiter = "### ";
-  //   console.log(problem.full);
-  //   console.log(problem.full.split(delimiter, 2).join(delimiter).length);
 
   let lastDelimiterPosition = problem.full.indexOf("### Exemplu");
 

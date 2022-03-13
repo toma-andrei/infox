@@ -10,7 +10,6 @@ import Requirements from "./Tabs/Requirements";
 
 const SpecificProblem = (props) => {
   const [problem, setProblem] = useState(useLocation().state);
-  console.log(problem);
 
   const [tabs, setTabs] = useState([
     { className: [styles.tablink, styles.active], text: "Enunț" },
@@ -33,31 +32,34 @@ const SpecificProblem = (props) => {
   const { id } = useParams();
   const { jwt } = useContext(AuthContext);
 
+  const getProblem = async () => {
+    let answer = null;
+
+    let axiosPostAnsware = await axios.post(
+      "http://" + requestIP,
+      JSON.stringify({
+        method: "get",
+        url: "https://infox.ro/new/problems/full/" + id,
+        jwt: jwt,
+      })
+    );
+
+    answer = axiosPostAnsware.data.problem;
+
+    return answer;
+  };
+
   useEffect(() => {
     if (problem === null) {
-      const getProblem = () => {
-        let problemPromise = null;
-        axios
-          .post(
-            "http://" + requestIP,
-            JSON.stringify({
-              method: "get",
-              url: "https://infox.ro/new/problems/full/" + id,
-              jwt: jwt,
-            })
-          )
-          .then((response) => {
-            problemPromise = response.data.problem;
-          });
-
-        return problemPromise;
-      };
       getProblem().then((response) => {
         setProblem(response);
       });
     }
   }, []);
 
+  /**
+   * Sets styles to the active tab
+   */
   const toggleActive = (index) => {
     let tabsCopy = tabs.map((tab) => {
       return { className: [styles.tablink], text: tab.text };
