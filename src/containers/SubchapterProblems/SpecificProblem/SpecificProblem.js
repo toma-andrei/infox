@@ -7,18 +7,33 @@ import Loading from "../../UI/Loading/Loading";
 import Unapproved from "./Unapproved/Unapproved";
 import styles from "./SpecificProblem.module.css";
 import Requirements from "./Tabs/Requirements";
+import OwnSolutions from "./Tabs/OwnSolutions";
+import ProblemHints from "./Tabs/ProblemHints";
+import CorrectSolutions from "./Tabs/CorrectSolutions";
+import ProblemDiscussions from "./Tabs/ProblemDiscussions";
 
 const SpecificProblem = (props) => {
   const [problem, setProblem] = useState(useLocation().state);
+  const { id } = useParams();
+  const { jwt } = useContext(AuthContext);
 
   const [tabs, setTabs] = useState([
-    { className: [styles.tablink, styles.active], text: "Enunț" },
-    { className: [styles.tablink], text: "Soluțiile tale + Adaugă soluție" },
-    { className: [styles.tablink], text: "Indicații + Teste de evaluare" },
-    { className: [styles.tablink], text: "Soluții corecte" },
-    { className: [styles.tablink], text: "Discuții" },
+    { className: [styles.tablink, styles.active], text: "Enunț", show: true },
+    {
+      className: [styles.tablink],
+      text: "Soluțiile tale + Adaugă soluție",
+      show: false,
+    },
+    {
+      className: [styles.tablink],
+      text: "Indicații + Teste de evaluare",
+      show: false,
+    },
+    { className: [styles.tablink], text: "Soluții corecte", show: false },
+    { className: [styles.tablink], text: "Discuții", show: false },
   ]);
 
+  //table heads on problem tabs and its corespondent in data fetched from server
   const tHeads = [
     { th: "Autor", corespondent: "author_id" },
     { th: "Sursa problemei", corespondent: "source" },
@@ -29,13 +44,20 @@ const SpecificProblem = (props) => {
     { th: "Limită de memorie", corespondent: "" },
   ];
 
-  const { id } = useParams();
-  const { jwt } = useContext(AuthContext);
+  const fetchProblemSolutions = async () => {
+    const response = await axios.post("http://" + requestIP, {
+      method: "get",
+      jwt: jwt,
+      url: "https://infox.ro/new/solutions/problem/" + id,
+    });
+    problem.solutions = response.data.solutions;
+    setProblem(problem);
+  };
 
-  const getProblem = async () => {
+  const fetchProblemRequirements = async () => {
     let answer = null;
 
-    let axiosPostAnsware = await axios.post(
+    let axiosPostAnswer = await axios.post(
       "http://" + requestIP,
       JSON.stringify({
         method: "get",
@@ -44,28 +66,31 @@ const SpecificProblem = (props) => {
       })
     );
 
-    answer = axiosPostAnsware.data.problem;
+    answer = axiosPostAnswer.data.problem;
 
     return answer;
   };
 
   useEffect(() => {
     if (problem === null) {
-      getProblem().then((response) => {
+      fetchProblemRequirements().then((response) => {
         setProblem(response);
       });
     }
   }, []);
 
+  useEffect(() => {
+    fetchProblemSolutions();
+  }, [problem]);
   /**
    * Sets styles to the active tab
    */
   const toggleActive = (index) => {
     let tabsCopy = tabs.map((tab) => {
-      return { className: [styles.tablink], text: tab.text };
+      return { className: [styles.tablink], text: tab.text, show: false };
     });
     tabsCopy[index].className.push(styles.active);
-
+    tabsCopy[index].show = true;
     setTabs(tabsCopy);
   };
 
@@ -85,7 +110,20 @@ const SpecificProblem = (props) => {
             </button>
           ))}
         </div>
-        <Requirements problem={problem} metadataIdentifiers={tHeads} />
+        <Requirements
+          problem={problem}
+          metadataIdentifiers={tHeads}
+          show={tabs[0].show}
+        />
+        <OwnSolutions
+          show={tabs[1].show}
+          solutions={problem.solutions}
+          jwt={jwt}
+          id={id}
+        />
+        <ProblemHints show={tabs[2].show} />
+        <CorrectSolutions show={tabs[3].show} />
+        <ProblemDiscussions show={tabs[4].show} />
       </div>
     )
   ) : (

@@ -2,6 +2,7 @@ import styles from "../SpecificProblem.module.css";
 
 /**
  * Specific Problem Page Requirement Tab
+ * Parse problem string
  */
 const Requirements = (props) => {
   let problem = props.problem;
@@ -40,15 +41,15 @@ const Requirements = (props) => {
     index++;
   }
 
-  console.log(problem.full);
-  console.log(data);
-
   return (
-    <div className={styles.tabcontent} style={{ display: "block" }}>
+    <div
+      className={styles.tabcontent}
+      style={{ display: props.show ? "block" : "none" }}
+    >
       <div className={styles.problem}>
         <div className={styles.problem_meta}>
           <h2>
-            {problem.id}: {problem.title}
+            {problem.id}. {problem.title}
           </h2>
           <table
             className={[styles.problem_meta, styles.problem_page_table].join(

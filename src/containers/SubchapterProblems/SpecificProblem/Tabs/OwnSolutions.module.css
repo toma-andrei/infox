@@ -1,0 +1,29 @@
+.ownSolutionsWrapper {
+  width: 100%;
+  background-color: #fff;
+  padding: 15px;
+}
+
+.solutionTextarea {
+  width: 100%;
+  overflow-x: auto;
+  overflow-y: auto;
+  height: 400px;
+  resize: none;
+  font-family: Consolas, Monaco, "Lucida console";
+}
+
+.submitSolutionButton {
+  position: relative;
+  left: 50%;
+  transform: translate(-50%);
+  border: 1px solid rgb(147, 153, 115);
+  border-radius: 15px 0 15px 0;
+  width: 10rem;
+  height: 3rem;
+  background-color: rgba(185, 202, 139, 0.699);
+}
+
+.submitSolutionButton:hover {
+  background-color: rgba(134, 151, 87, 0.651);
+}
