@@ -4,8 +4,6 @@ import { Link } from "react-router-dom";
 import styles from "./TriedProblem.module.css";
 
 const TriedProblem = (props) => {
-  const [problems, setProblems] = useState([]);
-
   let triedProblemStyles = [styles.problem];
   parseInt(props.score) === 100
     ? triedProblemStyles.push(styles.success)

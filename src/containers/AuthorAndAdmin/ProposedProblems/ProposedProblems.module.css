@@ -1,0 +1,49 @@
+.shapeProblem {
+  width: 90%;
+  margin-top: 30px;
+  margin-left: auto;
+  margin-right: auto;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.addNewProblemDiv {
+  background-color: aliceblue;
+  width: 200px;
+  height: 100px;
+  border-radius: 15px;
+  padding: 10px;
+  padding-top: 15px;
+  margin-top: 30px;
+  margin-bottom: 30px;
+  text-align: center;
+}
+
+.addNewProblemDiv:hover {
+  opacity: 0.9;
+}
+
+.plusCircle {
+  border: 3px solid #777;
+  border-radius: 100%;
+  font-size: 30px;
+  margin: auto;
+  margin-top: 10px;
+  padding: 1px;
+}
+
+.abstract {
+  font-size: 0.9em;
+}
+
+.proposedProblemsWrapper {
+  display: flex;
+  justify-content: center;
+  text-decoration: none;
+  color: black;
+}
+
+.proposedProblemsWrapper:hover {
+  color: black;
+}

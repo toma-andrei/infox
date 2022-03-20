@@ -1,0 +1,26 @@
+.problem {
+  max-width: 350px;
+  border-radius: 15px;
+  padding: 14px;
+  display: inline-block;
+  margin: 5px 5px 5px 5px;
+  text-decoration: none;
+  color: black;
+}
+
+.problem:hover {
+  color: black;
+}
+
+.approved {
+  background-color: rgba(198, 248, 202, 0.8);
+}
+
+.unapproved {
+  background-color: rgba(240, 205, 177, 0.8);
+}
+
+.title {
+  font-size: 20px;
+  font-weight: bolder;
+}

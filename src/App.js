@@ -12,26 +12,33 @@ import SpecificProblem from "./containers/SubchapterProblems/SpecificProblem/Spe
 import HardProblems from "./containers/HardProblems/HardProblems";
 import UserProfile from "./containers/User/UserProfile/CurrentUserProfile";
 import UserTriedProblems from "./containers/User/UserTriedProblems/UserTriedProblems";
+import ProposedProblems from "./containers/AuthorAndAdmin/ProposedProblems/ProposedProblems";
 
 export const ProblemsContext = createContext({});
 
 function App(props) {
   const [chapters, setChapters] = useState({});
+  const [proposedProblems, setProposedProblems] = useState([]);
   const [solvedProblems, setSolvedProblems] = useState({
     solvedProblemsArray: null,
     lastFetched: Date.now(),
   });
 
+  //Every time state is modified, rerendering will be triggered and context will be updated
   return (
     <ProblemsContext.Provider
       value={{
         chapters: chapters,
         solvedProblems: solvedProblems,
+        proposedProblems: proposedProblems,
         setChapters: (prbl) => {
           setChapters({ ...chapters, ...prbl });
         },
         setSolvedProblems: (solvedPrbl) => {
           setSolvedProblems(solvedPrbl);
+        },
+        setProposedProblems: (proposedProbl) => {
+          setProposedProblems(proposedProbl);
         },
       }}
     >
@@ -44,7 +51,11 @@ function App(props) {
         <Route path="/user/user_page" exact element={<UserPage />} />
         <Route path="/user/show_profile" exact element={<UserProfile />} />
         <Route path="/user/problems" exact element={<UserTriedProblems />} />
-        <Route path="/user/proposed_problems" exact element={<Main />} />
+        <Route
+          path="/user/proposed_problems"
+          exact
+          element={<ProposedProblems />}
+        />
         <Route path="/user/accept_problems" exact element={<Main />} />
         <Route path="/user/admin" exact element={<Main />} />
         <Route

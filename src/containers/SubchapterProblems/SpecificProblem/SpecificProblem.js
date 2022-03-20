@@ -51,6 +51,7 @@ const SpecificProblem = (props) => {
       url: "https://infox.ro/new/solutions/problem/" + id,
     });
     problem.solutions = response.data.solutions;
+    console.log(response.data.solutions);
     setProblem(problem);
   };
 
@@ -82,6 +83,7 @@ const SpecificProblem = (props) => {
   useEffect(() => {
     fetchProblemSolutions();
   }, [problem]);
+
   /**
    * Sets styles to the active tab
    */

@@ -13,7 +13,6 @@ const OwnSolutions = (props) => {
   const verifySolution = (event) => {
     event.preventDefault();
     let code = document.getElementById("solutionTextarea").value;
-
     /**
      * Send code written by user to compiler
      */
@@ -42,7 +41,9 @@ const OwnSolutions = (props) => {
             points: {solution.points}
             <br />
             details: {solution.details}
-            <br />{" "}
+            <br />
+            data: {solution.created_at}
+            <br />
           </div>
         );
       })
