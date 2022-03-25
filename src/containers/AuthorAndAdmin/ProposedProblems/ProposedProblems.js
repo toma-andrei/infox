@@ -20,6 +20,7 @@ const ProposedProblems = (props) => {
       method: "get",
     });
 
+    // sort proposed problems after their id;
     response.data.problems.sort((a, b) => {
       let aa = parseInt(a.id);
       let bb = parseInt(b.id);

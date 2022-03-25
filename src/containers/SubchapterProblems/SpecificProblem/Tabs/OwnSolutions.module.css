@@ -21,9 +21,111 @@
   border-radius: 15px 0 15px 0;
   width: 10rem;
   height: 3rem;
-  background-color: rgba(185, 202, 139, 0.699);
+  background-color: rgba(100, 213, 7, 0.699);
+  font-size: 1.2em;
 }
 
 .submitSolutionButton:hover {
-  background-color: rgba(134, 151, 87, 0.651);
+  background-color: rgba(42, 153, 27, 0.651);
+}
+
+.errorMessage {
+  width: 150px;
+  color: white;
+  padding: 8px;
+  margin: auto;
+  margin-top: 10px;
+  border-radius: 10px;
+  text-align: center;
+  margin-bottom: 10px;
+}
+
+.rightVerticalRuler div:not(:last-child) {
+  border-right: 1px solid green;
+}
+
+.solutionInfoText {
+  margin-top: 20px;
+  margin-bottom: 5px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.solutionIdButton {
+  border: none;
+  width: 100px;
+  background-color: #1dcee9;
+  font-size: 1.2em;
+  border-radius: 13px;
+  -webkit-box-shadow: 6px 8px 23px -4px rgba(0, 0, 0, 0.5);
+  box-shadow: 6px 8px 23px -4px rgba(0, 0, 0, 0.5);
+}
+.solutionIdButton:hover {
+  -webkit-box-shadow: 6px 8px 23px -4px rgba(0, 0, 0, 0.35);
+  box-shadow: 6px 8px 23px -4px rgba(0, 0, 0, 0.35);
+}
+
+/*
+Loading animation
+*/
+
+:root {
+  --yellow: #feb60a;
+  --red: #ff0062;
+  --blue: #00dbf9;
+  --violet: #da00f7;
+}
+
+.loaderContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.loaderContainer div {
+  width: 2vw;
+  height: 2vw;
+  border-radius: 100%;
+  margin: 2vw;
+  background-image: linear-gradient(
+    145deg,
+    rgba(255, 255, 255, 0.5) 0%,
+    rgba(0, 0, 0, 0) 100%
+  );
+  animation: bounce 1.5s 0.5s linear infinite;
+}
+.animationYellow {
+  background-color: var(--yellow);
+}
+
+.animationRed {
+  background-color: var(--red);
+  animation-delay: 0.1s;
+}
+
+.animationBlue {
+  background-color: var(--blue);
+  animation-delay: 0.2s;
+}
+
+.animationViolet {
+  background-color: var(--violet);
+  animation-delay: 0.3s;
+}
+
+@keyframes bounce {
+  0%,
+  50%,
+  100% {
+    transform: scale(1);
+    filter: blur(0px);
+  }
+  25% {
+    transform: scale(0.6);
+    filter: blur(3px);
+  }
+  75% {
+    filter: blur(3px);
+    transform: scale(1.4);
+  }
 }

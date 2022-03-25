@@ -12,6 +12,10 @@ import ProblemHints from "./Tabs/ProblemHints";
 import CorrectSolutions from "./Tabs/CorrectSolutions";
 import ProblemDiscussions from "./Tabs/ProblemDiscussions";
 
+/**
+ * @param props empty object (nothing given from parent component)
+ */
+
 const SpecificProblem = (props) => {
   const [problem, setProblem] = useState(useLocation().state);
   const { id } = useParams();
@@ -50,8 +54,15 @@ const SpecificProblem = (props) => {
       jwt: jwt,
       url: "https://infox.ro/new/solutions/problem/" + id,
     });
-    problem.solutions = response.data.solutions;
-    console.log(response.data.solutions);
+
+    //sort solutions for the current problem by date it was created
+    problem.solutions = response.data.solutions.sort((a, b) => {
+      let aa = new Date(a.created_at);
+      let bb = new Date(b.created_at);
+
+      return aa < bb ? 1 : aa > bb ? -1 : 0;
+    });
+
     setProblem(problem);
   };
 
