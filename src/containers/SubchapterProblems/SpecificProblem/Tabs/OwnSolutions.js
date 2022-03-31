@@ -4,21 +4,31 @@ import { AuthContext } from "../../../../components/Layout/Layout";
 import { requestIP } from "../../../../env";
 import styles from "./OwnSolutions.module.css";
 import SelectSolutionModal from "../Modals/SelectSolutionModal";
+import { useEffect } from "react";
 
 /**
  *Component showing code editor and current user's solutions
  * @param {*} props data received from SpecificProblem Component: jwt, problem id, solution array, show
+ * Workflow: User load a code submit it and get result. Then he press on "id:solutionID" to replace his code with solution.
+ *              - toggleModal(solutionId) is called to show modal and SolutionId is set to state
+ *              - if user press "yes" then he replace his code with solution's code. (modalButtonPressedHandler("yes", solutionId) is called. It calls putSolutionOnTextarea(solutionId)))
+ *              - if user press "no" then he close modal.
+ *
  *
  */
 const OwnSolutions = (props) => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [fullSolutions, setFullSolutions] = useState({});
-  const [showModal, setShowModal] = useState(false);
+  const [showModal, setShowModal] = useState({ show: false, solutionId: "" });
+  const [solutions, setSolutions] = useState([]);
 
-  /**
-   * Send code to the compiler and fetch result
-   */
+  //add to state solutions array
+  useEffect(() => {
+    setSolutions(props.solutions);
+  }, [props.solutions]);
+
+  // Send code to the compiler and fetch result
   const verifySolution = (event) => {
     event.preventDefault();
     let code = document.getElementById("solutionTextarea").value;
@@ -72,6 +82,8 @@ const OwnSolutions = (props) => {
         }
       }
 
+      setSolutions([solution.data.solution, ...solutions]);
+
       setFullSolutions({
         ...fullSolutions,
         [response.data.solutionId]: solution.data.solution,
@@ -81,6 +93,7 @@ const OwnSolutions = (props) => {
     sendData();
   };
 
+  //fetch source for a problem and put it in the textarea
   const putSolutionOnTextarea = (solId) => {
     const fetchSolutionFull = async (solutionId) => {
       const response = await axios.post("http://" + requestIP, {
@@ -93,91 +106,135 @@ const OwnSolutions = (props) => {
         ...fullSolutions,
         [solutionId]: response.data.solution,
       });
-    };
-    if (fullSolutions[solId] === undefined) fetchSolutionFull(solId);
-    else {
+
       document.getElementById("solutionTextarea").value =
-        fullSolutions[solId].source;
+        "//Solutia " +
+        solId.toString() +
+        " adaugata la " +
+        response.data.solution.created_at +
+        ".\n" +
+        response.data.solution.source;
+    };
+
+    //if solution was not fetched before then fetch it
+    if (fullSolutions[solId] === undefined) {
+      fetchSolutionFull(solId);
+      return;
     }
+
+    //if solution was fetched before then put it in the textarea
+    document.getElementById("solutionTextarea").value =
+      "//Solutia " +
+      solId.toString() +
+      " adaugata la " +
+      fullSolutions[solId].created_at +
+      ".\n" +
+      fullSolutions[solId].source;
   };
 
   const modalButtonPressedHandler = (button) => {
-    console.log(button);
     if (button === "yes") {
-      setShowModal(false);
-      putSolutionOnTextarea(props.id);
+      putSolutionOnTextarea(showModal.solutionId);
+      setShowModal({ show: false, solutionId: "" });
     } else {
-      setShowModal(true);
+      setShowModal({ show: false, solutionId: "" });
     }
   };
 
-  //create a JSX code for each solution
-  let showSolutions = props.solutions
-    ? props.solutions.map((solution) => {
-        //details key looks like "maxPoints#myRes". myRes:
-        //score
-        //"g" (gresit)
-        //"c" (compilation error)
-        let marks = solution.details.split(",");
-        marks = marks.map((mark) => {
-          return {
-            testScore: parseInt(mark.split("#")[0]),
-            myScore: mark.split("#")[1],
-          };
-        });
-        let totalScoreForOneSolution = 0;
-        let temp = marks.map((mark) => mark.myScore);
+  //toggle modal and set solution id for which the modal will be shown
+  const toggleModal = (solutionId = null) => {
+    showModal.show
+      ? setShowModal({ show: false, solutionId: "" })
+      : setShowModal({ show: true, solutionId: solutionId });
+  };
 
-        temp.forEach((val) => {
-          totalScoreForOneSolution += ["c", "g"].includes(val)
-            ? 0
-            : parseInt(val);
-        });
+  //create a JSX code (pregress bars) for each solution
+  const createSourceProgressBar = (solution) => {
+    //details key looks like "maxPoints#myRes". myRes:
+    //score
+    //"g" (gresit)
+    //"c" (compilation error)
+    //"t"
 
-        return (
-          <div key={solution.id}>
-            <div className={styles.solutionInfoText}>
-              <div>
-                <strong>{totalScoreForOneSolution}</strong> puncte, obținute pe
-                data {solution.created_at}, distribuite astfel:
-              </div>
-              <button className={styles.solutionIdButton}>
-                id: {solution.id}
-              </button>
-            </div>
-            <div className={["progress", styles.rightVerticalRuler].join(" ")}>
-              {marks.map((mark) => {
-                let classes = ["progress-bar", styles.rightVerticalRuler];
+    let marks = solution.details.split(",");
 
-                if (["g", "c"].includes(mark.myScore))
-                  classes.push("bg-danger");
-                else if (mark.myScore == mark.testScore)
-                  classes.push("bg-success");
+    marks = marks.map((mark) => {
+      return {
+        testScore: parseInt(mark.split("#")[0]),
+        myScore: mark.split("#")[1],
+      };
+    });
 
-                return (
-                  <div
-                    className={classes.join(" ")}
-                    style={{ width: mark.testScore + "%" }}
-                    key={solution.id + Math.random()}
-                  >
-                    {mark.myScore === "c"
-                      ? "[Compilare]"
-                      : mark.myScore === "g"
-                      ? "[Răspuns greșit]"
-                      : mark.myScore}
-                  </div>
-                );
-              })}
-            </div>
+    let totalScoreForOneSolution = 0;
+
+    //temporary variable for computing total score for a solution
+    let temp = marks.map((mark) => mark.myScore);
+
+    temp.forEach((val) => {
+      totalScoreForOneSolution += ["c", "g", "t"].includes(val)
+        ? 0
+        : parseInt(val);
+    });
+
+    return (
+      <div key={solution.id}>
+        <div className={styles.solutionInfoText}>
+          <div>
+            <strong>{totalScoreForOneSolution}</strong> puncte, obținute pe data{" "}
+            {solution.created_at}, distribuite astfel:
           </div>
-        );
+          <button
+            className={styles.solutionIdButton}
+            onClick={() => toggleModal(solution.id)}
+          >
+            id: {solution.id}
+          </button>
+        </div>
+        <div className={["progress", styles.rightVerticalRuler].join(" ")}>
+          {marks.map((mark) => {
+            //styles for each solution progress bar
+            let classes = ["progress-bar", styles.rightVerticalRuler];
+
+            //set styles depending on response (compilation error, wrong answer, etc)
+            if (["g", "c"].includes(mark.myScore)) classes.push("bg-danger");
+            else if (mark.myScore === "t") classes.push("bg-primary");
+            else if (mark.myScore == mark.testScore) classes.push("bg-success");
+
+            return (
+              <div
+                className={classes.join(" ")}
+                style={{ width: mark.testScore + "%" }}
+                key={solution.id + Math.random()}
+              >
+                {mark.myScore === "c"
+                  ? "Compilare"
+                  : mark.myScore === "g"
+                  ? "Răspuns greșit"
+                  : mark.myScore === "t"
+                  ? "Timp"
+                  : mark.myScore}
+              </div>
+            );
+          })}
+        </div>
+      </div>
+    );
+  };
+
+  let showSolutions = solutions
+    ? solutions.map((solution) => {
+        return createSourceProgressBar(solution);
       })
     : null;
 
+  //JSX to show the problem solutions
   return (
     <>
-      {showModal ? (
-        <SelectSolutionModal openModal={modalButtonPressedHandler} />
+      {showModal.show ? (
+        <SelectSolutionModal
+          choiceFromModal={modalButtonPressedHandler}
+          toggleModal={toggleModal}
+        />
       ) : null}
       <div
         className={styles.ownSolutionsWrapper}
@@ -211,7 +268,12 @@ const OwnSolutions = (props) => {
         <h2 style={{ marginTop: "20px" }}>
           Punctajele obținute de soluțiile tale:
         </h2>
-        <div style={{ width: "95%", margin: "auto" }}>{showSolutions}</div>
+        <div
+          id="userSolutionsDivIdentifier"
+          style={{ width: "95%", margin: "auto" }}
+        >
+          {showSolutions}
+        </div>
       </div>
     </>
   );

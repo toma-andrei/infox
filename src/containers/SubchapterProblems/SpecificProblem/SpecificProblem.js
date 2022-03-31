@@ -55,7 +55,7 @@ const SpecificProblem = (props) => {
       url: "https://infox.ro/new/solutions/problem/" + id,
     });
 
-    //sort solutions for the current problem by date it was created
+    //sort solutions for the current problem by date it was created so it will be displayed in the right order
     problem.solutions = response.data.solutions.sort((a, b) => {
       let aa = new Date(a.created_at);
       let bb = new Date(b.created_at);
@@ -66,6 +66,7 @@ const SpecificProblem = (props) => {
     setProblem(problem);
   };
 
+  //fetch problem requirements from api
   const fetchProblemRequirements = async () => {
     let answer = null;
 

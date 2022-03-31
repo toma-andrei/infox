@@ -41,7 +41,7 @@
 }
 
 .rightVerticalRuler div:not(:last-child) {
-  border-right: 1px solid green;
+  border-right: 1px solid #333;
 }
 
 .solutionInfoText {

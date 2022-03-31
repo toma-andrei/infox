@@ -5,6 +5,7 @@ import styles from "./TriedProblem.module.css";
 
 const TriedProblem = (props) => {
   let triedProblemStyles = [styles.problem];
+
   parseInt(props.score) === 100
     ? triedProblemStyles.push(styles.success)
     : triedProblemStyles.push(styles.tried);
