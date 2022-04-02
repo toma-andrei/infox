@@ -1,7 +1,18 @@
 import styles from "./SubchapterProblemAbstract.module.css";
 import { Link } from "react-router-dom";
 
+const tm = require("markdown-it-texmath");
+const md = require("markdown-it")({ html: true }).use(tm, {
+  engine: require("katex"),
+  delimiters: "dollars",
+  katexOptions: { macros: { "\\RR": "\\mathbb{R}" } },
+});
+
+/*
+ * Abstract problem component on route /problems/display_subchapter/subch
+ */
 const SubchapterProblemAbstract = (props) => {
+  //compute success rate based on data from server
   let successRate = (
     (props.fullProblem.correct / props.fullProblem.submitted) *
     100
@@ -17,7 +28,12 @@ const SubchapterProblemAbstract = (props) => {
     >
       <b>{props.fullProblem.id + ": " + props.fullProblem.title}</b>
       <sup className="bg bg-success"></sup>
-      <div className="abstract_requirements">{props.fullProblem.abstract}</div>
+      <div
+        className="abstract_requirements"
+        dangerouslySetInnerHTML={{
+          __html: md.render(props.fullProblem.abstract),
+        }}
+      />
       <div className="progress">
         <div
           className={"progress-bar bg-success"}

@@ -1,46 +1,16 @@
+import parseProblemRequirements from "../../../../assets/js/parseProblemRequirements";
 import styles from "../SpecificProblem.module.css";
 
 /**
  * Specific Problem Page Requirement Tab
  * Parse problem string
  */
-const Requirements = (props) => {
+
+const ProblemRequirements = (props) => {
   let problem = props.problem;
-  let data = [];
-  let delimiter = "### ";
 
-  let lastDelimiterPosition = problem.full.indexOf("### Exemplu");
-
-  let index = 0;
-
-  while (true) {
-    let delimiterAppearance = problem.full
-      .split(delimiter, index + 1)
-      .join(delimiter).length;
-
-    if (delimiterAppearance !== lastDelimiterPosition) {
-      data.push(
-        problem.full
-          .slice(
-            delimiterAppearance + 4,
-            problem.full.split(delimiter, index + 2).join(delimiter).length
-          )
-          .split("\n\n")
-      );
-    } else {
-      data.push(
-        problem.full
-          .slice(
-            problem.full.split(delimiter, index + 1).join(delimiter).length + 4,
-            problem.full.length
-          )
-          .split("\n\n")
-      );
-      break;
-    }
-    index++;
-  }
-
+  let data = parseProblemRequirements(problem.full);
+  console.log(data);
   return (
     <div
       className={styles.tabcontent}
@@ -76,14 +46,13 @@ const Requirements = (props) => {
             </tbody>
           </table>
         </div>
-        <div className="problem_text">
-          {data.map((title) => (
-            <h3 key={title[0]}>{title[0]}</h3>
-          ))}
-        </div>
+        <div
+          className="problem_text"
+          dangerouslySetInnerHTML={{ __html: data }}
+        ></div>
       </div>
     </div>
   );
 };
 
-export default Requirements;
+export default ProblemRequirements;

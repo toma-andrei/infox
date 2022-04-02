@@ -8,6 +8,10 @@ import styles from "./Chapters.module.css";
 import { ProblemsContext } from "../../App";
 import Loading from "../UI/Loading/Loading";
 
+/**
+ * Chapter component. Fetchs the chapters from the server and renders them.
+ * On route /problems/display_year/year
+ */
 const Chapters = (props) => {
   const [chapters, setChapters] = useState([]);
   const { yearParam } = useParams();
@@ -235,6 +239,7 @@ const Chapters = (props) => {
   }
   */
   let chaptersList = [];
+  //create list of chapters
   for (let chapter in problemContext.chapters[yearParam]) {
     chaptersList.push(
       <Chapter

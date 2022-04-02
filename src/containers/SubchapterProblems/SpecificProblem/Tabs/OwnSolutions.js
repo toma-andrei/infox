@@ -171,7 +171,7 @@ const OwnSolutions = (props) => {
     let temp = marks.map((mark) => mark.myScore);
 
     temp.forEach((val) => {
-      totalScoreForOneSolution += ["c", "g", "t"].includes(val)
+      totalScoreForOneSolution += ["c", "g", "t", "m1", "m2"].includes(val)
         ? 0
         : parseInt(val);
     });
@@ -197,7 +197,8 @@ const OwnSolutions = (props) => {
 
             //set styles depending on response (compilation error, wrong answer, etc)
             if (["g", "c"].includes(mark.myScore)) classes.push("bg-danger");
-            else if (mark.myScore === "t") classes.push("bg-primary");
+            else if (["t", "m1", "m2"].includes(mark.myScore))
+              classes.push("bg-primary");
             else if (mark.myScore == mark.testScore) classes.push("bg-success");
 
             return (
@@ -212,6 +213,8 @@ const OwnSolutions = (props) => {
                   ? "Răspuns greșit"
                   : mark.myScore === "t"
                   ? "Timp"
+                  : mark.myScore === "m1" || mark.myScore === "m2"
+                  ? "Memorie"
                   : mark.myScore}
               </div>
             );

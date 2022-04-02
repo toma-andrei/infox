@@ -1,4 +1,5 @@
 import "./App.css";
+import "./katex/css/katex.min.css";
 import { createContext, useState } from "react";
 import Login from "./containers/Authentication/Login/Login";
 import Main from "./containers/Main/Main";

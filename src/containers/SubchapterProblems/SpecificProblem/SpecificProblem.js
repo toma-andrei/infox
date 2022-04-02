@@ -6,7 +6,7 @@ import { requestIP } from "../../../env";
 import Loading from "../../UI/Loading/Loading";
 import Unapproved from "./Unapproved/Unapproved";
 import styles from "./SpecificProblem.module.css";
-import Requirements from "./Tabs/Requirements";
+import ProblemRequirements from "./Tabs/ProblemRequirements";
 import OwnSolutions from "./Tabs/OwnSolutions";
 import ProblemHints from "./Tabs/ProblemHints";
 import CorrectSolutions from "./Tabs/CorrectSolutions";
@@ -18,9 +18,12 @@ import ProblemDiscussions from "./Tabs/ProblemDiscussions";
 
 const SpecificProblem = (props) => {
   const [problem, setProblem] = useState(useLocation().state);
+
+  //id from url
   const { id } = useParams();
   const { jwt } = useContext(AuthContext);
 
+  //information for each tab in the specific problem page
   const [tabs, setTabs] = useState([
     { className: [styles.tablink, styles.active], text: "Enunț", show: true },
     {
@@ -55,7 +58,7 @@ const SpecificProblem = (props) => {
       url: "https://infox.ro/new/solutions/problem/" + id,
     });
 
-    //sort solutions for the current problem by date it was created so it will be displayed in the right order
+    //sort solutions for the current problem by date to be displayed on the right order
     problem.solutions = response.data.solutions.sort((a, b) => {
       let aa = new Date(a.created_at);
       let bb = new Date(b.created_at);
@@ -66,7 +69,7 @@ const SpecificProblem = (props) => {
     setProblem(problem);
   };
 
-  //fetch problem requirements from api
+  //function to fetch problem requirements from api
   const fetchProblemRequirements = async () => {
     let answer = null;
 
@@ -84,6 +87,7 @@ const SpecificProblem = (props) => {
     return answer;
   };
 
+  //fetch problem requirements from api
   useEffect(() => {
     if (problem === null) {
       fetchProblemRequirements().then((response) => {
@@ -92,6 +96,7 @@ const SpecificProblem = (props) => {
     }
   }, []);
 
+  //fetch solutions for problem
   useEffect(() => {
     fetchProblemSolutions();
   }, [problem]);
@@ -124,7 +129,7 @@ const SpecificProblem = (props) => {
             </button>
           ))}
         </div>
-        <Requirements
+        <ProblemRequirements
           problem={problem}
           metadataIdentifiers={tHeads}
           show={tabs[0].show}
