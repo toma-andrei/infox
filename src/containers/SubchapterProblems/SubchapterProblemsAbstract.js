@@ -28,6 +28,7 @@ const SubchapterProblemsAbstract = (props) => {
     });
   }, []);
 
+  //create an array of post requests
   useEffect(async () => {
     let requests = problemsAbstract.map((problem) => {
       return axios.post(

@@ -1,0 +1,53 @@
+.addProblemBackground {
+  background: rgba(0, 0, 0, 0.3);
+  width: 100%;
+  height: auto;
+  margin: 15px;
+  padding: 15px;
+  width: 98%;
+}
+
+.tabsWrapper {
+  display: flex;
+  border-bottom: 1px solid #fff;
+}
+
+.horizontalRule {
+  color: #fff;
+}
+
+.tablink {
+  border: 1px solid rgba(0, 0, 0, 0);
+  box-sizing: border-box;
+  cursor: pointer;
+  color: #fff;
+  padding: 7px 20px 7px 20px;
+  display: inline-block;
+  font-family: inherit;
+}
+
+.active {
+  box-sizing: border-box;
+  border: 1px solid #fff;
+  border-radius: 5px 5px 0 0;
+  border-bottom: none;
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+.tablink:hover {
+  box-sizing: border-box;
+  border: 1px solid #fff;
+  border-radius: 5px 5px 0 0;
+  border-bottom: none;
+}
+
+.title {
+  color: #fff;
+  margin-top: 10px;
+  text-align: center;
+  font-weight: bold;
+}
+
+.subtitle {
+  font-weight: normal;
+}

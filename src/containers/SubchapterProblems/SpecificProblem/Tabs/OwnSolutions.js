@@ -13,8 +13,6 @@ import { useEffect } from "react";
  *              - toggleModal(solutionId) is called to show modal and SolutionId is set to state
  *              - if user press "yes" then he replace his code with solution's code. (modalButtonPressedHandler("yes", solutionId) is called. It calls putSolutionOnTextarea(solutionId)))
  *              - if user press "no" then he close modal.
- *
- *
  */
 const OwnSolutions = (props) => {
   const [loading, setLoading] = useState(false);

@@ -14,6 +14,7 @@ import HardProblems from "./containers/HardProblems/HardProblems";
 import UserProfile from "./containers/User/UserProfile/CurrentUserProfile";
 import UserTriedProblems from "./containers/User/UserTriedProblems/UserTriedProblems";
 import ProposedProblems from "./containers/AuthorAndAdmin/ProposedProblems/ProposedProblems";
+import AddProblem from "./containers/AuthorAndAdmin/AddProblem/AddProblem";
 
 export const ProblemsContext = createContext({});
 
@@ -74,6 +75,7 @@ function App(props) {
           element={<SpecificProblem />}
         />
         <Route path="/problems/hard" exact element={<HardProblems />} />
+        <Route path="/addproblem/editor" exact element={<AddProblem />} />
         <Route path="/user/logout" exact element={<Main />} />
       </Routes>
     </ProblemsContext.Provider>

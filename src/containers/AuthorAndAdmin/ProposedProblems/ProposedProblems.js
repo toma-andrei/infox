@@ -33,7 +33,7 @@ const ProposedProblems = (props) => {
 
   useEffect(() => {
     if (
-      fromProblemsContext.proposedProblems === undefined ||
+      !fromProblemsContext.proposedProblems ||
       Object.keys(fromProblemsContext.proposedProblems).length === 0
     ) {
       fetchData();
@@ -47,7 +47,8 @@ const ProposedProblems = (props) => {
   }, [fromProblemsContext.proposedProblems]);
 
   let problemList;
-  if (proposedProblems !== undefined) {
+
+  if (proposedProblems) {
     problemList = proposedProblems.map((prbl) => {
       return (
         <ProposedProblem
@@ -63,7 +64,7 @@ const ProposedProblems = (props) => {
 
   return (
     <main>
-      <Link to="/" className={styles.proposedProblemsWrapper}>
+      <Link to="/addproblem/editor" className={styles.proposedProblemsWrapper}>
         <div className={styles.addNewProblemDiv}>
           <span className={styles.plusCircle}>➕</span>
           <p className={styles.abstract}>Adaugă o problemă nouă.</p>

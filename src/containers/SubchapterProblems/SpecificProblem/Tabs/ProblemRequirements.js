@@ -10,7 +10,7 @@ const ProblemRequirements = (props) => {
   let problem = props.problem;
 
   let data = parseProblemRequirements(problem.full);
-  console.log(data);
+
   return (
     <div
       className={styles.tabcontent}

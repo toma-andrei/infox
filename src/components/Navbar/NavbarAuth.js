@@ -20,6 +20,7 @@ const NavbarAuth = () => {
 
   const fromContext = useContext(AuthContext);
 
+  // function to logout. Delete all jwt tokens and redirect to login page
   const logout = () => {
     localStorage.clear();
     fromContext.updateJWT(null);
@@ -29,8 +30,17 @@ const NavbarAuth = () => {
 
   let classes = "navbar-nav ml-auto " + styles.MoveRight;
 
+  let navbarClasses = [
+    "navbar",
+    "navbar-expand-lg",
+    "navbar-dark",
+    "bg-dark",
+    "sticky-top",
+    styles.addLeftRightSpacing,
+  ];
+
   return (
-    <nav className="navbar navbar-expand-lg navbar-dark bg-dark sticky-top">
+    <nav className={navbarClasses.join(" ")}>
       <Link className="navbar-brand" to="/main">
         <img
           src={whiteInfoXLogo}
@@ -42,17 +52,21 @@ const NavbarAuth = () => {
         InfoX
       </Link>
       <button
-        className="navbar-toggler"
+        className="navbar-toggler "
         type="button"
         data-toggle="collapse"
         data-target="#navbarSupportedContent"
         aria-controls="navbarSupportedContent"
         aria-expanded="false"
         aria-label="Toggle navigation"
+        onClick={collapseNavLinks}
       >
         <span className="navbar-toggler-icon"></span>
       </button>
-      <div className="collapse navbar-collapse " id="navbarSupportedContent">
+      <div
+        className={"collapse navbar-collapse " + styles.Transition}
+        id="navbarSupportedContent"
+      >
         <ul className="navbar-nav mr-auto">
           <li className="nav-item">
             <form className="form-inline my-lg-0">
