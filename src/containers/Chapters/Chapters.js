@@ -45,7 +45,6 @@ const Chapters = (props) => {
       fetchProblems().then((response) => {
         problemContext.setChapters(response);
       });
-      // problemContext.setChapters(fetchProblems());
     }
   }, [yearParam]);
 

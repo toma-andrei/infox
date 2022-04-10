@@ -5,6 +5,7 @@ import { AuthContext } from "../../../../../components/Layout/Layout";
 import axios from "axios";
 import { requestIP } from "../../../../../env";
 import formatChapters from "../../../../../assets/js/parseProblemChapters";
+import SubchapterProblemAbstract from "../../../../SubchapterProblems/SubchaperProblemAbstract/SubchapterProblemAbstract";
 
 const ProblemSummary = (props) => {
   const classes = props.show ? styles.show : styles.hide;
@@ -41,7 +42,6 @@ const ProblemSummary = (props) => {
     for (let i = 0; i < promises.length; i++) {
       if (promises[i]) {
         promises[i].then((res) => {
-          console.log(res.data.chapters);
           let formatedChapters = formatChapters(
             res.data.chapters,
             res.data.chapters[0].class
@@ -70,7 +70,7 @@ const ProblemSummary = (props) => {
         <optgroup key={key} label={"Clasa a " + yearsObject[key]}></optgroup>
         {Object.keys(chapters[key]).map((chapterTitle) => {
           return (
-            <optgroup label={chapterTitle}>
+            <optgroup key={chapterTitle} label={chapterTitle.replace("##", "")}>
               {chapters[key][chapterTitle].map((subchapter) => {
                 return (
                   <option key={subchapter.id} value={subchapter.id}>
@@ -83,21 +83,7 @@ const ProblemSummary = (props) => {
         })}
       </>
     );
-
-    for (let i in chapters[key]) {
-      arrayOfOptgroup.push(<optgroup label={i}></optgroup>);
-      //iterate through each subtitle
-      for (let j in chapters[key][i]) {
-        arrayOfOptgroup.push(
-          <option value={chapters[key][i][j].id}>
-            {chapters[key][i][j].subchapter}
-          </option>
-        );
-      }
-    }
   });
-
-  console.log(arrayOfOptgroup);
 
   return (
     <div>
@@ -109,10 +95,10 @@ const ProblemSummary = (props) => {
           >
             Titlul problemei:
           </label>
-          <div className="col-sm-10">
+          <div className={"col-sm-10 " + styles.inputWidth}>
             <input
               type="text"
-              className={"form-control " + styles.inputWidth}
+              className="form-control "
               id="title"
               placeholder="ex. Test primalitate"
             />
@@ -125,10 +111,10 @@ const ProblemSummary = (props) => {
           >
             Sursa problemei:
           </label>
-          <div className="col-sm-10">
+          <div className={"col-sm-10 " + styles.inputWidth}>
             <input
               type="text"
-              className={"form-control " + styles.inputWidth}
+              className={"form-control "}
               id="source"
               placeholder="ex. Folclor"
               value="Folclor"
@@ -136,16 +122,48 @@ const ProblemSummary = (props) => {
             />
           </div>
         </div>
-        <div className={"form-group row " + +styles.addSpaces}>
+        <div className={"form-group row " + styles.addSpaces}>
           <label
             className={"col-sm-2 col-form-label " + styles.changeLabel}
             htmlFor="category"
           >
             Categoria:
           </label>
-          <select id="category" className="form-select">
-            {arrayOfOptgroup}
-          </select>
+          <div className="col-sm-10">
+            <select
+              id="category"
+              className={"form-select " + styles.selectCategoryElement}
+            >
+              {arrayOfOptgroup}
+            </select>
+          </div>
+        </div>
+        <div
+          className={
+            "form-group row " +
+            styles.addSpaces +
+            " " +
+            styles.formatAbstractProblemDiv
+          }
+        >
+          <label className={"col-sm-2 col-form-label " + styles.changeLabel}>
+            Rezumat:
+          </label>
+          <div className={styles.formatAbstractProblem}>
+            <textarea className={styles.abstractProblemTextarea}>
+              e5ye45ye4
+            </textarea>
+            <SubchapterProblemAbstract
+              fullProblem={{
+                correct: 0,
+                submitted: 0,
+                id: 0,
+                abstract: "123",
+                title: "123",
+              }}
+              shouldNotRedirect={true}
+            />
+          </div>
         </div>
       </form>
     </div>
