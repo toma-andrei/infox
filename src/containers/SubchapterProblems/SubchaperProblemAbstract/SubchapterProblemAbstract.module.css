@@ -10,6 +10,7 @@
   max-width: 800px;
   flex-grow: 1;
   text-decoration: none;
+  word-break: break-word;
 }
 
 .problem_title_and_abstract:hover {

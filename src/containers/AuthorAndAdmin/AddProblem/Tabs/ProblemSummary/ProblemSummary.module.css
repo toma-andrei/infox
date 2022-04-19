@@ -12,14 +12,17 @@
 }
 
 .selectCategoryElement {
-  width: 50% !important;
+  width: 60% !important;
 }
 
 .abstractProblemTextarea {
-  width: 40%;
+  width: 100%;
   margin-right: 20px;
   border-radius: 10px;
+  min-height: 200px;
   resize: none;
+  font-size: 1.2em;
+  overflow: hidden;
 }
 
 .formatAbstractProblemDiv {
@@ -32,4 +35,58 @@
   justify-content: space-around;
   width: 100%;
   /* width: 80% !important; */
+}
+
+.selectElementDivWrapper {
+}
+
+@media (max-width: 1000px) {
+  .formatAbstractProblem {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .abstractProblemTextarea {
+    width: 100%;
+    margin-bottom: 30px;
+    margin-right: 0;
+  }
+
+  .addSpaces .changeLabel {
+    width: 200px;
+  }
+}
+
+@media (max-width: 760px) {
+  .formatAbstractProblem {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .abstractProblemTextarea {
+    width: 100%;
+    margin-bottom: 30px;
+    margin-right: 0;
+  }
+
+  .addSpaces {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .inputWidth {
+    width: 70% !important;
+  }
+
+  .selectCategoryElement {
+    width: 69% !important;
+  }
+
+  .selectElementDivWrapper {
+    width: 100% !important;
+  }
+
+  .changeLabel {
+    width: 100% !important;
+  }
 }

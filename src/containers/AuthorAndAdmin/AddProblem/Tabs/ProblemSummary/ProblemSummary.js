@@ -1,79 +1,34 @@
 import styles from "./ProblemSummary.module.css";
-import { ProblemsContext } from "../../../../../App";
-import { useState, useEffect, useContext } from "react";
-import { AuthContext } from "../../../../../components/Layout/Layout";
-import axios from "axios";
-import { requestIP } from "../../../../../env";
-import formatChapters from "../../../../../assets/js/parseProblemChapters";
 import SubchapterProblemAbstract from "../../../../SubchapterProblems/SubchaperProblemAbstract/SubchapterProblemAbstract";
 
 const ProblemSummary = (props) => {
-  const classes = props.show ? styles.show : styles.hide;
-  const fromProblemContext = useContext(ProblemsContext);
-  const { jwt } = useContext(AuthContext);
-  const [chapters, setChapters] = useState({ ...fromProblemContext.chapters });
-
-  //fetch problem categories from api
-  useEffect(() => {
-    const years = ["9", "10", "11"];
-
-    const fetchProblems = (year) => {
-      return axios({
-        method: "post",
-        url: "http://" + requestIP,
-        data: JSON.stringify({
-          url: "https://infox.ro/new/problems/chapters/" + year,
-          method: "get",
-          jwt: jwt,
-        }),
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
-    };
-
-    //create an array of promises with response for each chapter
-    let promises = years.map((year) =>
-      chapters[year] === undefined ? fetchProblems(year) : null
-    );
-
-    //resolve all promises and set chapter state.
-    //This will trigger useEffect to set chapters in context
-    for (let i = 0; i < promises.length; i++) {
-      if (promises[i]) {
-        promises[i].then((res) => {
-          let formatedChapters = formatChapters(
-            res.data.chapters,
-            res.data.chapters[0].class
-          );
-          setChapters((prev) => {
-            return { ...prev, ...formatedChapters };
-          });
-        });
-      }
-    }
-  }, []);
-
-  //for each chapter, set chapters in problemContext
-  useEffect(() => {
-    fromProblemContext.setChapters(chapters);
-  }, [chapters]);
+  const autoresizeTextarea = (querySelectorString) => {
+    const textarea = document.querySelector(querySelectorString);
+    textarea.style.height = "auto";
+    textarea.style.height = textarea.scrollHeight + "px";
+  };
 
   let yearsObject = { 9: "IX", 10: "X", 11: "XI" };
 
   //iterate through [9, 10, 11]
-  let arrayOfOptgroup = Object.keys(chapters).map((key) => {
+  let arrayOfOptgroup = Object.keys(props.states.chapters).map((keyy) => {
     //second map iterate through each chapter title
     return (
       //class for optgroup
       <>
-        <optgroup key={key} label={"Clasa a " + yearsObject[key]}></optgroup>
-        {Object.keys(chapters[key]).map((chapterTitle) => {
+        <optgroup key={keyy} label={"Clasa a " + yearsObject[keyy]}></optgroup>
+        {Object.keys(props.states.chapters[keyy]).map((chapterTitle) => {
           return (
-            <optgroup key={chapterTitle} label={chapterTitle.replace("##", "")}>
-              {chapters[key][chapterTitle].map((subchapter) => {
+            <optgroup
+              key={chapterTitle + Math.random()}
+              label={chapterTitle.replace("##", "")}
+            >
+              {props.states.chapters[keyy][chapterTitle].map((subchapter) => {
                 return (
-                  <option key={subchapter.id} value={subchapter.id}>
+                  <option
+                    key={subchapter.id + Math.random()}
+                    value={subchapter.id}
+                  >
                     {subchapter.subchapter}
                   </option>
                 );
@@ -88,7 +43,10 @@ const ProblemSummary = (props) => {
   return (
     <div>
       <form>
-        <div className={"form-group row " + styles.addSpaces}>
+        <div
+          key="formWrapperDivKey1"
+          className={"form-group row " + styles.addSpaces}
+        >
           <label
             className={"col-sm-2 col-form-label " + styles.changeLabel}
             htmlFor="title"
@@ -97,14 +55,18 @@ const ProblemSummary = (props) => {
           </label>
           <div className={"col-sm-10 " + styles.inputWidth}>
             <input
+              onChange={props.states.setProblemTitle}
               type="text"
-              className="form-control "
+              className={"form-control " + styles.changeInput}
               id="title"
               placeholder="ex. Test primalitate"
             />
           </div>
         </div>
-        <div className={"form-group row " + styles.addSpaces}>
+        <div
+          key="formWrapperDivKey2"
+          className={"form-group row " + styles.addSpaces}
+        >
           <label
             className={"col-sm-2 col-form-label " + styles.changeLabel}
             htmlFor="source"
@@ -117,20 +79,24 @@ const ProblemSummary = (props) => {
               className={"form-control "}
               id="source"
               placeholder="ex. Folclor"
-              value="Folclor"
-              onChange={() => {}}
+              value={props.states.problemSource}
+              onChange={props.states.setProblemSource}
             />
           </div>
         </div>
-        <div className={"form-group row " + styles.addSpaces}>
+        <div
+          key="formWrapperDivKey3"
+          className={"form-group row " + styles.addSpaces}
+        >
           <label
             className={"col-sm-2 col-form-label " + styles.changeLabel}
             htmlFor="category"
           >
             Categoria:
           </label>
-          <div className="col-sm-10">
+          <div className={"col-sm-8 " + styles.selectElementDivWrapper}>
             <select
+              onChange={props.states.setChapters}
               id="category"
               className={"form-select " + styles.selectCategoryElement}
             >
@@ -139,6 +105,7 @@ const ProblemSummary = (props) => {
           </div>
         </div>
         <div
+          key="formWrapperDivKey4"
           className={
             "form-group row " +
             styles.addSpaces +
@@ -150,18 +117,26 @@ const ProblemSummary = (props) => {
             Rezumat:
           </label>
           <div className={styles.formatAbstractProblem}>
-            <textarea className={styles.abstractProblemTextarea}>
-              e5ye45ye4
-            </textarea>
+            <textarea
+              id="abstractProblemSummary"
+              onInput={() => autoresizeTextarea("#abstractProblemSummary")}
+              onChange={props.states.setProblemSummary}
+              className={styles.abstractProblemTextarea}
+            ></textarea>
             <SubchapterProblemAbstract
               fullProblem={{
                 correct: 0,
                 submitted: 0,
                 id: 0,
-                abstract: "123",
-                title: "123",
+                abstract: props.states.problemSummary,
+                title: props.states.problemTitle,
               }}
               shouldNotRedirect={true}
+              custom_style={{
+                width: "100%",
+                marginBottom: "0px",
+                maxWidth: "auto",
+              }}
             />
           </div>
         </div>

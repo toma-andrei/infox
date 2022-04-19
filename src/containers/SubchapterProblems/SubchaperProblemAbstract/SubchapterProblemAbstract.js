@@ -21,7 +21,10 @@ const SubchapterProblemAbstract = (props) => {
   successRate = successRate === "NaN" ? 50 : successRate;
 
   return props.shouldNotRedirect ? (
-    <div className={styles.problem_title_and_abstract}>
+    <div
+      className={styles.problem_title_and_abstract}
+      style={props.custom_style}
+    >
       <b>{props.fullProblem.id + ": " + props.fullProblem.title}</b>
       <sup className="bg bg-success"></sup>
       <div
