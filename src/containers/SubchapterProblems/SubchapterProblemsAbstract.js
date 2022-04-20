@@ -7,12 +7,15 @@ import styles from "./SubchapterProblems.module.css";
 import SubchapterProblemAbstract from "./SubchaperProblemAbstract/SubchapterProblemAbstract";
 import { ProblemsContext } from "../../App";
 import Loading from "../UI/Loading/Loading";
+import NoExistentProblems from "./NoExistentProblem/NoExistentProblems";
 
 const SubchapterProblemsAbstract = (props) => {
   const { id } = useParams();
   const { jwt } = useContext(AuthContext);
   const [problemsAbstract, setProblemsAbstract] = useState([]);
   const [problemsFull, setProblemsFull] = useState([]);
+  const [areProblemsInThisSubchapter, setAreProblemsInThisSubchapter] =
+    useState(true);
 
   useEffect(() => {
     axios({
@@ -24,6 +27,9 @@ const SubchapterProblemsAbstract = (props) => {
         jwt: jwt,
       }),
     }).then((res) => {
+      if (res.data.problems.length === 0) {
+        setAreProblemsInThisSubchapter(false);
+      }
       setProblemsAbstract(res.data.problems);
     });
   }, []);
@@ -42,11 +48,13 @@ const SubchapterProblemsAbstract = (props) => {
     });
 
     let problemsFullFromRequest = [];
+
     await axios.all(requests).then((responses) => {
       problemsFullFromRequest = responses.map((response) => {
         return response.data.problem;
       });
     });
+
     setProblemsFull(problemsFullFromRequest);
   }, [problemsAbstract]);
 
@@ -63,7 +71,13 @@ const SubchapterProblemsAbstract = (props) => {
     });
   }
 
-  let toBeShown = problemsList.length === 0 ? <Loading /> : problemsList;
+  let toBeShown = !areProblemsInThisSubchapter ? (
+    <NoExistentProblems />
+  ) : problemsFull.length === 0 ? (
+    <Loading />
+  ) : (
+    problemsList
+  );
 
   return (
     <main>

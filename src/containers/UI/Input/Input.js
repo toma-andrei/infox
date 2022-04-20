@@ -4,34 +4,35 @@ import classes from "./Input.module.css";
 const input = (props) => {
   let element = null;
 
-  const elementStylingClasses = [props.inputStyles];
+  const elementStylingClasses = [props?.inputStyles || ""];
 
-  if (props.invalid && props.shouldValidate && props.touched) {
+  if (props?.invalid && props?.shouldValidate && props?.touched) {
     elementStylingClasses.push(classes.Invalid);
-  } else if (!props.invalid) {
+  } else if (!props?.invalid) {
     elementStylingClasses.push(classes.Valid);
   } else {
     elementStylingClasses.push(classes.NotModified);
   }
 
-  switch (props.elementType) {
+  switch (props?.elementType) {
     case "input":
       element = (
         <input
+          key={props?.elementConfig?.id}
           className={elementStylingClasses.join(" ")}
-          {...props.elementConfig}
-          value={props.value}
-          onChange={props.changed}
+          {...props?.elementConfig}
+          value={props?.value || ""}
+          onChange={props?.changed}
         />
       );
       break;
     case "textarea":
       element = (
         <textarea
-          {...props.elementConfig}
+          {...props?.elementConfig}
           className={classes.InputElement}
-          value={props.value}
-          onChange={props.changed}
+          value={props?.value}
+          onChange={props?.changed}
         />
       );
       break;
@@ -39,10 +40,10 @@ const input = (props) => {
       element = (
         <select
           className={classes.InputElement}
-          value={props.value}
-          onChange={props.changed}
+          value={props?.value}
+          onChange={props?.changed}
         >
-          {props.elementConfig.options.map((option) => {
+          {props?.elementConfig.options.map((option) => {
             return (
               <option key={option.value} value={option.value}>
                 {option.displayValue}
@@ -56,9 +57,9 @@ const input = (props) => {
       element = (
         <input
           className={elementStylingClasses.join(" ")}
-          {...props.elementConfig}
-          value={props.value}
-          onChange={props.changed}
+          {...props?.elementConfig}
+          value={props?.value}
+          onChange={props?.changed}
         />
       );
   }

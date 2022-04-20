@@ -114,7 +114,7 @@ const CurrentUserProfile = (props) => {
         elementType: "input",
         label: { id: "firstNameId", text: "Prenume" },
         elementConfig: { type: "text", placeholder: "Prenume" },
-        value: fromContext.firstname,
+        value: fromContext?.firstname || "",
         validation: {},
         valid: true,
         touched: false,
@@ -124,7 +124,7 @@ const CurrentUserProfile = (props) => {
         elementType: "input",
         label: { id: "lastNameId", text: "Nume" },
         elementConfig: { type: "text", placeholder: "Nume" },
-        value: fromContext.lastname,
+        value: fromContext?.lastname,
         validation: {},
         valid: true,
         touched: false,
@@ -134,7 +134,7 @@ const CurrentUserProfile = (props) => {
         elementType: "input",
         label: { id: "nickNameId", text: "Utilizator" },
         elementConfig: { type: "text", placeholder: "Nume de utilizator" },
-        value: fromContext.nickname,
+        value: fromContext?.nickname,
         validation: {},
         valid: true,
         touched: false,
@@ -171,9 +171,9 @@ const CurrentUserProfile = (props) => {
         label: { id: "schoolId", text: "Școala" },
         elementConfig: { type: "text", placeholder: "Școala" },
         value:
-          fromContext.school === "Nu este setată școala"
+          fromContext?.school === "Nu este setată școala"
             ? ""
-            : fromContext.school,
+            : fromContext?.school,
         validation: {},
         valid: true,
         touched: false,
@@ -184,7 +184,7 @@ const CurrentUserProfile = (props) => {
         label: { id: "countyId", text: "Județ" },
         elementConfig: { type: "text", placeholder: "Județ" },
         value:
-          fromContext.county === "Setează județul" ? "" : fromContext.county,
+          fromContext?.county === "Setează județul" ? "" : fromContext?.county,
         validation: {},
         valid: true,
         touched: false,
@@ -195,9 +195,9 @@ const CurrentUserProfile = (props) => {
         label: { id: "localityId", text: "Localitate" },
         elementConfig: { type: "text", placeholder: "Localitate" },
         value:
-          fromContext.locality === "Setează localitatea"
+          fromContext?.locality === "Setează localitatea"
             ? ""
-            : fromContext.locality,
+            : fromContext?.locality,
         validation: {},
         valid: true,
         touched: false,

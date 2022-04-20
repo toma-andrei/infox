@@ -1,13 +1,13 @@
 import styles from "./Login.module.css";
 import Input from "../../UI/Input/Input";
-import { useEffect, useState, useContext } from "react";
+import { useEffect, useState } from "react";
 import axios from "axios";
-import { useNavigate } from "react-router";
-import { Link } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import { requestIP } from "../../../env";
-import { AuthContext } from "../../../components/Layout/Layout";
+import useAuth from "../../../hooks/useAuth";
 
 const Login = (props) => {
+  //input elements for login with different attributes
   const [loginForm, setLoginForm] = useState({
     email: {
       elementType: "input",
@@ -31,10 +31,15 @@ const Login = (props) => {
   const [loading, setLoading] = useState(false);
   const [somethingWentWrong, setSomethingWentWrong] = useState(false);
   const [reasonForLoginFail, setReasonForLoginFail] = useState("");
-  const [success, setSuccess] = useState(false);
 
-  const fromContext = useContext(AuthContext);
+  //function that handles jwt changes
+  const { updateJWT } = useAuth();
 
+  const navigate = useNavigate();
+  const location = useLocation();
+  const from = location.state?.from?.pathname || "/";
+
+  //check validity of form inputs
   const checkValidity = (value, rules) => {
     /**
      * Checks input validity based on some rules
@@ -93,6 +98,7 @@ const Login = (props) => {
     setFormIsValid(allValid);
   };
 
+  //if login button was pressed
   const loginButtonPressedHandler = (event) => {
     event.preventDefault();
     const email = loginForm.email.value;
@@ -116,8 +122,11 @@ const Login = (props) => {
           if (res.data.success) {
             if (res.data.jwt) {
               localStorage.setItem("infoxJWT", res.data.jwt);
-              fromContext.updateJWT(res.data.jwt);
-              setSuccess(true);
+              //set jwt in auth context
+              updateJWT(res.data.jwt);
+
+              //if all is ok, send user to the page he came from
+              navigate(from, { replace: true });
               return;
             }
           } else {
@@ -142,13 +151,6 @@ const Login = (props) => {
   for (let key in loginForm) {
     formElementArray.push({ id: key, config: loginForm[key] });
   }
-
-  let navigate = useNavigate();
-  useEffect(() => {
-    if (success) {
-      return navigate("/main");
-    }
-  }, [success]);
 
   //create a form element and inputs using loginForm field in state
   let form = (

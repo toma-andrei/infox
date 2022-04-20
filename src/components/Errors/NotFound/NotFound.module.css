@@ -1,0 +1,50 @@
+.main {
+}
+
+.NotFoundTitle {
+  margin-top: 100px;
+  font-size: 3rem;
+  font-weight: bold;
+  color: #fff;
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.goToMainButton {
+  position: static;
+  text-decoration: none;
+  background-color: rgb(33, 37, 41);
+  border: none;
+  border-radius: 5px;
+  padding: 15px;
+  border: 1px solid rgb(33, 37, 41);
+  margin-top: 30px;
+}
+
+.goToMainAnchor {
+  color: white;
+  text-decoration: none;
+}
+
+.goToMainButtonWrapper {
+  text-align: center;
+}
+
+.goToMainAnchor:hover {
+  color: #fff;
+}
+
+.goToMainButton:hover {
+  background-color: rgb(11, 12, 12);
+}
+
+.hrStyles {
+  width: 700px;
+  margin: auto;
+}
+
+@media (max-width: 692px) {
+  .hrStyles {
+    width: 400px;
+  }
+}

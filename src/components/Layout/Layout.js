@@ -8,14 +8,15 @@ import defaultAvatar from "../../assets/img/navbarImages/basic_avatar.jpg";
 import jwt_decode from "jwt-decode";
 
 export const AuthContext = createContext({});
+
 const Layout = (props) => {
   const [infoxJWT, setInfoxJWT] = useState(localStorage.getItem("infoxJWT"));
   let [userInfo, setUserInfo] = useState({});
 
   //verify jwt and fetch user data if jwt is valid
   useEffect(() => {
-    const { exp } = jwt_decode(infoxJWT);
     if (infoxJWT) {
+      const { exp } = jwt_decode(infoxJWT);
       // if jwt expired remove it from localstorage
       if (Date.now() >= exp * 1000) {
         localStorage.removeItem("infoxJWT");
