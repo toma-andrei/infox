@@ -4,7 +4,7 @@
 
 .changeLabel {
   color: #fff;
-  width: 250px;
+  width: 250px !important;
 }
 
 .addSpaces {
@@ -22,7 +22,7 @@
   min-height: 200px;
   resize: none;
   font-size: 1.2em;
-  overflow: hidden;
+  padding: 10px;
 }
 
 .formatAbstractProblemDiv {
@@ -53,7 +53,7 @@
   }
 
   .addSpaces .changeLabel {
-    width: 200px;
+    width: 200px !important;
   }
 }
 

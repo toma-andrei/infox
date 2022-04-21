@@ -8,12 +8,13 @@ const RequirementsAndPreview = (props) => {
       <div className={"form-group row " + styles.addSpaces}>
         <label
           className={"col-sm-2 col-form-label " + styles.changeLabel}
-          htmlFor="title"
+          htmlFor="requirements"
         >
           Textul problemei:
         </label>
         <div className={styles.ReqAndPrevDiv}>
           <textarea
+            id="requirements"
             onChange={props.req.modifiedHandler}
             className={styles.ReqAndPrevTextarea}
             value={props.req.requirements}

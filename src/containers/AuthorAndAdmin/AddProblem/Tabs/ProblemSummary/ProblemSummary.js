@@ -113,7 +113,10 @@ const ProblemSummary = (props) => {
             styles.formatAbstractProblemDiv
           }
         >
-          <label className={"col-sm-2 col-form-label " + styles.changeLabel}>
+          <label
+            className={"col-sm-2 col-form-label " + styles.changeLabel}
+            htmlFor="abstractProblemSummary"
+          >
             Rezumat:
           </label>
           <div className={styles.formatAbstractProblem}>

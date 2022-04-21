@@ -1,0 +1,13 @@
+.changeLabel {
+  color: #fff;
+  width: 250px;
+}
+
+.sourceCodeStyle {
+  width: 100%;
+  height: 300px;
+  padding: 10px;
+  resize: none;
+  font-family: Consolas, Monaco, "Luciad Consolas", "Lucida Console", monospace;
+  border-radius: 10px;
+}

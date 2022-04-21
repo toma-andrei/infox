@@ -7,12 +7,15 @@ import { AuthContext } from "../../../components/Layout/Layout";
 import axios from "axios";
 import { requestIP } from "../../../env";
 import formatChapters from "../../../assets/js/parseProblemChapters";
+import ProponentSource from "./Tabs/ProponentSource/ProponentSource";
+import SettingsComponent from "./Tabs/SettingsComponent/SettingsComponent";
 
 const AddProblem = (props) => {
   //in ProblemSummary
   const fromProblemContext = useContext(ProblemsContext);
   const { jwt } = useContext(AuthContext);
   const [chapters, setChapters] = useState({ ...fromProblemContext.chapters });
+  const [selectedChapter, setSelectedChapter] = useState(-1);
   const [problemSummary, setProblemSummary] = useState("");
   const [problemTitle, setProblemTitle] = useState("");
   const [problemSource, setProblemSource] = useState("Folclor");
@@ -26,7 +29,7 @@ const AddProblem = (props) => {
   };
 
   const chapterSummarySelectedHandler = (event) => {
-    console.log(event.target.value);
+    setSelectedChapter(event.target.value);
   };
 
   const sourceSummaryInputModifiedHandler = (event) => {
@@ -71,6 +74,37 @@ const AddProblem = (props) => {
   const textareaPreviewValueModifiedHandler = (event) => {
     event.preventDefault();
     setRequirements(event.target.value);
+  };
+
+  //in ProponentSource
+  const [proponentSource, setProponentSource] = useState("");
+  const sourceModifiedHandler = (event) => {
+    event.preventDefault();
+    const source = event.target.value;
+    setProponentSource(source);
+  };
+
+  // in SettingsComponent\
+  const [timeLimit, setTimeLimit] = useState(0.01); // Seconds
+  const [memoryLimit, setMemoryLimit] = useState(32); // MB
+  const [stackMemoryLimit, setStackMemoryLimit] = useState(32); // MB
+
+  const timeLimitModifiedHandler = (event) => {
+    event.preventDefault();
+    const value = event.target.value;
+    setTimeLimit(value);
+  };
+
+  const memoryLimitModifiedHandler = (event) => {
+    event.preventDefault();
+    const value = event.target.value;
+    setMemoryLimit(value);
+  };
+
+  const stackMemoryLimitModifiedHandler = (event) => {
+    event.preventDefault();
+    const value = event.target.value;
+    setStackMemoryLimit(value);
   };
 
   useEffect(() => {
@@ -132,7 +166,15 @@ const AddProblem = (props) => {
   return (
     <main className={styles.addProblemBackground}>
       <h1 className={styles.title}>Adaugă o problemă</h1>
-      <hr className={styles.horizontalRule}></hr>
+      <hr
+        className={styles.horizontalRule}
+        style={{ border: "3px ridge #fff", borderRadius: "3px" }}
+      ></hr>
+      <h2 className={styles.title}>Rezumatul problemei</h2>
+      <hr
+        className={styles.horizontalRule}
+        style={{ marginBottom: "20px" }}
+      ></hr>
       <ProblemSummary
         states={{
           chapters: chapters,
@@ -156,6 +198,30 @@ const AddProblem = (props) => {
           requirements: requirements,
           modifiedHandler: textareaPreviewValueModifiedHandler,
         }}
+      />
+      <hr className={styles.horizontalRule} style={{ marginTop: "20px" }}></hr>
+      <h2 className={styles.title}>Sursa propunătorului</h2>
+      <hr
+        className={styles.horizontalRule}
+        style={{ marginBottom: "20px" }}
+      ></hr>
+      <ProponentSource
+        source={proponentSource}
+        sourceModifiedHandler={sourceModifiedHandler}
+      />
+      <hr className={styles.horizontalRule} style={{ marginTop: "20px" }}></hr>
+      <h2 className={styles.title}>Setări</h2>
+      <hr
+        className={styles.horizontalRule}
+        style={{ marginBottom: "20px" }}
+      ></hr>
+      <SettingsComponent
+        timeLimit={timeLimit}
+        modifiedTimeLimit={timeLimitModifiedHandler}
+        memoryLimit={memoryLimit}
+        modifiedMemoryLimit={memoryLimitModifiedHandler}
+        stackMemoryLimit={stackMemoryLimit}
+        modifiedStackMemoryLimit={stackMemoryLimitModifiedHandler}
       />
     </main>
   );
