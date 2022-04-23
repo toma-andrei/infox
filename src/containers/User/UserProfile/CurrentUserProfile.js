@@ -7,6 +7,7 @@ import Input from "../../UI/Input/Input";
 import Loading from "../../UI/Loading/Loading";
 import styles from "./UserProfile.module.css";
 import defaultAvatar from "../../../assets/img/navbarImages/basic_avatar.jpg";
+import useAuth from "../../../hooks/useAuth";
 
 const CurrentUserProfile = (props) => {
   const fromContext = useContext(AuthContext);
@@ -18,6 +19,7 @@ const CurrentUserProfile = (props) => {
   const [somethingWentWrong, setSomethingWentWrong] = useState(false);
   const [reasonForModificationFail, setReasonForRegisterFail] = useState("");
   const [success, setSuccess] = useState(false);
+  const { setBackgroundColor } = useAuth();
 
   const inputChangedHandler = (id, event) => {
     let elementCopy = { ...profileForm };
@@ -273,6 +275,35 @@ const CurrentUserProfile = (props) => {
             </p>
           </div>
           <div className={styles.profile_editable_data}>{ownProfileForm}</div>
+          <div className={styles.colorCustomization}>
+            <p className={styles.colorLabel}>Culoare de fundal</p>
+            <div className={styles.colorPicker}>
+              <button
+                className={[styles.colorButton, styles.clasicColor].join(" ")}
+                onClick={() => {
+                  setBackgroundColor("#208f8f");
+                }}
+              ></button>
+              <button
+                className={[styles.colorButton, styles.yellowColor].join(" ")}
+                onClick={() => {
+                  setBackgroundColor("#fcc603");
+                }}
+              ></button>
+              <button
+                className={[styles.colorButton, styles.purpleColor].join(" ")}
+                onClick={() => {
+                  setBackgroundColor("#892bb5");
+                }}
+              ></button>
+              <button
+                className={[styles.colorButton, styles.blueColor].join(" ")}
+                onClick={() => {
+                  setBackgroundColor("#2e77b8");
+                }}
+              ></button>
+            </div>
+          </div>
         </div>
       </div>
     </main>

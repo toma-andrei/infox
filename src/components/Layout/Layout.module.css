@@ -22,14 +22,6 @@ select:-webkit-autofill:focus {
   --main-txt-color-very_light_red: #fdd;
 }
 
-body {
-  background-color: #208f8f;
-  margin: 0;
-  font-family: Roboto, Arial, Helvetica, sans-serif;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
-    Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
-}
-
 body::-webkit-scrollbar {
   width: 12px; /* width of the entire scrollbar */
 }

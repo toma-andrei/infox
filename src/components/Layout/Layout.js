@@ -12,11 +12,29 @@ export const AuthContext = createContext({});
 const Layout = (props) => {
   const [infoxJWT, setInfoxJWT] = useState(localStorage.getItem("infoxJWT"));
   let [userInfo, setUserInfo] = useState({});
+  const [backgroundColor, setBackgroundColor] = useState(
+    localStorage.getItem("background")
+      ? localStorage.getItem("background")
+      : "#208f8f"
+  );
+
+  const backgroundColorModifiedHandler = (color) => {
+    setBackgroundColor(color);
+    localStorage.setItem("background", color);
+    document.getElementsByTagName("body")[0].style.backgroundColor =
+      backgroundColor;
+  };
+
+  //called when the component renders
+  useEffect(() => {
+    document.getElementsByTagName("body")[0].style.backgroundColor =
+      backgroundColor;
+  }, [backgroundColor]);
 
   //verify jwt and fetch user data if jwt is valid
   useEffect(() => {
     if (infoxJWT) {
-      const { exp } = jwt_decode(infoxJWT);
+      const { exp, author } = jwt_decode(infoxJWT);
       // if jwt expired remove it from localstorage
       if (Date.now() >= exp * 1000) {
         localStorage.removeItem("infoxJWT");
@@ -39,7 +57,9 @@ const Layout = (props) => {
         },
       }).then((res) => {
         userInfo = {
+          admin: parseInt(res.data.id) === 1,
           avatar: res.data.avatar,
+          author: author,
           coins: res.data.coins,
           county: res.data.county,
           firstname: res.data.firstname,
@@ -69,6 +89,8 @@ const Layout = (props) => {
         jwt: infoxJWT,
         updateJWT: setInfoxJWT,
         updateUserInfo: setUserInfo,
+        backgroundColor: backgroundColor,
+        setBackgroundColor: backgroundColorModifiedHandler,
         ...userInfo,
       }}
     >

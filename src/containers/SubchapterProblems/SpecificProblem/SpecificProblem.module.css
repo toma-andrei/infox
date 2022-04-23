@@ -54,6 +54,10 @@
   margin-top: 15px;
 }
 
+.problem h2 p {
+  display: inline;
+}
+
 .problem h3,
 .problem_points h3,
 .code_editor h3,

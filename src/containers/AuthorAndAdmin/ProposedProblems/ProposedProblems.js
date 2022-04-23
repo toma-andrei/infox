@@ -7,9 +7,11 @@ import { requestIP } from "../../../env";
 import { AuthContext } from "../../../components/Layout/Layout";
 import Loading from "../../UI/Loading/Loading";
 import { Link } from "react-router-dom";
+import useAuth from "../../../hooks/useAuth";
+
 const ProposedProblems = (props) => {
   const fromProblemsContext = useContext(ProblemsContext);
-  const { jwt } = useContext(AuthContext);
+  const { jwt } = useAuth();
 
   const [proposedProblems, setProposedProblems] = useState([]);
 
@@ -64,12 +66,14 @@ const ProposedProblems = (props) => {
 
   return (
     <main>
-      <Link to="/addproblem/editor" className={styles.proposedProblemsWrapper}>
-        <div className={styles.addNewProblemDiv}>
-          <span className={styles.plusCircle}>➕</span>
-          <p className={styles.abstract}>Adaugă o problemă nouă.</p>
+      <div className={styles.addNewProblemDiv}>
+        <div className={styles.proposedProblemsWrapper}>
+          <Link to="/addproblem/editor" className={styles.modifyAnchor}>
+            <span className={styles.plusCircle}>➕</span>
+            <p className={styles.abstract}>Adaugă o problemă nouă.</p>
+          </Link>
         </div>
-      </Link>
+      </div>
 
       <div className={styles.shapeProblem}>{problemList}</div>
     </main>

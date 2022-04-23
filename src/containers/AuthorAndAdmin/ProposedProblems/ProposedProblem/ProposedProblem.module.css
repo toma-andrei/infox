@@ -24,3 +24,7 @@
   font-size: 20px;
   font-weight: bolder;
 }
+
+.title p {
+  display: inline;
+}

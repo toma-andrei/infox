@@ -99,6 +99,7 @@ const ProblemSummary = (props) => {
               onChange={props.states.setChapters}
               id="category"
               className={"form-select " + styles.selectCategoryElement}
+              value={props.states.selectedChapter}
             >
               {arrayOfOptgroup}
             </select>

@@ -1,6 +1,6 @@
 import parseProblemRequirements from "../../../../assets/js/parseProblemRequirements";
 import styles from "../SpecificProblem.module.css";
-
+import useKatexParser from "../../../../hooks/useKatexParser";
 /**
  * Specific Problem Page Requirement Tab
  * Parse problem string
@@ -8,7 +8,7 @@ import styles from "../SpecificProblem.module.css";
 
 const ProblemRequirements = (props) => {
   let problem = props.problem;
-
+  const md = useKatexParser();
   let data = parseProblemRequirements(problem.full);
 
   return (
@@ -18,9 +18,11 @@ const ProblemRequirements = (props) => {
     >
       <div className={styles.problem}>
         <div className={styles.problem_meta}>
-          <h2>
-            {problem.id}. {problem.title}
-          </h2>
+          <h2
+            dangerouslySetInnerHTML={{
+              __html: problem.id + ". " + md(problem.title),
+            }}
+          />
           <table
             className={[styles.problem_meta, styles.problem_page_table].join(
               " "

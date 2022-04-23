@@ -161,6 +161,12 @@ const AddProblem = (props) => {
   //for each chapter, set chapters in problemContext
   useEffect(() => {
     fromProblemContext.setChapters(chapters);
+
+    //set default selected chapter to the first chapter in 9th year
+    if (chapters["9"]) {
+      const defaultId = chapters["9"][Object.keys(chapters["9"])[0]][0].id;
+      setSelectedChapter(defaultId);
+    }
   }, [chapters]);
 
   return (
@@ -178,6 +184,7 @@ const AddProblem = (props) => {
       <ProblemSummary
         states={{
           chapters: chapters,
+          selectedChapter: selectedChapter,
           setChapters: chapterSummarySelectedHandler,
           problemSummary: problemSummary,
           setProblemSummary: textareaSummaryValueModifiedHandler,

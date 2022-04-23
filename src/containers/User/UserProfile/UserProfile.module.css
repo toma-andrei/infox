@@ -35,10 +35,69 @@
   height: 40px;
 }
 
+.colorLabel {
+  font-weight: bold;
+  font-size: 1.3em;
+  text-shadow: 1px 2px 10px #000;
+}
+
+.colorCustomization {
+  margin-left: 40px;
+  display: flex;
+  justify-content: space-around;
+  flex-direction: column;
+  text-align: center;
+}
+
+.colorCustomization button {
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 10px;
+}
+
+.colorButton {
+  border: none;
+  width: 80px;
+  height: 80px;
+  border: 1px solid rgba(0, 0, 0, 0.3);
+  border-radius: 30%;
+  -webkit-box-shadow: 5px 5px 15px -3px #000000;
+  box-shadow: 5px 5px 15px -3px #000000;
+}
+
+.colorButton:hover {
+  -webkit-box-shadow: 5px 5px 15px -8px #000000;
+  box-shadow: 5px 5px 15px -8px #000000;
+}
+.clasicColor {
+  background-color: #208f8f;
+}
+
+.yellowColor {
+  background-color: #ffd700;
+}
+
+.purpleColor {
+  background-color: #892bb5;
+}
+
+.blueColor {
+  background-color: #2e77b8;
+}
+
 @media only screen and (max-width: 830px) {
   .user_info_box {
     flex-direction: column;
     width: 450px;
+  }
+
+  .colorCustomization {
+    margin-left: 0;
+    margin-top: 30px;
+  }
+
+  .colorPicker button {
+    margin-left: 15px;
   }
 }
 
