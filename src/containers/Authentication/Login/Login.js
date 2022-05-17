@@ -130,6 +130,7 @@ const Login = (props) => {
               return;
             }
           } else {
+            console.log(res.data);
             setReasonForLoginFail(res.data.reason);
             setSomethingWentWrong(true);
           }

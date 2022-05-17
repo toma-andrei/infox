@@ -9,6 +9,8 @@ import { requestIP } from "../../../env";
 import formatChapters from "../../../assets/js/parseProblemChapters";
 import ProponentSource from "./Tabs/ProponentSource/ProponentSource";
 import SettingsComponent from "./Tabs/SettingsComponent/SettingsComponent";
+import TestsComponent from "./Tabs/TestsComponent/TestsComponent";
+import HelpModal from "./Tabs/HelpModal/HelpModal";
 
 const AddProblem = (props) => {
   //in ProblemSummary
@@ -19,6 +21,7 @@ const AddProblem = (props) => {
   const [problemSummary, setProblemSummary] = useState("");
   const [problemTitle, setProblemTitle] = useState("");
   const [problemSource, setProblemSource] = useState("Folclor");
+  const [showHelp, setShowHelp] = useState(true);
 
   const textareaSummaryValueModifiedHandler = (event) => {
     setProblemSummary(event.target.value);
@@ -169,68 +172,109 @@ const AddProblem = (props) => {
     }
   }, [chapters]);
 
+  //when help modal is opened, image on the back cannot be scrolled
+  const toggleHelpModal = () => {
+    if (!showHelp) {
+      document.getElementsByTagName("body")[0].style.overflow = "hidden";
+    } else {
+      document.getElementsByTagName("body")[0].style.overflow = "auto";
+    }
+
+    setShowHelp(!showHelp);
+  };
+
   return (
-    <main className={styles.addProblemBackground}>
-      <h1 className={styles.title}>Adaugă o problemă</h1>
-      <hr
-        className={styles.horizontalRule}
-        style={{ border: "3px ridge #fff", borderRadius: "3px" }}
-      ></hr>
-      <h2 className={styles.title}>Rezumatul problemei</h2>
-      <hr
-        className={styles.horizontalRule}
-        style={{ marginBottom: "20px" }}
-      ></hr>
-      <ProblemSummary
-        states={{
-          chapters: chapters,
-          selectedChapter: selectedChapter,
-          setChapters: chapterSummarySelectedHandler,
-          problemSummary: problemSummary,
-          setProblemSummary: textareaSummaryValueModifiedHandler,
-          problemTitle: problemTitle,
-          setProblemTitle: titleSummaryValueModifiedHandler,
-          problemSource: problemSource,
-          setProblemSource: sourceSummaryInputModifiedHandler,
-        }}
-      />
-      <hr className={styles.horizontalRule} style={{ marginTop: "20px" }}></hr>
-      <h2 className={styles.title}>Cerința și previzualizare</h2>
-      <hr
-        className={styles.horizontalRule}
-        style={{ marginBottom: "20px" }}
-      ></hr>
-      <RequirementsAndPreview
-        req={{
-          requirements: requirements,
-          modifiedHandler: textareaPreviewValueModifiedHandler,
-        }}
-      />
-      <hr className={styles.horizontalRule} style={{ marginTop: "20px" }}></hr>
-      <h2 className={styles.title}>Sursa propunătorului</h2>
-      <hr
-        className={styles.horizontalRule}
-        style={{ marginBottom: "20px" }}
-      ></hr>
-      <ProponentSource
-        source={proponentSource}
-        sourceModifiedHandler={sourceModifiedHandler}
-      />
-      <hr className={styles.horizontalRule} style={{ marginTop: "20px" }}></hr>
-      <h2 className={styles.title}>Setări</h2>
-      <hr
-        className={styles.horizontalRule}
-        style={{ marginBottom: "20px" }}
-      ></hr>
-      <SettingsComponent
-        timeLimit={timeLimit}
-        modifiedTimeLimit={timeLimitModifiedHandler}
-        memoryLimit={memoryLimit}
-        modifiedMemoryLimit={memoryLimitModifiedHandler}
-        stackMemoryLimit={stackMemoryLimit}
-        modifiedStackMemoryLimit={stackMemoryLimitModifiedHandler}
-      />
-    </main>
+    <>
+      {showHelp ? <HelpModal toggleModal={toggleHelpModal} /> : null}
+      <main className={styles.addProblemBackground}>
+        <div className={styles.titleWrapper}>
+          <span style={{ visibility: "hidden" }} className={styles.helpButton}>
+            ajutor 📚
+          </span>
+          <h1 className={styles.title}>Adaugă o problemă</h1>
+          <span className={styles.helpButton} onClick={toggleHelpModal}>
+            ajutor 📚
+          </span>
+        </div>
+        <hr
+          className={styles.horizontalRule}
+          style={{ border: "3px ridge #fff", borderRadius: "3px" }}
+        ></hr>
+        <h2 className={styles.title}>Rezumatul problemei</h2>
+        <hr
+          className={styles.horizontalRule}
+          style={{ marginBottom: "20px" }}
+        ></hr>
+        <ProblemSummary
+          states={{
+            chapters: chapters,
+            selectedChapter: selectedChapter,
+            setChapters: chapterSummarySelectedHandler,
+            problemSummary: problemSummary,
+            setProblemSummary: textareaSummaryValueModifiedHandler,
+            problemTitle: problemTitle,
+            setProblemTitle: titleSummaryValueModifiedHandler,
+            problemSource: problemSource,
+            setProblemSource: sourceSummaryInputModifiedHandler,
+          }}
+        />
+        <hr
+          className={styles.horizontalRule}
+          style={{ marginTop: "20px" }}
+        ></hr>
+        <h2 className={styles.title}>Cerința și previzualizare</h2>
+        <hr
+          className={styles.horizontalRule}
+          style={{ marginBottom: "20px" }}
+        ></hr>
+        <RequirementsAndPreview
+          req={{
+            requirements: requirements,
+            modifiedHandler: textareaPreviewValueModifiedHandler,
+          }}
+        />
+        <hr
+          className={styles.horizontalRule}
+          style={{ marginTop: "20px" }}
+        ></hr>
+        <h2 className={styles.title}>Sursa propunătorului</h2>
+        <hr
+          className={styles.horizontalRule}
+          style={{ marginBottom: "20px" }}
+        ></hr>
+        <ProponentSource
+          source={proponentSource}
+          sourceModifiedHandler={sourceModifiedHandler}
+        />
+        <hr
+          className={styles.horizontalRule}
+          style={{ marginTop: "20px" }}
+        ></hr>
+        <h2 className={styles.title}>Teste</h2>
+        <hr
+          className={styles.horizontalRule}
+          style={{ marginBottom: "20px" }}
+        ></hr>
+        <TestsComponent />
+        <hr
+          className={styles.horizontalRule}
+          style={{ marginTop: "20px" }}
+        ></hr>
+        <h2 className={styles.title}>Setări</h2>
+        <hr
+          className={styles.horizontalRule}
+          style={{ marginBottom: "20px" }}
+        ></hr>
+        <SettingsComponent
+          timeLimit={timeLimit}
+          modifiedTimeLimit={timeLimitModifiedHandler}
+          memoryLimit={memoryLimit}
+          modifiedMemoryLimit={memoryLimitModifiedHandler}
+          stackMemoryLimit={stackMemoryLimit}
+          modifiedStackMemoryLimit={stackMemoryLimitModifiedHandler}
+        />
+      </main>
+    </>
   );
 };
 

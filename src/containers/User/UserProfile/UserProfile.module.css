@@ -78,11 +78,15 @@
 }
 
 .purpleColor {
-  background-color: #892bb5;
+  background-color: #8000ff;
 }
 
 .blueColor {
   background-color: #2e77b8;
+}
+
+.grayColor {
+  background-color: #ccc;
 }
 
 @media only screen and (max-width: 830px) {

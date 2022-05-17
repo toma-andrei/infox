@@ -12,6 +12,30 @@
   border-bottom: 1px solid #fff;
 }
 
+.titleWrapper {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  padding: 0 20px 0 20px;
+}
+
+.helpButton {
+  font: 1.3rem "Roboto", sans-serif;
+  color: #fff;
+  background-color: rgba(68, 68, 68, 0.697);
+  padding: 10px 20px 10px 20px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  user-select: none;
+}
+
+.helpButton:hover {
+  background-color: rgba(132, 131, 131, 0.8);
+  cursor: pointer;
+  user-select: none;
+}
+
 .horizontalRule {
   color: #fff;
 }

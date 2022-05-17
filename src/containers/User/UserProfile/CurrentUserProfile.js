@@ -293,13 +293,19 @@ const CurrentUserProfile = (props) => {
               <button
                 className={[styles.colorButton, styles.purpleColor].join(" ")}
                 onClick={() => {
-                  setBackgroundColor("#892bb5");
+                  setBackgroundColor("#8000FF");
                 }}
               ></button>
               <button
                 className={[styles.colorButton, styles.blueColor].join(" ")}
                 onClick={() => {
                   setBackgroundColor("#2e77b8");
+                }}
+              ></button>
+              <button
+                className={[styles.colorButton, styles.grayColor].join(" ")}
+                onClick={() => {
+                  setBackgroundColor("#ccc");
                 }}
               ></button>
             </div>

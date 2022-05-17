@@ -1,5 +1,8 @@
 import styles from "./SettingsComponent.module.css";
 
+/**
+ * Compenent that handles settings of problem like Time limit, Memory limit etc.
+ */
 const SettingsComponent = (props) => {
   return (
     <div>
@@ -52,7 +55,7 @@ const SettingsComponent = (props) => {
       <div className={"form-group row " + styles.addSpaces}>
         <label
           className={"col-sm-2 col-form-label " + styles.changeLabel}
-          htmlFor="memoryLimit"
+          htmlFor="stackMemoryLimit"
         >
           Limită maximă de memorie pe stivă <i>(MB)</i>:
         </label>
@@ -66,7 +69,7 @@ const SettingsComponent = (props) => {
               " " +
               styles.centerInputElement
             }
-            id="memoryLimit"
+            id="stackMemoryLimit"
             value={props.stackMemoryLimit}
           />
         </div>
