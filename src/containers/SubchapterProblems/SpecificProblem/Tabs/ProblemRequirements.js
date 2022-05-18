@@ -1,6 +1,6 @@
-import parseProblemRequirements from "../../../../assets/js/parseProblemRequirements";
 import styles from "../SpecificProblem.module.css";
 import useKatexParser from "../../../../hooks/useKatexParser";
+import parseMermaidText from "../../../../assets/js/parseMermaidText";
 /**
  * Specific Problem Page Requirement Tab
  * Parse problem string
@@ -9,7 +9,8 @@ import useKatexParser from "../../../../hooks/useKatexParser";
 const ProblemRequirements = (props) => {
   let problem = props.problem;
   const md = useKatexParser();
-  let data = parseProblemRequirements(problem.full);
+  let full = problem.full;
+  let data = parseMermaidText(full);
 
   return (
     <div
@@ -50,7 +51,7 @@ const ProblemRequirements = (props) => {
         </div>
         <div
           className="problem_text"
-          dangerouslySetInnerHTML={{ __html: data }}
+          dangerouslySetInnerHTML={{ __html: md(data) }}
         ></div>
       </div>
     </div>

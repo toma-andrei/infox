@@ -28,6 +28,7 @@
   border: 1px solid #ccc;
   border-radius: 8px;
   user-select: none;
+  text-align: center;
 }
 
 .helpButton:hover {
@@ -74,4 +75,11 @@
 
 .subtitle {
   font-weight: normal;
+}
+
+@media (max-width: 740px) {
+  .helpButton {
+    font-size: 0.9rem;
+    padding: 5px 10px 5px 10px;
+  }
 }

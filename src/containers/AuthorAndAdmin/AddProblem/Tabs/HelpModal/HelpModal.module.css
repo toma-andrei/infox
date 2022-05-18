@@ -1,46 +1,105 @@
 .background {
-  background-color: rgba(0, 0, 0, 0.5);
   position: fixed;
+  background-color: rgba(107, 106, 106, 0.586);
   top: 0;
   left: 0;
-  width: 100%;
-  height: 100%;
+  right: 0;
+  bottom: 0;
+  overflow: auto;
   z-index: 1000;
-  display: flex;
-  justify-content: center;
 }
 
 .modal {
-  position: fixed;
-  width: 70%;
-  background-color: #fff;
+  position: absolute;
+  width: 1000px;
   margin-top: 100px;
-  z-index: 1001;
-  top: 0;
+  margin-bottom: 100px;
+  height: auto;
+  text-align: center;
+  padding: 2em;
+  background-color: rgba(240, 235, 228, 0.86);
+  border-radius: 5px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.26), 0 26px 52px rgba(0, 0, 0, 0.26);
   left: 50%;
   transform: translate(-50%, 0);
-  right: 0;
-  bottom: 0;
-  overflow: scroll;
-  /* text-align: center; */
+}
+
+.closeModal {
+  position: relative;
+  top: -10px;
+  left: 50%;
+  color: #fff;
+  font-weight: bold;
+  background-color: rgb(68, 24, 24);
+  width: 25px;
+  height: 25px;
+  text-align: center;
+}
+.closeModal:hover {
+  background-color: rgb(137, 87, 87);
+  user-select: none;
+  cursor: pointer;
 }
 
 .tableWrapper {
-  width: 100%;
   margin-bottom: 20px;
+  display: flex;
+  justify-content: space-around;
 }
 
 .table {
-  border: 1px solid #000;
+  background-color: rgb(234, 242, 242);
   display: block;
   position: relative;
-  width: 100%;
-  left: 50%;
-  transform: translate(-25%, 0);
   border-collapse: collapse;
 }
 
-.table td {
-  border: 1px solid #000;
+.table td,
+th {
+  border: 1px solid rgb(255, 255, 255);
+  padding: 10px;
   width: 200px;
+}
+
+.table td {
+  text-align: left;
+}
+
+table th {
+  background-color: #000;
+  color: #fff;
+}
+
+.table tr:nth-child(even) {
+  background-color: rgb(196, 195, 195);
+}
+
+@media (max-width: 1020px) {
+  .modal {
+    width: 720px;
+  }
+}
+
+@media (max-width: 740px) {
+  .table td,
+  th {
+    border: 1px solid rgb(255, 255, 255);
+    /* padding: 5px; */
+    font-size: 0.8rem;
+  }
+  .modal {
+    width: 590px;
+  }
+}
+
+@media (max-width: 610px) {
+  .table td,
+  th {
+    border: 1px solid rgb(255, 255, 255);
+    /* padding: 5px; */
+    font-size: 0.65rem;
+  }
+  .modal {
+    width: 480px;
+  }
 }

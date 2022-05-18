@@ -27,6 +27,7 @@ const addP = (text) => {
 */
 
 const parseProblemRequirements = (problem) => {
+  return md.render(problem);
   /*
   let data = [];
   const H2Delimiter = "### ";
@@ -59,8 +60,6 @@ const parseProblemRequirements = (problem) => {
     }
   }
   */
-
-  return md.render(problem);
 };
 
 export default parseProblemRequirements;

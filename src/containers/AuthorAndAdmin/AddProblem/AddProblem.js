@@ -21,7 +21,7 @@ const AddProblem = (props) => {
   const [problemSummary, setProblemSummary] = useState("");
   const [problemTitle, setProblemTitle] = useState("");
   const [problemSource, setProblemSource] = useState("Folclor");
-  const [showHelp, setShowHelp] = useState(true);
+  const [showHelp, setShowHelp] = useState(false);
 
   const textareaSummaryValueModifiedHandler = (event) => {
     setProblemSummary(event.target.value);

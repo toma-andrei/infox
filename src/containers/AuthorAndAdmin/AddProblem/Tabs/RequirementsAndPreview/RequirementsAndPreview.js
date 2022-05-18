@@ -1,8 +1,10 @@
 import styles from "./RequirementsAndPreview.module.css";
-import { useState } from "react";
 import parseProblemRequirements from "../../../../../assets/js/parseProblemRequirements";
+import parseMermaidText from "../../../../../assets/js/parseMermaidText";
 
 const RequirementsAndPreview = (props) => {
+  const parsedMermaidText = parseMermaidText(props.req.requirements);
+
   return (
     <div className={styles.problem}>
       <div className={"form-group row " + styles.addSpaces}>
@@ -22,7 +24,7 @@ const RequirementsAndPreview = (props) => {
           <div
             className={styles.previewDiv}
             dangerouslySetInnerHTML={{
-              __html: parseProblemRequirements(props.req.requirements),
+              __html: parseProblemRequirements(parsedMermaidText),
             }}
           ></div>
         </div>
