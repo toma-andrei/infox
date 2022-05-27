@@ -1,88 +1,74 @@
 import styles from "./UserPage.module.css";
 import { Link } from "react-router-dom";
 import useAuth from "../../../hooks/useAuth";
+import ImageTextCard from "../../UI/ImageTextCard/ImageTextCard";
 
 const UserPage = (props) => {
   const { admin, author } = useAuth();
-
+  const cards = [
+    {
+      to: "/user/show_profile",
+      image: "😃",
+      title: "Profil",
+      description: "Editare date personale (parolă, oraș, etc.)",
+      shouldBeAdmin: false,
+      shouldBeAuthor: false,
+    },
+    {
+      to: "/user/problems",
+      image: "🏁",
+      title: "Probleme",
+      description: "Lista problemelor încercate și/sau rezolvate de tine",
+      shouldBeAdmin: false,
+      shouldBeAuthor: false,
+    },
+    {
+      to: "/user/proposed_problems",
+      image: "🧡",
+      title: "Probleme propuse",
+      description: "Propune o problemă nouă sau editează una propusă anterior",
+      shouldBeAdmin: false,
+      shouldBeAuthor: true,
+    },
+    {
+      to: "/user/accept_problems",
+      image: "👀",
+      title: "Probleme de acceptat",
+      description: "Acceptă probleme propuse de alți utilizatori",
+      shouldBeAdmin: true,
+      shouldBeAuthor: false,
+    },
+    {
+      to: "/user/admin",
+      image: "👀",
+      title: "Pagina de administrare",
+      description: "Administreaza alti useri",
+      shouldBeAdmin: true,
+      shouldBeAuthor: false,
+    },
+  ];
   return (
     <main>
       <div className="features">
-        {/*user/show_profile*/}
-        <Link
-          to="/user/show_profile"
-          className={styles.main_page_chapter_select}
-        >
-          <div className={styles.box}>
-            <i className={styles.chapter_icon} aria-hidden="true">
-              &#128515;
-            </i>
-
-            <h3 className={styles.name}>Profil</h3>
-            <p className="description">
-              Editare date personale (parolă, oraș, etc.)
-            </p>
-          </div>
-        </Link>
-        {/*user/problems - user tried problems*/}
-        <Link className={styles.main_page_chapter_select} to="/user/problems">
-          <div className={styles.box}>
-            <i className={styles.chapter_icon} aria-hidden="true">
-              &#127937;
-            </i>
-            <h3 className={styles.name}>Probleme</h3>
-            <p className="description">
-              Lista problemelor încercate și/sau rezolvate de tine
-            </p>
-          </div>
-        </Link>
-        {/*user/proposed_problems - user proposed problems*/}
-        {author ? (
-          <Link
-            className={styles.main_page_chapter_select}
-            to="/user/proposed_problems"
-          >
-            <div className={styles.box}>
-              <i className={styles.chapter_icon} aria-hidden="true">
-                &#129505;
-              </i>
-              <h3 className={styles.name}>Probleme propuse</h3>
-              <p className="description">
-                Propune o problemă nouă sau editează una propusă anterior.
-              </p>
-            </div>
-          </Link>
-        ) : null}
-        {/*user/accept_problems - problems that admin should accept*/}
-        {admin ? (
-          <Link
-            className={styles.main_page_chapter_select}
-            to="/user/accept_problems"
-          >
-            <div className={styles.box}>
-              <i className={styles.chapter_icon} aria-hidden="true">
-                &#128064;
-              </i>
-              <h3 className={styles.name}>Probleme de acceptat</h3>
-              <p className="description">
-                Acceptă probleme propuse de alți utilizatori
-              </p>
-            </div>
-          </Link>
-        ) : null}
-
-        {/*user/admin - manage other users*/}
-        {admin ? (
-          <Link className={styles.main_page_chapter_select} to="/user/admin">
-            <div className={styles.box}>
-              <i className={styles.chapter_icon} aria-hidden="true">
-                &#128064;
-              </i>
-              <h3 className={styles.name}>Pagina de administrare</h3>
-              <p className="description">Administreaza alti useri</p>
-            </div>
-          </Link>
-        ) : null}
+        {cards.map((card) => {
+          //should be admin?
+          return card.shouldBeAdmin ? (
+            //if should be admin, check if user is admin
+            admin ? (
+              //if admin show card else not
+              <ImageTextCard {...card} />
+            ) : null
+          ) : //should be author?
+          card.shouldBeAuthor ? (
+            //if should be author, check if user is author
+            author ? (
+              //if author show card else not
+              <ImageTextCard {...card} />
+            ) : null
+          ) : (
+            <ImageTextCard {...card} />
+          );
+        })}
       </div>
     </main>
   );

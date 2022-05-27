@@ -107,6 +107,7 @@
 
 .problem_page_table th {
   background-color: #ddd;
+  color: black;
 }
 
 .problem_page_table tr:nth-child(even) {
