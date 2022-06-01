@@ -15,10 +15,61 @@ import formatChapters from "../../assets/js/parseProblemChapters";
  */
 const Chapters = (props) => {
   const [chapters, setChapters] = useState([]);
+  let problemContext = useContext(ProblemsContext);
+  const [solvedProblemsIds, setSolvedProblemsIds] = useState(
+    problemContext.solvedProblems.solvedProblemsIds
+  );
   const { yearParam } = useParams();
   const { jwt } = useContext(AuthContext);
-  let problemContext = useContext(ProblemsContext);
 
+  //fetch ids of solved problems
+  useEffect(() => {
+    if (solvedProblemsIds === null) {
+      axios
+        .post("http://" + requestIP, {
+          method: "get",
+          url: "https://infox.ro/new/users/problems",
+          jwt: jwt,
+        })
+        .then((response) => {
+          //set solved problems ids
+          if (response.data.success) {
+            setSolvedProblemsIds(response.data.problemHistory);
+            problemContext.setSolvedProblems({
+              ...problemContext.solvedProblems,
+              solvedProblemsIds: response.data.problemHistory,
+            });
+          }
+        });
+    }
+  }, [solvedProblemsIds]);
+
+  /**{
+   * data looks like this:
+    "success": true,
+    "statusCode": 200,
+    "chapters": [
+        {
+            "id": "20",
+            "class": "9",
+            "chapter": "Elemente de bază ale limbajului C/C++; structuri de control",
+            "subchapter": "Citirea și scrierea datelor",
+            "created_at": "2020-05-01",
+            "updated_at": "2020-05-01"
+        },
+        {
+            "id": "30",
+            "class": "9",
+            "chapter": "Elemente de bază ale limbajului C/C++; structuri de control",
+            "subchapter": "Structura liniară",
+            "created_at": "2020-05-01",
+            "updated_at": "2020-05-01"
+        }, 
+          .
+          .
+          .
+        */
+  //fetch chapters with subchapters
   useEffect(() => {
     if (problemContext.chapters[yearParam] === undefined) {
       const fetchProblems = async () => {
@@ -57,6 +108,7 @@ const Chapters = (props) => {
         chapterTitle={chapter}
         key={chapter}
         subchapters={problemContext.chapters[yearParam][chapter]}
+        solvedProblemsIds={solvedProblemsIds}
       />
     );
   }

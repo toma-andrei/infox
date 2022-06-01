@@ -11,6 +11,7 @@ import ProponentSource from "./Tabs/ProponentSource/ProponentSource";
 import SettingsComponent from "./Tabs/SettingsComponent/SettingsComponent";
 import TestsComponent from "./Tabs/TestsComponent/TestsComponent";
 import HelpModal from "./Tabs/HelpModal/HelpModal";
+import Labels from "./Tabs/Labels/Labels";
 
 const AddProblem = (props) => {
   //in ProblemSummary
@@ -233,6 +234,16 @@ const AddProblem = (props) => {
             modifiedHandler: textareaPreviewValueModifiedHandler,
           }}
         />
+        <hr
+          className={styles.horizontalRule}
+          style={{ marginTop: "20px" }}
+        ></hr>
+        <h2 className={styles.title}>Etichete</h2>
+        <hr
+          className={styles.horizontalRule}
+          style={{ marginBottom: "20px" }}
+        ></hr>
+        <Labels />
         <hr
           className={styles.horizontalRule}
           style={{ marginTop: "20px" }}

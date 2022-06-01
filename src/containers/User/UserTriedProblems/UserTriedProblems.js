@@ -7,20 +7,13 @@ import { AuthContext } from "../../../components/Layout/Layout";
 import Loading from "../../UI/Loading/Loading";
 import { ProblemsContext } from "../../../App";
 
-const tm = require("markdown-it-texmath");
-const md = require("markdown-it")({ html: true }).use(tm, {
-  engine: require("katex"),
-  delimiters: "dollars",
-  katexOptions: { macros: { "\\RR": "\\mathbb{R}" } },
-});
-
 const UserTriedProblems = (props) => {
   const { jwt } = useContext(AuthContext);
   const fromProblemContex = useContext(ProblemsContext);
   const [solvedProblems, setSolvedProblems] = useState(
     fromProblemContex.solvedProblems
   );
-
+  // fetch solved problems from server
   const fetchData = async () => {
     let answer = null;
 
@@ -34,6 +27,7 @@ const UserTriedProblems = (props) => {
       },
     });
 
+    // for each problem id, get full problem requirements
     let requests = problemIdsAndScore.data.problemHistory.map((entry) =>
       axios.post("http://" + requestIP, {
         method: "get",

@@ -27,6 +27,7 @@ function App(props) {
   const [chapters, setChapters] = useState({});
   const [proposedProblems, setProposedProblems] = useState([]);
   const [solvedProblems, setSolvedProblems] = useState({
+    solvedProblemsIds: null,
     solvedProblemsArray: null,
     lastFetched: Date.now(),
   });

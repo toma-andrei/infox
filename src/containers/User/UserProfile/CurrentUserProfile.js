@@ -8,7 +8,7 @@ import Loading from "../../UI/Loading/Loading";
 import styles from "./UserProfile.module.css";
 import defaultAvatar from "../../../assets/img/navbarImages/basic_avatar.jpg";
 import useAuth from "../../../hooks/useAuth";
-
+import ColorPicker from "../../UI/ColorPicker/ColorPicker";
 const CurrentUserProfile = (props) => {
   const fromContext = useContext(AuthContext);
 
@@ -278,7 +278,8 @@ const CurrentUserProfile = (props) => {
           <div className={styles.colorCustomization}>
             <p className={styles.colorLabel}>Culoare de fundal</p>
             <div className={styles.colorPicker}>
-              <button
+              <ColorPicker changeBackground={setBackgroundColor} />
+              {/* <button
                 className={[styles.colorButton, styles.clasicColor].join(" ")}
                 onClick={() => {
                   setBackgroundColor("#208f8f");
@@ -307,7 +308,7 @@ const CurrentUserProfile = (props) => {
                 onClick={() => {
                   setBackgroundColor("#ccc");
                 }}
-              ></button>
+              ></button> */}
             </div>
           </div>
         </div>

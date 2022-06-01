@@ -44,16 +44,9 @@ const Main = (props) => {
       title: "Probleme dificile",
       description: "Problemele cu cele mai puține surse corecte trimise.",
     },
-    {
-      to: "/user/about",
-      image: exercises,
-      alt: "exercises",
-      title: "Despre Info-X",
-      description: "Statistici despre propunătorii de probleme si rezolvatori.",
-    },
   ];
   // return isShownOnMainPage;
-  return (
+  return jwt != null ? (
     <main>
       <div className="features">
         {cards.map((card) => {
@@ -61,6 +54,8 @@ const Main = (props) => {
         })}
       </div>
     </main>
+  ) : (
+    <div></div>
   );
 };
 

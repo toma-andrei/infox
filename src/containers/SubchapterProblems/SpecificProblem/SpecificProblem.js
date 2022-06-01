@@ -4,7 +4,7 @@ import { useLocation, useParams } from "react-router";
 import { AuthContext } from "../../../components/Layout/Layout";
 import { requestIP } from "../../../env";
 import Loading from "../../UI/Loading/Loading";
-import Unapproved from "./Unapproved/Unapproved";
+import Unapproved from "../../../components/Errors/Unapproved/Unapproved";
 import styles from "./SpecificProblem.module.css";
 import ProblemRequirements from "./Tabs/ProblemRequirements";
 import OwnSolutions from "./Tabs/OwnSolutions";

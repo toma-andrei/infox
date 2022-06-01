@@ -38,14 +38,6 @@ const UserPage = (props) => {
       shouldBeAdmin: true,
       shouldBeAuthor: false,
     },
-    {
-      to: "/user/admin",
-      image: "👀",
-      title: "Pagina de administrare",
-      description: "Administreaza alti useri",
-      shouldBeAdmin: true,
-      shouldBeAuthor: false,
-    },
   ];
   return (
     <main>

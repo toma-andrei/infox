@@ -1,0 +1,16 @@
+.styleColorPicker {
+  border: none;
+  padding: 5px;
+  border-radius: 6px;
+  width: 80px;
+  height: 40px;
+  background-color: #fff;
+  -webkit-box-shadow: 5px 5px 15px 5px #000000;
+  box-shadow: 5px 5px 15px 5px #000000;
+}
+
+.styleColorPicker:hover {
+  cursor: pointer;
+  -webkit-box-shadow: 5px 5px 33px 5px #000000;
+  box-shadow: 5px 5px 33px 5px #000000;
+}
