@@ -12,6 +12,7 @@ const Subchapter = (props) => {
   const [solvedCount, setSolvedCount] = useState(0);
   //fetch problems for this subchapter to check problem number and solved status
   useState(() => {
+    let shouldFetch = true;
     axios({
       method: "post",
       url: "http://" + requestIP,
@@ -21,20 +22,26 @@ const Subchapter = (props) => {
         url: "https://infox.ro/new/problems/problems/" + props.id,
       }),
     }).then((res) => {
-      setProblems([...res.data.problems]);
+      if (shouldFetch) setProblems([...res.data.problems]);
     });
+
+    //this function returned here is called when component unmounts
+    return () => (shouldFetch = false);
   });
 
   //when problems and solvedProblems are loaded, count solved problems
   useEffect(() => {
+    let shouldFetch = true;
     if (problems.length > 0 && props.solvedProblemsIds) {
       const ids = props.solvedProblemsIds.map((pr) => {
         return pr.problem_id;
       });
-
-      const solved = problems.filter((pr) => ids.includes(pr.id));
-      setSolvedCount(solved.length);
+      if (shouldFetch) {
+        const solved = problems.filter((pr) => ids.includes(pr.id));
+        setSolvedCount(solved.length);
+      }
     }
+    return () => (shouldFetch = false);
   }, [props.solvedProblemsIds, problems]);
 
   return (

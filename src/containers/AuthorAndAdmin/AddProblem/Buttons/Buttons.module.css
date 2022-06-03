@@ -1,0 +1,28 @@
+.buttonsWrapper {
+  position: fixed;
+  top: 93%;
+  left: 48%;
+  transform: translate(-50%, 0);
+  margin-left: 40px;
+}
+
+.button {
+  border: none;
+  width: 150px;
+  height: 40px;
+  border-radius: 10px;
+  background-color: rgb(184, 197, 190);
+  font-size: 1.2rem;
+  -webkit-box-shadow: 5px 5px 5px 2px #3f3d3d;
+  box-shadow: 5px 5px 5px 2px #3f3d3d;
+  color: #222;
+}
+
+.saveButton {
+  margin-right: 10px;
+}
+
+.button:hover {
+  background-color: rgb(27, 128, 72);
+  cursor: pointer;
+}

@@ -269,7 +269,7 @@ const CurrentUserProfile = (props) => {
             </div>
 
             <p className={styles.description}>
-              Email: {fromContext.id}
+              Email: {localStorage.getItem("userEmail")}
               <br />
               Statut: {fromContext.teacher === "0" ? "Elev" : "Profesor"}
             </p>

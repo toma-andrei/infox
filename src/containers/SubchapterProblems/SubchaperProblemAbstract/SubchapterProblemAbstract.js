@@ -9,7 +9,7 @@ const md = require("markdown-it")({ html: true }).use(tm, {
 });
 
 /*
- * Abstract problem component on route /problems/display_subchapter/subch
+ * Abstract problem component on route /problems/display_subchapter/id
  */
 const SubchapterProblemAbstract = (props) => {
   //compute success rate based on data from server
@@ -17,7 +17,6 @@ const SubchapterProblemAbstract = (props) => {
     (props.fullProblem.correct / props.fullProblem.submitted) *
     100
   ).toFixed(0);
-
   successRate = successRate === "NaN" ? 50 : successRate;
 
   return props.shouldNotRedirect ? (

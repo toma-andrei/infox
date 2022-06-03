@@ -7,7 +7,6 @@ const ProblemSummary = (props) => {
     textarea.style.height = "auto";
     textarea.style.height = textarea.scrollHeight + "px";
   };
-
   let yearsObject = { 9: "IX", 10: "X", 11: "XI" };
 
   //iterate through [9, 10, 11]
@@ -16,7 +15,10 @@ const ProblemSummary = (props) => {
     return (
       //class for optgroup
       <>
-        <optgroup key={keyy} label={"Clasa a " + yearsObject[keyy]}></optgroup>
+        <optgroup
+          key={keyy + Math.random()}
+          label={"Clasa a " + yearsObject[keyy]}
+        ></optgroup>
         {Object.keys(props.states.chapters[keyy]).map((chapterTitle) => {
           return (
             <optgroup
@@ -50,6 +52,7 @@ const ProblemSummary = (props) => {
           <label
             className={"col-sm-2 col-form-label " + styles.changeLabel}
             htmlFor="title"
+            key="formLabelKey1"
           >
             Titlul problemei:
           </label>
@@ -60,6 +63,7 @@ const ProblemSummary = (props) => {
               className={"form-control " + styles.changeInput}
               id="title"
               placeholder="ex. Test primalitate"
+              key="formInputKey1"
             />
           </div>
         </div>
@@ -70,6 +74,7 @@ const ProblemSummary = (props) => {
           <label
             className={"col-sm-2 col-form-label " + styles.changeLabel}
             htmlFor="source"
+            key="formLabelKey2"
           >
             Sursa problemei:
           </label>
@@ -81,6 +86,7 @@ const ProblemSummary = (props) => {
               placeholder="ex. Folclor"
               value={props.states.problemSource}
               onChange={props.states.setProblemSource}
+              key="formInputKey2"
             />
           </div>
         </div>
@@ -91,6 +97,7 @@ const ProblemSummary = (props) => {
           <label
             className={"col-sm-2 col-form-label " + styles.changeLabel}
             htmlFor="category"
+            key="formLabelKey3"
           >
             Categoria:
           </label>
@@ -100,6 +107,7 @@ const ProblemSummary = (props) => {
               id="category"
               className={"form-select " + styles.selectCategoryElement}
               value={props.states.selectedChapter}
+              key="formSelectKey3"
             >
               {arrayOfOptgroup}
             </select>
@@ -117,6 +125,7 @@ const ProblemSummary = (props) => {
           <label
             className={"col-sm-2 col-form-label " + styles.changeLabel}
             htmlFor="abstractProblemSummary"
+            key="formLabelKey4"
           >
             Rezumat:
           </label>
@@ -126,6 +135,7 @@ const ProblemSummary = (props) => {
               onInput={() => autoresizeTextarea("#abstractProblemSummary")}
               onChange={props.states.setProblemSummary}
               className={styles.abstractProblemTextarea}
+              key="formTextareaKey4"
             ></textarea>
             <SubchapterProblemAbstract
               fullProblem={{
@@ -141,6 +151,7 @@ const ProblemSummary = (props) => {
                 marginBottom: "0px",
                 maxWidth: "auto",
               }}
+              key="formSubchapterKey5"
             />
           </div>
         </div>

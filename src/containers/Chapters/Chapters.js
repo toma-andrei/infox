@@ -17,14 +17,15 @@ const Chapters = (props) => {
   const [chapters, setChapters] = useState([]);
   let problemContext = useContext(ProblemsContext);
   const [solvedProblemsIds, setSolvedProblemsIds] = useState(
-    problemContext.solvedProblems.solvedProblemsIds
+    problemContext?.solvedProblems?.solvedProblemsIds ?? null
   );
   const { yearParam } = useParams();
   const { jwt } = useContext(AuthContext);
 
   //fetch ids of solved problems
   useEffect(() => {
-    if (solvedProblemsIds === null) {
+    let shouldFetch = true;
+    if (!solvedProblemsIds) {
       axios
         .post("http://" + requestIP, {
           method: "get",
@@ -34,14 +35,17 @@ const Chapters = (props) => {
         .then((response) => {
           //set solved problems ids
           if (response.data.success) {
-            setSolvedProblemsIds(response.data.problemHistory);
-            problemContext.setSolvedProblems({
-              ...problemContext.solvedProblems,
-              solvedProblemsIds: response.data.problemHistory,
-            });
+            if (shouldFetch) {
+              setSolvedProblemsIds(response.data.problemHistory);
+              problemContext.setSolvedProblems({
+                ...problemContext.solvedProblems,
+                solvedProblemsIds: response.data.problemHistory,
+              });
+            }
           }
         });
     }
+    return () => (shouldFetch = false);
   }, [solvedProblemsIds]);
 
   /**{
@@ -69,14 +73,16 @@ const Chapters = (props) => {
           .
           .
         */
-  //fetch chapters with subchapters
+  //fetch chapters with subchapters if those are not present in problemContext
   useEffect(() => {
-    if (problemContext.chapters[yearParam] === undefined) {
-      const fetchProblems = async () => {
+    let shouldFetch = true;
+
+    if (!problemContext.chapters[yearParam]) {
+      const fetchProblems = () => {
         let chapters = null;
 
         //fetch chapters from server
-        await axios({
+        axios({
           method: "post",
           url: "http://" + requestIP,
           data: JSON.stringify({
@@ -89,14 +95,16 @@ const Chapters = (props) => {
           },
         }).then((res) => {
           chapters = res.data.chapters;
+          let formated = formatChapters(chapters);
+          console.log(formated);
+          if (shouldFetch) problemContext.setChapters(formated);
         });
-
-        return formatChapters(chapters, yearParam);
       };
-      fetchProblems().then((response) => {
-        problemContext.setChapters(response);
-      });
+
+      if (shouldFetch) fetchProblems();
     }
+
+    return () => (shouldFetch = false);
   }, [yearParam]);
 
   let chaptersList = [];

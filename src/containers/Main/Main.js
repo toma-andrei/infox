@@ -9,9 +9,14 @@ import brain from "../../assets/img/mainPage/brain.png";
 import exercises from "../../assets/img/mainPage/exercises.png";
 import useAuth from "../../hooks/useAuth";
 import ImageTextCard from "../UI/ImageTextCard/ImageTextCard";
-
+import { ProblemsContext } from "../../App";
+import { useNavigate } from "react-router-dom";
+import { useEffect } from "react";
 const Main = (props) => {
   const { jwt } = useAuth();
+  const problems = useContext(ProblemsContext);
+  const navigate = useNavigate();
+
   const cards = [
     {
       to: "/problems/display_year/9",
@@ -45,12 +50,25 @@ const Main = (props) => {
       description: "Problemele cu cele mai puține surse corecte trimise.",
     },
   ];
+
+  //this is called when user logs out
+  useEffect(() => {
+    if (props.fromLogout) {
+      navigate("/");
+
+      return () => {
+        console.log("unmounting");
+        problems.clearContext();
+      };
+    }
+  });
+
   // return isShownOnMainPage;
   return jwt != null ? (
     <main>
       <div className="features">
         {cards.map((card) => {
-          return <ImageTextCard {...card} main={true} />;
+          return <ImageTextCard {...card} main={true} key={card.alt} />;
         })}
       </div>
     </main>

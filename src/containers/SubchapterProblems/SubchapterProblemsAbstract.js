@@ -17,7 +17,9 @@ const SubchapterProblemsAbstract = (props) => {
   const [areProblemsInThisSubchapter, setAreProblemsInThisSubchapter] =
     useState(true);
 
+  //fetch problems abstract requirements for this subchapter
   useEffect(() => {
+    let shouldFetch = true;
     axios({
       method: "post",
       url: "http://" + requestIP,
@@ -27,15 +29,19 @@ const SubchapterProblemsAbstract = (props) => {
         jwt: jwt,
       }),
     }).then((res) => {
-      if (res.data.problems.length === 0) {
-        setAreProblemsInThisSubchapter(false);
+      if (shouldFetch) {
+        if (res.data.problems.length === 0) {
+          setAreProblemsInThisSubchapter(false);
+        }
+        if (shouldFetch) setProblemsAbstract(res.data.problems);
       }
-      setProblemsAbstract(res.data.problems);
     });
+    return () => (shouldFetch = false);
   }, []);
 
   //create an array of post requests
   useEffect(async () => {
+    let shouldFetch = true;
     let requests = problemsAbstract.map((problem) => {
       return axios.post(
         "http://" + requestIP,
@@ -55,7 +61,9 @@ const SubchapterProblemsAbstract = (props) => {
       });
     });
 
-    setProblemsFull(problemsFullFromRequest);
+    if (shouldFetch) setProblemsFull(problemsFullFromRequest);
+
+    return () => (shouldFetch = false);
   }, [problemsAbstract]);
 
   let problemsList = [];

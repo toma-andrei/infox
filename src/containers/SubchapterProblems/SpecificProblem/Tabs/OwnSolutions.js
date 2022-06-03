@@ -38,7 +38,6 @@ const OwnSolutions = (props) => {
 
     setError("");
     setLoading(true);
-
     /**Send code written by user to compiler and fetch new solution*/
     const sendData = async () => {
       //Send code written by user to compiler
@@ -178,8 +177,12 @@ const OwnSolutions = (props) => {
       <div key={solution.id}>
         <div className={styles.solutionInfoText}>
           <div>
-            <strong>{totalScoreForOneSolution}</strong> puncte, obținute pe data{" "}
-            {solution.created_at}, distribuite astfel:
+            <strong>
+              {totalScoreForOneSolution.toString() == NaN.toString()
+                ? 0
+                : totalScoreForOneSolution}
+            </strong>{" "}
+            puncte, obținute pe data {solution.created_at}, distribuite astfel:
           </div>
           <button
             className={styles.solutionIdButton}

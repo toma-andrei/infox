@@ -1,0 +1,26 @@
+.hintsWrapper {
+  width: 100%;
+}
+
+.changeLabel {
+  color: #fff;
+  user-select: none;
+  cursor: pointer;
+  width: 300px !important;
+}
+
+.textarea {
+  width: 49%;
+  resize: none;
+  height: 300px;
+  padding: 10px;
+  background-color: #fff;
+  color: #000;
+}
+
+.textareasWrapper {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+}

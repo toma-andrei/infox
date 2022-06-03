@@ -18,11 +18,12 @@ import ProblemDiscussions from "./Tabs/ProblemDiscussions";
 
 const SpecificProblem = (props) => {
   const [problem, setProblem] = useState(useLocation().state);
+  const [problemCreator, setProblemCreator] = useState(null);
+  const [problemMeta, setProblemMeta] = useState(null);
 
   //id from url
   const { id } = useParams();
   const { jwt } = useContext(AuthContext);
-
   //information for each tab in the specific problem page
   const [tabs, setTabs] = useState([
     { className: [styles.tablink, styles.active], text: "Enunț", show: true },
@@ -42,13 +43,13 @@ const SpecificProblem = (props) => {
 
   //table heads on problem tabs and its corespondent in data fetched from server
   const tHeads = [
-    { th: "Autor", corespondent: "author_id" },
+    { th: "Autor", corespondent: "nickname" },
     { th: "Sursa problemei", corespondent: "source" },
-    { th: "Clasa", corespondent: "" },
-    { th: "Capitol", corespondent: "" },
-    { th: "Subcapitol", corespondent: "" },
-    { th: "Limită de timp", corespondent: "" },
-    { th: "Limită de memorie", corespondent: "" },
+    { th: "Clasa", corespondent: "class" },
+    { th: "Capitol", corespondent: "chapter" },
+    { th: "Subcapitol", corespondent: "subchapter" },
+    { th: "Limită de timp", corespondent: "time" },
+    { th: "Limită de memorie", corespondent: "memory" },
   ];
 
   const fetchProblemSolutions = async () => {
@@ -98,7 +99,38 @@ const SpecificProblem = (props) => {
 
   //fetch solutions for problem
   useEffect(() => {
-    fetchProblemSolutions();
+    let shouldFetch = true;
+    if (problem) {
+      if (shouldFetch) fetchProblemSolutions();
+      // fetch creator profile
+      axios({
+        method: "post",
+        url: "http://" + requestIP,
+        data: {
+          method: "get",
+          url: "https://infox.ro/new/users/profile/head/" + problem.author_id,
+          jwt: jwt,
+        },
+      }).then((response) => {
+        if (shouldFetch) setProblemCreator(response.data);
+      });
+
+      axios({
+        method: "post",
+        url: "http://" + requestIP,
+        data: {
+          method: "get",
+          url:
+            "https://infox.ro/new/problems/subchapter/" + problem.subchapter_id,
+          jwt: jwt,
+        },
+      }).then((response) => {
+        if (shouldFetch) setProblemMeta(response.data.about);
+      });
+    }
+    return () => {
+      shouldFetch = false;
+    };
   }, [problem]);
 
   /**
@@ -133,6 +165,8 @@ const SpecificProblem = (props) => {
           problem={problem}
           metadataIdentifiers={tHeads}
           show={tabs[0].show}
+          problemCreator={problemCreator}
+          problemMeta={problemMeta}
         />
         <OwnSolutions
           show={tabs[1].show}

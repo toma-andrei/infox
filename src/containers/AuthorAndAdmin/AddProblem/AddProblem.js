@@ -12,7 +12,10 @@ import SettingsComponent from "./Tabs/SettingsComponent/SettingsComponent";
 import TestsComponent from "./Tabs/TestsComponent/TestsComponent";
 import HelpModal from "./Tabs/HelpModal/HelpModal";
 import Labels from "./Tabs/Labels/Labels";
-
+import Hints from "./Tabs/Hints/Hints";
+import HRsAndTitles from "./HRsAndTitles/HRsAndTitles";
+import Buttons from "./Buttons/Buttons";
+import Modal from "./Buttons/Modal/Modal";
 const AddProblem = (props) => {
   //in ProblemSummary
   const fromProblemContext = useContext(ProblemsContext);
@@ -23,6 +26,8 @@ const AddProblem = (props) => {
   const [problemTitle, setProblemTitle] = useState("");
   const [problemSource, setProblemSource] = useState("Folclor");
   const [showHelp, setShowHelp] = useState(false);
+  // 0 - no, 1 - Save button, 2 - Finalize button
+  const [showButtonModal, setShowButtonModal] = useState(0);
 
   const textareaSummaryValueModifiedHandler = (event) => {
     setProblemSummary(event.target.value);
@@ -42,7 +47,7 @@ const AddProblem = (props) => {
 
   //in RequirementsAndPreview
   const [requirements, setRequirements] = useState(`### Cerință
-
+  
   Aici se va introduce cerinta problemei
   
   ### Date de intrare
@@ -62,12 +67,12 @@ const AddProblem = (props) => {
   ### Exemplu
   
   #### Intrare:
-      Aici vor fi introduse datele de intrare pentru un exemplu.
+  Aici vor fi introduse datele de intrare pentru un exemplu.
   
   ---
   
   #### Ieșire:
-      Aici vor fi introduse datele de iesire pentru inputul de mai sus.
+  Aici vor fi introduse datele de iesire pentru inputul de mai sus.
   
   ---
   
@@ -109,6 +114,48 @@ const AddProblem = (props) => {
     event.preventDefault();
     const value = event.target.value;
     setStackMemoryLimit(value);
+  };
+
+  // in Labels
+  const [labels, setLabels] = useState({
+    selectedLabels: [],
+    customLabel: "",
+  });
+
+  const labelsModifiedHandler = (event) => {
+    const value = event.target.value;
+    // if label does not exist add it, else remove it
+    if (!labels.selectedLabels.includes(value)) {
+      setLabels({
+        selectedLabels: [...labels.selectedLabels, value],
+        customLabel: labels.customLabel,
+      });
+    } else {
+      setLabels({
+        selectedLabels: labels.selectedLabels.filter(
+          (label) => label !== value
+        ),
+        customLabel: labels.customLabel,
+      });
+    }
+  };
+
+  const customLabelModifiedHandler = (event) => {
+    const value = event.target.value;
+    setLabels({
+      selectedLabels: labels.selectedLabels,
+      customLabel: value,
+    });
+  };
+
+  // in Hints
+  const [hints, setHints] = useState(
+    "Această problemă nu are indicații de rezolvare."
+  );
+
+  const hintsModifiedHandler = (event) => {
+    const value = event.target.value;
+    setHints(value);
   };
 
   useEffect(() => {
@@ -184,8 +231,24 @@ const AddProblem = (props) => {
     setShowHelp(!showHelp);
   };
 
+  const toggleButtonsModal = (cod) => {
+    setShowButtonModal(cod);
+  };
+
   return (
     <>
+      {showButtonModal === 1 ? (
+        <Modal
+          message="Dacă salvați progresul, veți avea posibilitatea de a relua adăugarea problemei din stadiul curent. Doriți salvarea progresului?"
+          toggleModal={toggleButtonsModal}
+        />
+      ) : showButtonModal === 2 ? (
+        <Modal
+          message="Prin finalizarea problemei, aceasta va fi trimisă administratorului pentru aprobare. Doriți finalizarea problemei? "
+          toggleModal={toggleButtonsModal}
+        />
+      ) : null}
+      <Buttons toggleModal={toggleButtonsModal} />
       {showHelp ? <HelpModal toggleModal={toggleHelpModal} /> : null}
       <main className={styles.addProblemBackground}>
         <div className={styles.titleWrapper}>
@@ -197,15 +260,7 @@ const AddProblem = (props) => {
             ajutor 📚
           </span>
         </div>
-        <hr
-          className={styles.horizontalRule}
-          style={{ border: "3px ridge #fff", borderRadius: "3px" }}
-        ></hr>
-        <h2 className={styles.title}>Rezumatul problemei</h2>
-        <hr
-          className={styles.horizontalRule}
-          style={{ marginBottom: "20px" }}
-        ></hr>
+        <HRsAndTitles title={"Rezumatul problemei"} />
         <ProblemSummary
           states={{
             chapters: chapters,
@@ -219,63 +274,33 @@ const AddProblem = (props) => {
             setProblemSource: sourceSummaryInputModifiedHandler,
           }}
         />
-        <hr
-          className={styles.horizontalRule}
-          style={{ marginTop: "20px" }}
-        ></hr>
-        <h2 className={styles.title}>Cerința și previzualizare</h2>
-        <hr
-          className={styles.horizontalRule}
-          style={{ marginBottom: "20px" }}
-        ></hr>
+
+        <HRsAndTitles title={"Cerința și previzualizare"} />
         <RequirementsAndPreview
           req={{
             requirements: requirements,
             modifiedHandler: textareaPreviewValueModifiedHandler,
           }}
         />
-        <hr
-          className={styles.horizontalRule}
-          style={{ marginTop: "20px" }}
-        ></hr>
-        <h2 className={styles.title}>Etichete</h2>
-        <hr
-          className={styles.horizontalRule}
-          style={{ marginBottom: "20px" }}
-        ></hr>
-        <Labels />
-        <hr
-          className={styles.horizontalRule}
-          style={{ marginTop: "20px" }}
-        ></hr>
-        <h2 className={styles.title}>Sursa propunătorului</h2>
-        <hr
-          className={styles.horizontalRule}
-          style={{ marginBottom: "20px" }}
-        ></hr>
+        <HRsAndTitles title={"Etichete"} />
+        <Labels
+          labelsModifiedHandler={labelsModifiedHandler}
+          selectedLabels={labels.selectedLabels}
+          customLabel={labels.customLabel}
+          changeCustomLabel={customLabelModifiedHandler}
+        />
+        <HRsAndTitles title={"Indicații"} />
+        <Hints hints={hints} hintsModifiedHandler={hintsModifiedHandler} />
+        <HRsAndTitles title={"Sursa propunătorului"} />
         <ProponentSource
           source={proponentSource}
           sourceModifiedHandler={sourceModifiedHandler}
         />
-        <hr
-          className={styles.horizontalRule}
-          style={{ marginTop: "20px" }}
-        ></hr>
-        <h2 className={styles.title}>Teste</h2>
-        <hr
-          className={styles.horizontalRule}
-          style={{ marginBottom: "20px" }}
-        ></hr>
+
+        <HRsAndTitles title={"Teste"} />
         <TestsComponent />
-        <hr
-          className={styles.horizontalRule}
-          style={{ marginTop: "20px" }}
-        ></hr>
-        <h2 className={styles.title}>Setări</h2>
-        <hr
-          className={styles.horizontalRule}
-          style={{ marginBottom: "20px" }}
-        ></hr>
+
+        <HRsAndTitles title={"Setări"} />
         <SettingsComponent
           timeLimit={timeLimit}
           modifiedTimeLimit={timeLimitModifiedHandler}

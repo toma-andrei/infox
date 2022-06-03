@@ -48,11 +48,21 @@ function App(props) {
         setProposedProblems: (proposedProbl) => {
           setProposedProblems(proposedProbl);
         },
+        clearContext: () => {
+          setChapters({});
+          setSolvedProblems({
+            solvedProblemsIds: null,
+            solvedProblemsArray: null,
+            lastFetched: Date.now(),
+          });
+          setProposedProblems([]);
+        },
       }}
     >
       <Routes>
         <Route path="/main" exact element={<Main />} />
         <Route path="/" exact element={<Main />} />
+        <Route path="/user/logout" exact element={<Main fromLogout={true} />} />
         {/* Routes only available for unauthenticated users */}
         <Route element={<RequireUnauth />}>
           <Route path="/user/login" exact element={<Login />} />
@@ -92,8 +102,6 @@ function App(props) {
             <Route path="/user/accept_problems" exact element={<Main />} />
             <Route path="/addproblem/editor" exact element={<AddProblem />} />
           </Route>
-
-          <Route path="/user/logout" exact element={<Main />} />
         </Route>
         <Route path="*" element={<NotFound />} />
       </Routes>

@@ -124,7 +124,7 @@ const Login = (props) => {
               localStorage.setItem("infoxJWT", res.data.jwt);
               //set jwt in auth context
               updateJWT(res.data.jwt);
-
+              localStorage.setItem("userEmail", JSON.stringify(email));
               //if all is ok, send user to the page he came from
               navigate(from, { replace: true });
               return;

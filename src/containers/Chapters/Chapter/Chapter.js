@@ -1,9 +1,5 @@
 import Subchapter from "./Subchapter/Subchapter";
 import styles from "../Chapters.module.css";
-import { useState } from "react";
-import axios from "axios";
-import useAuth from "../../../hooks/useAuth";
-import { requestIP } from "../../../env";
 /**
  * Chapter component. Create subchapters and render them.
  */

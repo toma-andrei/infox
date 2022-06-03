@@ -19,13 +19,12 @@ const NavbarAuth = () => {
   const navigate = useNavigate();
 
   const fromContext = useContext(AuthContext);
-
   // function to logout. Delete all jwt tokens and redirect to login page
   const logout = () => {
     localStorage.clear();
     fromContext.updateJWT(null);
     fromContext.updateUserInfo(null);
-    navigate("/main");
+    navigate("/user/logout");
   };
 
   let classes = "navbar-nav ml-auto " + styles.MoveRight;

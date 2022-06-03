@@ -48,17 +48,17 @@ const UserPage = (props) => {
             //if should be admin, check if user is admin
             admin ? (
               //if admin show card else not
-              <ImageTextCard {...card} />
+              <ImageTextCard {...card} key={Math.random().toString()} />
             ) : null
           ) : //should be author?
           card.shouldBeAuthor ? (
             //if should be author, check if user is author
             author ? (
               //if author show card else not
-              <ImageTextCard {...card} />
+              <ImageTextCard {...card} key={Math.random().toString()} />
             ) : null
           ) : (
-            <ImageTextCard {...card} />
+            <ImageTextCard {...card} key={Math.random().toString()} />
           );
         })}
       </div>

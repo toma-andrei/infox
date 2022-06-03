@@ -8,6 +8,9 @@ import parseMermaidText from "../../../../assets/js/parseMermaidText";
 
 const ProblemRequirements = (props) => {
   let problem = props.problem;
+  if (typeof problem.metadata === "string")
+    problem.metadata = JSON.parse(problem.metadata);
+
   const md = useKatexParser();
   let full = problem.full;
   let data = parseMermaidText(full);
@@ -32,7 +35,9 @@ const ProblemRequirements = (props) => {
             <thead>
               <tr>
                 {props.metadataIdentifiers.map((th) => (
-                  <th key={th.th}>{th.th}</th>
+                  <th key={th.th} style={{ width: "fit-content" }}>
+                    {th.th}
+                  </th>
                 ))}
               </tr>
             </thead>
@@ -41,7 +46,23 @@ const ProblemRequirements = (props) => {
                 {props.metadataIdentifiers.map((th) => (
                   <td data-label={th.th} key={th.th}>
                     {problem[th.corespondent] === undefined
-                      ? "???"
+                      ? th.corespondent === "nickname"
+                        ? props.problemCreator?.nickname ?? "autor"
+                        : th.corespondent === "class"
+                        ? props.problemMeta?.class ?? "clasa"
+                        : th.corespondent === "subchapter"
+                        ? props.problemMeta?.subchapter ?? "subcapitol"
+                        : th.corespondent === "chapter"
+                        ? props.problemMeta?.chapter ?? "capitol"
+                        : th.corespondent === "time"
+                        ? problem.metadata.limita_timp + " secunde" ??
+                          "limita timp"
+                        : th.corespondent === "memory"
+                        ? problem.metadata.limita_memorie +
+                          " MB / " +
+                          problem.metadata.limita_memorie_pe_stiva +
+                          " MB"
+                        : ""
                       : problem[th.corespondent]}
                   </td>
                 ))}
