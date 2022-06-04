@@ -10,7 +10,7 @@ import Loading from "../UI/Loading/Loading";
 import formatChapters from "../../assets/js/parseProblemChapters";
 
 /**
- * Chapter component. Fetchs the chapters from the server and renders them.
+ * Chapter component. Fetches the chapters from the server and renders them.
  * On route /problems/display_year/year
  */
 const Chapters = (props) => {
@@ -95,8 +95,7 @@ const Chapters = (props) => {
           },
         }).then((res) => {
           chapters = res.data.chapters;
-          let formated = formatChapters(chapters);
-          console.log(formated);
+          let formated = formatChapters(chapters, yearParam);
           if (shouldFetch) problemContext.setChapters(formated);
         });
       };

@@ -1,10 +1,8 @@
 import axios from "axios";
 import { useContext, useEffect, useState } from "react";
-import { useSearchParams } from "react-router-dom";
 import { AuthContext } from "../../../components/Layout/Layout";
 import { requestIP } from "../../../env";
 import Input from "../../UI/Input/Input";
-import Loading from "../../UI/Loading/Loading";
 import styles from "./UserProfile.module.css";
 import defaultAvatar from "../../../assets/img/navbarImages/basic_avatar.jpg";
 import useAuth from "../../../hooks/useAuth";
@@ -15,9 +13,6 @@ const CurrentUserProfile = (props) => {
   const [profileForm, setProfileForm] = useState({});
 
   const [formIsValid, setFormIsValid] = useState(false);
-  const [loading, setLoading] = useState(false);
-  const [somethingWentWrong, setSomethingWentWrong] = useState(false);
-  const [reasonForModificationFail, setReasonForRegisterFail] = useState("");
   const [success, setSuccess] = useState(false);
   const { setBackgroundColor } = useAuth();
 

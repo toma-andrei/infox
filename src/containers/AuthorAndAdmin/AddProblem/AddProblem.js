@@ -1,25 +1,23 @@
 import styles from "./AddProblem.module.css";
 import { useState, useContext, useEffect } from "react";
-import ProblemSummary from "./Tabs/ProblemSummary/ProblemSummary";
-import RequirementsAndPreview from "./Tabs/RequirementsAndPreview/RequirementsAndPreview";
 import { ProblemsContext } from "../../../App";
 import { AuthContext } from "../../../components/Layout/Layout";
 import axios from "axios";
 import { requestIP } from "../../../env";
 import formatChapters from "../../../assets/js/parseProblemChapters";
-import ProponentSource from "./Tabs/ProponentSource/ProponentSource";
-import SettingsComponent from "./Tabs/SettingsComponent/SettingsComponent";
-import TestsComponent from "./Tabs/TestsComponent/TestsComponent";
+import TypeOfProblem from "./Tabs/TypeOfProblem/TypeOfProblem";
 import HelpModal from "./Tabs/HelpModal/HelpModal";
-import Labels from "./Tabs/Labels/Labels";
-import Hints from "./Tabs/Hints/Hints";
 import HRsAndTitles from "./HRsAndTitles/HRsAndTitles";
 import Buttons from "./Buttons/Buttons";
 import Modal from "./Buttons/Modal/Modal";
+import KeyboardInputType from "./ProblemType/KeyboardInputType/KeyboardInputType";
+import FileInputType from "./ProblemType/FileInputAndOutput/FileInputAndOutput";
+import FunctionType from "./ProblemType/FunctionType/FunctionType";
 const AddProblem = (props) => {
   //in ProblemSummary
   const fromProblemContext = useContext(ProblemsContext);
   const { jwt } = useContext(AuthContext);
+
   const [chapters, setChapters] = useState({ ...fromProblemContext.chapters });
   const [selectedChapter, setSelectedChapter] = useState(-1);
   const [problemSummary, setProblemSummary] = useState("");
@@ -235,6 +233,15 @@ const AddProblem = (props) => {
     setShowButtonModal(cod);
   };
 
+  // ################# PROBLEM TYPE #################
+  const [typeOfProblem, setTypeOfProblem] = useState("keyboardInput"); // may be: "keyboardInput", "fileInput", "function";
+
+  const problemTypeModifiedHandler = (problemType) => {
+    setTypeOfProblem(problemType);
+    console.log(problemType);
+  };
+  // ################# END PROBLEM TYPE #################
+
   return (
     <>
       {showButtonModal === 1 ? (
@@ -260,55 +267,49 @@ const AddProblem = (props) => {
             ajutor 📚
           </span>
         </div>
-        <HRsAndTitles title={"Rezumatul problemei"} />
-        <ProblemSummary
-          states={{
-            chapters: chapters,
-            selectedChapter: selectedChapter,
-            setChapters: chapterSummarySelectedHandler,
-            problemSummary: problemSummary,
-            setProblemSummary: textareaSummaryValueModifiedHandler,
-            problemTitle: problemTitle,
-            setProblemTitle: titleSummaryValueModifiedHandler,
-            problemSource: problemSource,
-            setProblemSource: sourceSummaryInputModifiedHandler,
-          }}
+        <HRsAndTitles title={"Tipul problemei"} />
+        <TypeOfProblem
+          problemType={typeOfProblem}
+          changed={problemTypeModifiedHandler}
         />
-
-        <HRsAndTitles title={"Cerința și previzualizare"} />
-        <RequirementsAndPreview
-          req={{
-            requirements: requirements,
-            modifiedHandler: textareaPreviewValueModifiedHandler,
-          }}
-        />
-        <HRsAndTitles title={"Etichete"} />
-        <Labels
-          labelsModifiedHandler={labelsModifiedHandler}
-          selectedLabels={labels.selectedLabels}
-          customLabel={labels.customLabel}
-          changeCustomLabel={customLabelModifiedHandler}
-        />
-        <HRsAndTitles title={"Indicații"} />
-        <Hints hints={hints} hintsModifiedHandler={hintsModifiedHandler} />
-        <HRsAndTitles title={"Sursa propunătorului"} />
-        <ProponentSource
-          source={proponentSource}
-          sourceModifiedHandler={sourceModifiedHandler}
-        />
-
-        <HRsAndTitles title={"Teste"} />
-        <TestsComponent />
-
-        <HRsAndTitles title={"Setări"} />
-        <SettingsComponent
-          timeLimit={timeLimit}
-          modifiedTimeLimit={timeLimitModifiedHandler}
-          memoryLimit={memoryLimit}
-          modifiedMemoryLimit={memoryLimitModifiedHandler}
-          stackMemoryLimit={stackMemoryLimit}
-          modifiedStackMemoryLimit={stackMemoryLimitModifiedHandler}
-        />
+        {typeOfProblem === "keyboardInput" ? (
+          <KeyboardInputType
+            chapters={chapters}
+            selectedChapter={selectedChapter}
+            chapterSummarySelectedHandler={chapterSummarySelectedHandler}
+            problemSummary={problemSummary}
+            textareaSummaryValueModifiedHandler={
+              textareaSummaryValueModifiedHandler
+            }
+            problemTitle={problemTitle}
+            titleSummaryValueModifiedHandler={titleSummaryValueModifiedHandler}
+            problemSource={problemSource}
+            sourceSummaryInputModifiedHandler={
+              sourceSummaryInputModifiedHandler
+            }
+            requirements={requirements}
+            textareaPreviewValueModifiedHandler={
+              textareaPreviewValueModifiedHandler
+            }
+            labels={labels}
+            labelsModifiedHandler={labelsModifiedHandler}
+            customLabelModifiedHandler={customLabelModifiedHandler}
+            hints={hints}
+            hintsModifiedHandler={hintsModifiedHandler}
+            proponentSource={proponentSource}
+            sourceModifiedHandler={sourceModifiedHandler}
+            timeLimit={timeLimit}
+            timeLimitModifiedHandler={timeLimitModifiedHandler}
+            memoryLimit={memoryLimit}
+            memoryLimitModifiedHandler={memoryLimitModifiedHandler}
+            stackMemoryLimit={stackMemoryLimit}
+            stackMemoryLimitModifiedHandler={stackMemoryLimitModifiedHandler}
+          />
+        ) : typeOfProblem === "fileInput" ? (
+          <FileInputType />
+        ) : typeOfProblem === "function" ? (
+          <FunctionType />
+        ) : null}
       </main>
     </>
   );
