@@ -64,6 +64,7 @@ const ProblemSummary = (props) => {
               id="title"
               placeholder="ex. Test primalitate"
               key="formInputKey1"
+              value={props.states.problemTitle}
             />
           </div>
         </div>
@@ -133,6 +134,7 @@ const ProblemSummary = (props) => {
             <textarea
               id="abstractProblemSummary"
               onInput={() => autoresizeTextarea("#abstractProblemSummary")}
+              value={props.states.problemSummary}
               onChange={props.states.setProblemSummary}
               className={styles.abstractProblemTextarea}
               key="formTextareaKey4"

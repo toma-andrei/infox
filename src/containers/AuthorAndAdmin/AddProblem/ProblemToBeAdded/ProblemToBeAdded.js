@@ -1,13 +1,14 @@
-import HRsAndTitles from "../../HRsAndTitles/HRsAndTitles";
-import ProblemSummary from "../../Tabs/ProblemSummary/ProblemSummary";
-import Hints from "../../Tabs/Hints/Hints";
-import SettingsComponent from "../../Tabs/SettingsComponent/SettingsComponent";
-import ProponentSource from "../../Tabs/ProponentSource/ProponentSource";
-import RequirementsAndPreview from "../../Tabs/RequirementsAndPreview/RequirementsAndPreview";
-import Labels from "../../Tabs/Labels/Labels";
-import TestsComponent from "../../Tabs/TestsComponent/TestsComponent";
+import HRsAndTitles from "../HRsAndTitles/HRsAndTitles";
+import ProblemSummary from "../Tabs/ProblemSummary/ProblemSummary";
+import Hints from "../Tabs/Hints/Hints";
+import SettingsComponent from "../Tabs/SettingsComponent/SettingsComponent";
+import ProponentSource from "../Tabs/ProponentSource/ProponentSource";
+import RequirementsAndPreview from "../Tabs/RequirementsAndPreview/RequirementsAndPreview";
+import Labels from "../Tabs/Labels/Labels";
+import TestsComponent from "../Tabs/TestsComponent/TestsComponent";
+import FunctionAndProgramSources from "../Tabs/TabsForFunctionType/FunctionAndProgramSources/FunctionAndProgramSources";
 
-const KeyboardInputType = (props) => {
+const ProblemToBeAdded = (props) => {
   return (
     <>
       <HRsAndTitles title={"Rezumatul problemei"} />
@@ -45,13 +46,17 @@ const KeyboardInputType = (props) => {
         hintsModifiedHandler={props.hintsModifiedHandler}
       />
       <HRsAndTitles title={"Sursa propunătorului"} />
-      <ProponentSource
-        source={props.proponentSource}
-        sourceModifiedHandler={props.sourceModifiedHandler}
-      />
+      {props.inputType === "function" ? (
+        <FunctionAndProgramSources />
+      ) : (
+        <ProponentSource
+          source={props.proponentSource}
+          sourceModifiedHandler={props.sourceModifiedHandler}
+        />
+      )}
 
       <HRsAndTitles title={"Teste"} />
-      <TestsComponent />
+      <TestsComponent inputType={props.inputType} />
 
       <HRsAndTitles title={"Setări"} />
       <SettingsComponent
@@ -66,4 +71,4 @@ const KeyboardInputType = (props) => {
   );
 };
 
-export default KeyboardInputType;
+export default ProblemToBeAdded;

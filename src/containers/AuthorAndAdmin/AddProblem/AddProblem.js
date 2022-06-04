@@ -10,9 +10,7 @@ import HelpModal from "./Tabs/HelpModal/HelpModal";
 import HRsAndTitles from "./HRsAndTitles/HRsAndTitles";
 import Buttons from "./Buttons/Buttons";
 import Modal from "./Buttons/Modal/Modal";
-import KeyboardInputType from "./ProblemType/KeyboardInputType/KeyboardInputType";
-import FileInputType from "./ProblemType/FileInputAndOutput/FileInputAndOutput";
-import FunctionType from "./ProblemType/FunctionType/FunctionType";
+import ProblemToBeAdded from "./ProblemToBeAdded/ProblemToBeAdded";
 const AddProblem = (props) => {
   //in ProblemSummary
   const fromProblemContext = useContext(ProblemsContext);
@@ -272,44 +270,38 @@ const AddProblem = (props) => {
           problemType={typeOfProblem}
           changed={problemTypeModifiedHandler}
         />
-        {typeOfProblem === "keyboardInput" ? (
-          <KeyboardInputType
-            chapters={chapters}
-            selectedChapter={selectedChapter}
-            chapterSummarySelectedHandler={chapterSummarySelectedHandler}
-            problemSummary={problemSummary}
-            textareaSummaryValueModifiedHandler={
-              textareaSummaryValueModifiedHandler
-            }
-            problemTitle={problemTitle}
-            titleSummaryValueModifiedHandler={titleSummaryValueModifiedHandler}
-            problemSource={problemSource}
-            sourceSummaryInputModifiedHandler={
-              sourceSummaryInputModifiedHandler
-            }
-            requirements={requirements}
-            textareaPreviewValueModifiedHandler={
-              textareaPreviewValueModifiedHandler
-            }
-            labels={labels}
-            labelsModifiedHandler={labelsModifiedHandler}
-            customLabelModifiedHandler={customLabelModifiedHandler}
-            hints={hints}
-            hintsModifiedHandler={hintsModifiedHandler}
-            proponentSource={proponentSource}
-            sourceModifiedHandler={sourceModifiedHandler}
-            timeLimit={timeLimit}
-            timeLimitModifiedHandler={timeLimitModifiedHandler}
-            memoryLimit={memoryLimit}
-            memoryLimitModifiedHandler={memoryLimitModifiedHandler}
-            stackMemoryLimit={stackMemoryLimit}
-            stackMemoryLimitModifiedHandler={stackMemoryLimitModifiedHandler}
-          />
-        ) : typeOfProblem === "fileInput" ? (
-          <FileInputType />
-        ) : typeOfProblem === "function" ? (
-          <FunctionType />
-        ) : null}
+
+        <ProblemToBeAdded
+          inputType={typeOfProblem}
+          chapters={chapters}
+          selectedChapter={selectedChapter}
+          chapterSummarySelectedHandler={chapterSummarySelectedHandler}
+          problemSummary={problemSummary}
+          textareaSummaryValueModifiedHandler={
+            textareaSummaryValueModifiedHandler
+          }
+          problemTitle={problemTitle}
+          titleSummaryValueModifiedHandler={titleSummaryValueModifiedHandler}
+          problemSource={problemSource}
+          sourceSummaryInputModifiedHandler={sourceSummaryInputModifiedHandler}
+          requirements={requirements}
+          textareaPreviewValueModifiedHandler={
+            textareaPreviewValueModifiedHandler
+          }
+          labels={labels}
+          labelsModifiedHandler={labelsModifiedHandler}
+          customLabelModifiedHandler={customLabelModifiedHandler}
+          hints={hints}
+          hintsModifiedHandler={hintsModifiedHandler}
+          proponentSource={proponentSource}
+          sourceModifiedHandler={sourceModifiedHandler}
+          timeLimit={timeLimit}
+          timeLimitModifiedHandler={timeLimitModifiedHandler}
+          memoryLimit={memoryLimit}
+          memoryLimitModifiedHandler={memoryLimitModifiedHandler}
+          stackMemoryLimit={stackMemoryLimit}
+          stackMemoryLimitModifiedHandler={stackMemoryLimitModifiedHandler}
+        />
       </main>
     </>
   );
