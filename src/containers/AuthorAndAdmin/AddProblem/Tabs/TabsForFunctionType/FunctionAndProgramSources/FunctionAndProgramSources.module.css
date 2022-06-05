@@ -9,7 +9,7 @@
 }
 
 .changeLabel {
-  width: 100%;
+  width: 100% !important;
   color: #fff;
 }
 

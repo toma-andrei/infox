@@ -5,7 +5,7 @@ import { requestIP } from "../../../../env";
 import styles from "./OwnSolutions.module.css";
 import SelectSolutionModal from "../Modals/SelectSolutionModal";
 import { useEffect } from "react";
-
+import createSourceProgressBar from "../../../../assets/js/createScoreBarForSolutions";
 /**
  *Component showing code editor and current user's solutions
  * @param {*} props data received from SpecificProblem Component: jwt, problem id, solution array, show
@@ -20,7 +20,7 @@ const OwnSolutions = (props) => {
   const [fullSolutions, setFullSolutions] = useState({});
   const [showModal, setShowModal] = useState({ show: false, solutionId: "" });
   const [solutions, setSolutions] = useState([]);
-
+  const [currentSolution, setCurrentSolution] = useState([]);
   //add to state solutions array
   useEffect(() => {
     setSolutions(props.solutions);
@@ -78,9 +78,8 @@ const OwnSolutions = (props) => {
           break;
         }
       }
-
-      setSolutions([solution.data.solution, ...solutions]);
-
+      setCurrentSolution([solution.data.solution, ...currentSolution]);
+      console.log(solution.data.solution);
       setFullSolutions({
         ...fullSolutions,
         [response.data.solutionId]: solution.data.solution,
@@ -129,6 +128,7 @@ const OwnSolutions = (props) => {
       fullSolutions[solId].source;
   };
 
+  // when user wants to fetch an old source code
   const modalButtonPressedHandler = (button) => {
     if (button === "yes") {
       putSolutionOnTextarea(showModal.solutionId);
@@ -145,91 +145,34 @@ const OwnSolutions = (props) => {
       : setShowModal({ show: true, solutionId: solutionId });
   };
 
-  //create a JSX code (pregress bars) for each solution
-  const createSourceProgressBar = (solution) => {
-    //details key looks like "maxPoints#myRes". myRes:
-    //score
-    //"g" (gresit)
-    //"c" (compilation error)
-    //"t"
-
-    let marks = solution.details.split(",");
-
-    marks = marks.map((mark) => {
-      return {
-        testScore: parseInt(mark.split("#")[0]),
-        myScore: mark.split("#")[1],
-      };
-    });
-
-    let totalScoreForOneSolution = 0;
-
-    //temporary variable for computing total score for a solution
-    let temp = marks.map((mark) => mark.myScore);
-
-    temp.forEach((val) => {
-      totalScoreForOneSolution += ["c", "g", "t", "m1", "m2"].includes(val)
-        ? 0
-        : parseInt(val);
-    });
-
-    return (
-      <div key={solution.id}>
-        <div className={styles.solutionInfoText}>
-          <div>
-            <strong>
-              {totalScoreForOneSolution.toString() == NaN.toString()
-                ? 0
-                : totalScoreForOneSolution}
-            </strong>{" "}
-            puncte, obținute pe data {solution.created_at}, distribuite astfel:
-          </div>
-          <button
-            className={styles.solutionIdButton}
-            onClick={() => toggleModal(solution.id)}
-          >
-            id: {solution.id}
-          </button>
-        </div>
-        <div className={["progress", styles.rightVerticalRuler].join(" ")}>
-          {marks.map((mark) => {
-            //styles for each solution progress bar
-            let classes = ["progress-bar", styles.rightVerticalRuler];
-
-            //set styles depending on response (compilation error, wrong answer, etc)
-            if (["g", "c"].includes(mark.myScore)) classes.push("bg-danger");
-            else if (["t", "m1", "m2"].includes(mark.myScore))
-              classes.push("bg-primary");
-            else if (mark.myScore == mark.testScore) classes.push("bg-success");
-
-            return (
-              <div
-                className={classes.join(" ")}
-                style={{ width: mark.testScore + "%" }}
-                key={solution.id + Math.random()}
-              >
-                {mark.myScore === "c"
-                  ? "Compilare"
-                  : mark.myScore === "g"
-                  ? "Răspuns greșit"
-                  : mark.myScore === "t"
-                  ? "Timp"
-                  : mark.myScore === "m1" || mark.myScore === "m2"
-                  ? "Memorie"
-                  : mark.myScore}
-              </div>
-            );
-          })}
-        </div>
-      </div>
-    );
-  };
-
-  let showSolutions = solutions
+  let showOlderSolutions = solutions
     ? solutions.map((solution) => {
-        return createSourceProgressBar(solution);
+        return createSourceProgressBar(solution, styles, toggleModal);
       })
     : null;
+
+  let showCurrentSolution =
+    currentSolution.length !== 0
+      ? currentSolution.map((solution) => {
+          // solution contains compilation errors, then show error message
+          if (solution.details.split(",").some((e) => e.includes("#c"))) {
+            return (
+              <div className={styles.compileError}>
+                <span>
+                  <strong>0</strong> puncte: Soluția conține{" "}
+                  <strong>erori de compilare</strong>
+                </span>
+                <button
+                  className={styles.solutionIdButton}
+                  onClick={() => toggleModal(solution.id)}
+                >
+                  id: {solution.id}
+                </button>
+              </div>
+            );
+          } else return createSourceProgressBar(solution, styles, toggleModal);
+        })
+      : null;
 
   //JSX to show the problem solutions
   return (
@@ -269,14 +212,33 @@ const OwnSolutions = (props) => {
             ) : null}
           </>
         )}
+        {currentSolution.length !== 0 ? (
+          <>
+            <h2 style={{ marginTop: "20px" }}>
+              Punctajele obținute de soluțiile adăugate acum:
+            </h2>
+            <div
+              id="userSolutionsDivIdentifier"
+              style={{ width: "95%", margin: "auto" }}
+            >
+              {showCurrentSolution}
+            </div>
+          </>
+        ) : null}
+        <div
+          id="userSolutionsDivIdentifier"
+          style={{ width: "95%", margin: "auto" }}
+        >
+          {null}
+        </div>
         <h2 style={{ marginTop: "20px" }}>
-          Punctajele obținute de soluțiile tale:
+          Punctajele obținute de soluțiile tale anterioare:
         </h2>
         <div
           id="userSolutionsDivIdentifier"
           style={{ width: "95%", margin: "auto" }}
         >
-          {showSolutions}
+          {showOlderSolutions}
         </div>
       </div>
     </>

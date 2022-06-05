@@ -13,7 +13,11 @@ const FunctionAndProgramSources = (props) => {
         >
           Numele funcției:
         </label>
-        <input className={["form-control", styles.changeInput].join(" ")} />
+        <input
+          className={["form-control", styles.changeInput].join(" ")}
+          value={props.functionName}
+          onChange={(event) => props.setFunctionName(event.target.value)}
+        />
       </div>
       <div className={styles.groupWrapper}>
         <label
@@ -25,7 +29,7 @@ const FunctionAndProgramSources = (props) => {
         <textarea
           placeholder="Aici se introduce funcția ce urmează a fi inserată în programul de test"
           id="sourceCode"
-          onChange={props.sourceModifiedHandler}
+          onChange={(event) => props.setFunctionCode(event.target.value)}
           className={styles.textareaStyle}
           value={props.source}
         ></textarea>

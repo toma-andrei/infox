@@ -1,5 +1,6 @@
 import styles from "./ProblemSummary.module.css";
 import SubchapterProblemAbstract from "../../../../SubchapterProblems/SubchaperProblemAbstract/SubchapterProblemAbstract";
+import { Fragment } from "react";
 
 const ProblemSummary = (props) => {
   const autoresizeTextarea = (querySelectorString) => {
@@ -14,7 +15,7 @@ const ProblemSummary = (props) => {
     //second map iterate through each chapter title
     return (
       //class for optgroup
-      <>
+      <Fragment key={keyy + Math.random()}>
         <optgroup
           key={keyy + Math.random()}
           label={"Clasa a " + yearsObject[keyy]}
@@ -38,7 +39,7 @@ const ProblemSummary = (props) => {
             </optgroup>
           );
         })}
-      </>
+      </Fragment>
     );
   });
 
@@ -153,7 +154,7 @@ const ProblemSummary = (props) => {
                 marginBottom: "0px",
                 maxWidth: "auto",
               }}
-              key="formSubchapterKey5"
+              key={"formSubchapterKey5" + Math.random()}
             />
           </div>
         </div>

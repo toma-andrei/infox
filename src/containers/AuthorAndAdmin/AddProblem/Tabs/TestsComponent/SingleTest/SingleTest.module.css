@@ -74,3 +74,36 @@
   width: 100%;
   font-size: 1.1rem;
 }
+
+.scoreWrapper {
+  display: inline-block;
+}
+
+.bottomContainerWrapper {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  margin-top: 20px;
+}
+
+.compileButton {
+  border: none;
+  background-color: rgb(127, 148, 6);
+  padding: 15px;
+  border-radius: 10px;
+  -webkit-box-shadow: 0px 3px 0px 2px #4a5e05;
+  box-shadow: 0px 3px 0px 2px #4a5e05;
+  color: #fff;
+}
+
+.compileButton:hover {
+  -webkit-box-shadow: 0px 3px 0px 1px #4a5e05;
+  box-shadow: 0px 3px 0px 1px #4a5e05;
+  background-color: rgb(153, 179, 7);
+}
+
+.compileButton:active {
+  margin-top: 2px;
+  box-shadow: none;
+}

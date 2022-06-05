@@ -1,46 +1,51 @@
 import styles from "./TestsComponent.module.css";
 import SingleTest from "./SingleTest/SingleTest";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import ProponentSource from "../ProponentSource/ProponentSource";
 
-const TestsComponent = () => {
-  //state for manageing a test
+const TestsComponent = (props) => {
+  //state for managing a test
   let MAX_TESTS = 100;
-  const [tests, setTests] = useState({ components: [] });
+  const [tests, setTests] = useState([]);
+
+  useEffect(() => {
+    setTests(props.tests);
+  }, [props.tests]);
 
   const AddSingleTest = () => {
-    if (tests.components.length < MAX_TESTS) {
-      setTests({
-        components: [
-          ...tests.components,
-          {
-            id: tests.components.length,
-            input: "",
-            output: "",
-            score: -1,
-            isExemple: false,
-          },
-        ],
+    if (tests.length < MAX_TESTS) {
+      props.addTestHandler({
+        id: tests.length,
+        compiled: false,
+        input: "",
+        output: "",
+        memory: 0,
+        stackMemory: 0,
+        time: 0,
+        score: 0,
+        obtainedScore: 0,
+        isExemple: false,
       });
     }
   };
 
   const updateInput = (id, input) => {
-    setTests({
-      components: tests.components.map((test) => {
+    props.updateTestHandler(
+      tests.map((test) => {
         if (test.id === id) {
           return {
             ...test,
-            input,
+            input: input,
           };
         }
         return test;
-      }),
-    });
+      })
+    );
   };
 
   const updateOutput = (id, output) => {
-    setTests({
-      components: tests.components.map((test) => {
+    props.updateTestHandler([
+      ...tests.map((test) => {
         if (test.id === id) {
           return {
             ...test,
@@ -49,12 +54,12 @@ const TestsComponent = () => {
         }
         return test;
       }),
-    });
+    ]);
   };
 
   const updateScore = (id, score) => {
-    setTests({
-      components: tests.components.map((test) => {
+    props.updateTestHandler([
+      ...tests.map((test) => {
         if (test.id === id) {
           return {
             ...test,
@@ -63,12 +68,12 @@ const TestsComponent = () => {
         }
         return test;
       }),
-    });
+    ]);
   };
 
   const updateIsExemple = (id) => {
-    setTests({
-      components: tests.components.map((test) => {
+    props.updateTestHandler([
+      ...tests.map((test) => {
         if (test.id === id) {
           return {
             ...test,
@@ -77,27 +82,27 @@ const TestsComponent = () => {
         }
         return test;
       }),
-    });
+    ]);
   };
 
   const removeTest = (id) => {
-    let components = tests.components.filter((test) => test.id !== id);
-    components.forEach((test, index) => {
-      test.id = index;
-    });
+    let components = tests.filter((test) => test.id !== id);
 
-    setTests({
-      components: components,
-    });
+    for (let i = 0; i < components.length; i++) {
+      components[i].id = i;
+    }
+
+    props.updateTestHandler([...components]);
   };
 
   const generateOutput = () => {
     console.log("generate output");
   };
-
-  let testsComponents = tests.components.map((test) => {
+  let testsComponents = tests.map((test) => {
     return (
       <SingleTest
+        compileSingleTest={props.compileSingleTest}
+        inputType={props.inputType}
         id={test.id}
         key={test.id}
         input={test.input}
@@ -135,7 +140,7 @@ const TestsComponent = () => {
           onClick={generateOutput}
         >
           <div className={styles.buttonText}>
-            {`Generează output (Se vor genera outputurile & timpul maxim pe baza
+            {`Compilează codul (Se vor genera outputurile & timpul maxim pe baza
           codului sursă de mai sus și a inputurilor de aici. Obținerea outputurilor poate dura.)`}
           </div>
         </button>

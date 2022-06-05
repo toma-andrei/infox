@@ -17,7 +17,10 @@ const Modal = (props) => {
           <div className={styles.yesNoButtonWrapper}>
             <button
               className={[styles.yesNoButton, styles.yesButton].join(" ")}
-              onClick={() => props.choiceFromModal("yes", props.solutionId)}
+              onClick={() => {
+                props.onYesClicked();
+                props.toggleModal(0);
+              }}
             >
               Da
             </button>

@@ -7,7 +7,6 @@ import RequirementsAndPreview from "../Tabs/RequirementsAndPreview/RequirementsA
 import Labels from "../Tabs/Labels/Labels";
 import TestsComponent from "../Tabs/TestsComponent/TestsComponent";
 import FunctionAndProgramSources from "../Tabs/TabsForFunctionType/FunctionAndProgramSources/FunctionAndProgramSources";
-
 const ProblemToBeAdded = (props) => {
   return (
     <>
@@ -47,7 +46,14 @@ const ProblemToBeAdded = (props) => {
       />
       <HRsAndTitles title={"Sursa propunătorului"} />
       {props.inputType === "function" ? (
-        <FunctionAndProgramSources />
+        <FunctionAndProgramSources
+          functionName={props.functionName}
+          setFunctionName={props.functionNameModifiedHandler}
+          source={props.source}
+          sourceModifiedHandler={props.sourceModifiedHandler}
+          functionCode={props.functionCode}
+          setFunctionCode={props.functionCodeModifiedHandler}
+        />
       ) : (
         <ProponentSource
           source={props.proponentSource}
@@ -56,7 +62,14 @@ const ProblemToBeAdded = (props) => {
       )}
 
       <HRsAndTitles title={"Teste"} />
-      <TestsComponent inputType={props.inputType} />
+      <TestsComponent
+        inputType={props.inputType}
+        tests={props.tests}
+        addTestHandler={props.addTestHandler}
+        compileSingleTest={props.compileSingleTest}
+        compileAllTests={props.compileAllTests}
+        updateTestHandler={props.updateTestHandler}
+      />
 
       <HRsAndTitles title={"Setări"} />
       <SettingsComponent

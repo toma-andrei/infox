@@ -13,6 +13,14 @@
   font-family: Consolas, Monaco, "Lucida console";
 }
 
+.compileError {
+  margin-top: 10px;
+  border-bottom: 3px solid rgb(223, 91, 91);
+  padding: 10px 0 5px 0;
+  display: flex;
+  justify-content: space-between;
+}
+
 .submitSolutionButton {
   position: relative;
   left: 50%;
