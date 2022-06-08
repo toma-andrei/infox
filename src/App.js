@@ -100,6 +100,11 @@ function App(props) {
             />
             <Route path="/user/admin" exact element={<Main />} />
             <Route path="/user/accept_problems" exact element={<Main />} />
+            <Route
+              path="/addproblem/editor/:id"
+              exact
+              element={<AddProblem />}
+            />
             <Route path="/addproblem/editor" exact element={<AddProblem />} />
           </Route>
         </Route>

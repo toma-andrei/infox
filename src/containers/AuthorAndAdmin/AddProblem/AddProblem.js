@@ -11,19 +11,72 @@ import HRsAndTitles from "./HRsAndTitles/HRsAndTitles";
 import Buttons from "./Buttons/Buttons";
 import Modal from "./Buttons/Modal/Modal";
 import ProblemToBeAdded from "./ProblemToBeAdded/ProblemToBeAdded";
+import { useParams } from "react-router";
+import InputAndOutputType from "./Tabs/InputAndOutputType/InputAndOutputType";
+
 const AddProblem = (props) => {
   // ################# PROBLEM SUMMARY COMPONENT #################
+  const id = useParams().id;
   const fromProblemContext = useContext(ProblemsContext);
   const { jwt } = useContext(AuthContext);
-
   const [chapters, setChapters] = useState({ ...fromProblemContext.chapters });
   const [selectedChapter, setSelectedChapter] = useState(-1);
   const [problemSummary, setProblemSummary] = useState("");
   const [problemTitle, setProblemTitle] = useState("");
   const [problemSource, setProblemSource] = useState("Folclor");
   const [showHelp, setShowHelp] = useState(false);
+  const [problemId, setProblemId] = useState(id);
   // 0 - no, 1 - Save button, 2 - Finalize button
   const [showButtonModal, setShowButtonModal] = useState(0);
+  const [savedWithSuccess, setSavedWithSuccess] = useState(false);
+  const [finalizedWithSuccess, setFinalizedWithSuccess] = useState(false);
+
+  //if the url has an id, it means that the problem is being edited
+  useEffect(() => {
+    if (problemId) {
+      axios({
+        method: "post",
+        url: "http://" + requestIP,
+        data: {
+          method: "get",
+          problemId: problemId,
+          jwt: jwt,
+          url: "https://infox.ro/new/authors/problems/" + problemId,
+        },
+      }).then((res) => {
+        let meta =
+          typeof res.data.problem.metadata === "string"
+            ? JSON.parse(res.data.problem.metadata)
+            : res.data.problem.metadata;
+
+        let testes = Object.keys(meta.teste).map((key, index) => {
+          return {
+            id: index,
+            input: meta.teste[key].in,
+            output: meta.teste[key].ok,
+            score: meta.teste[key].scor,
+            isExample: meta.teste[key].example,
+          };
+        });
+
+        setProblemTitle(res.data.problem.title);
+        setProblemSource(res.data.problem.source);
+        setSelectedChapter(res.data.problem.subchapter_id);
+        setProblemSummary(res.data.problem.abstract);
+        setRequirements(res.data.problem.full);
+        setLabels({
+          selectedLabels: [...res.data.problem.labels.split(",")],
+          customLabel: labels.customLabel,
+        });
+        setHints(res.data.problem.tips);
+        setProponentSource(res.data.problem.proposer_code);
+        setMemoryLimit(meta.limita_memorie);
+        setStackMemoryLimit(meta.limita_memorie_pe_stiva);
+        setTimeLimit(meta.limita_timp);
+        setTests(testes);
+      });
+    }
+  }, [problemId]);
 
   const textareaSummaryValueModifiedHandler = (event) => {
     setProblemSummary(event.target.value);
@@ -249,19 +302,21 @@ const AddProblem = (props) => {
   };
   // ################# END TOGGLE MODAL #################
 
-  // ################# PROBLEM TYPE #################
-  const [typeOfProblem, setTypeOfProblem] = useState("keyboardInput"); // may be: "keyboardInput", "fileInput", "function";
+  // ################# INPUT TYPE #################
+  const [inputType, setInputType] = useState("keyboardInput"); // may be: "keyboardInput", "fileInput", "function";
 
-  const problemTypeModifiedHandler = (problemType) => {
-    setTypeOfProblem(problemType);
+  const inputTypeModifiedHandler = (inputTypeParam) => {
+    setInputType(inputTypeParam);
+  };
+  // ################# END INPUT TYPE #################
+
+  // ################# PROBLEM TYPE #################
+  const [problemType, setProblemType] = useState("keyboardInput"); // may be: "keyboardInput", "fileInput", "function";
+
+  const problemTypeModifiedHandler = (problemTypeParam) => {
+    setProblemType(problemTypeParam);
   };
   // ################# END PROBLEM TYPE #################
-
-  // ################# SUBMIT PROBLEM #################
-  const submitProblemHandler = (saveOrFinalize) => {
-    console.log(saveOrFinalize);
-  };
-  // ################# END SUBMIT PROBLEM #################
 
   // ################# SENT TO COMPILE - TESTS COMPONENT #################
   //{id: tests.length, compiled: false, input: "", output: "" ,memory: 0, stackMemory: 0, time: 0, score: 0, obtainedScore: 0, isExample: false}
@@ -276,10 +331,100 @@ const AddProblem = (props) => {
   };
 
   const compileSingleTest = (id) => {
-    console.log("compile test with id " + id);
+    // console.log("compile test with id " + id);
+    const test = tests.find((test) => test.id === id);
   };
   const compileAllTests = () => {};
   // ################# END SENT TO COMPILE - TESTS COMPONENT #################
+
+  // ################# SUBMIT PROBLEM #################
+  const saveProblemHandler = () => {
+    const problem = {
+      title: problemTitle,
+      source: problemSource,
+      subchapterId: parseInt(selectedChapter),
+      abstract: problemSummary,
+      full: requirements,
+      tips: hints,
+      labels: labels.selectedLabels.join(","),
+      proposerCode: proponentSource,
+      problemId: problemId,
+    };
+
+    let testsModified = {};
+
+    for (let i = 0; i < tests.length; i++) {
+      let testName = i < 10 ? "test0" + i : "test" + i;
+      testsModified[testName + "-in"] = tests[i].input;
+      testsModified[testName + "-score"] = parseInt(tests[i].score);
+      testsModified[testName + "-example"] = tests[i].isExample;
+      testsModified[testName + "-out"] = tests[i].output;
+    }
+
+    const metadata = {
+      problemId: problemId,
+      timeLimit: parseFloat(timeLimit),
+      memoryLimit: parseFloat(memoryLimit),
+      stackMemoryLimit: parseFloat(stackMemoryLimit),
+      problemId: problemId,
+      testsNumber: tests.length,
+      ...testsModified,
+    };
+
+    axios({
+      method: "post",
+      url: "http://" + requestIP,
+      data: {
+        jwt: jwt,
+        ...problem,
+        url: "https://infox.ro/new/authors/problems/" + problemId,
+      },
+    }).then((res) => {
+      console.log("problem data saved successfully");
+    });
+
+    axios({
+      method: "post",
+      url: "http://" + requestIP,
+      data: {
+        jwt: jwt,
+        ...metadata,
+        url: "https://infox.ro/new/authors/problems/" + problemId + "/metadata",
+      },
+    })
+      .then((res) => {
+        console.log(res.data);
+      })
+      .catch((err) => console.log(err));
+  };
+
+  // function called when the problem is being finalized
+  const finalizeProblemHandler = () => {
+    console.log("uncomment code in VSCode to finalize problem");
+    return;
+    axios({
+      method: "post",
+      url: "http://" + requestIP,
+      data: {
+        jwt: jwt,
+        url: "https://infox.ro/new/authors/" + problemId + "/finalize",
+      },
+    })
+      .then((res) => {
+        console.log(res.data);
+      })
+      .catch((err) => console.log(err));
+  };
+
+  const submitProblemHandler = (saveOrFinalize) => {
+    if (saveOrFinalize === "save") {
+      saveProblemHandler();
+    } else {
+      finalizeProblemHandler();
+    }
+  };
+  // ################# END SUBMIT PROBLEM #################
+
   return (
     <>
       {showButtonModal === 1 ? (
@@ -307,14 +452,20 @@ const AddProblem = (props) => {
             ajutor 📚
           </span>
         </div>
+        <HRsAndTitles title={"Citire și scriere"} />
+        <InputAndOutputType
+          inputType={inputType}
+          changed={inputTypeModifiedHandler}
+        />
         <HRsAndTitles title={"Tipul problemei"} />
         <TypeOfProblem
-          problemType={typeOfProblem}
+          problemType={problemType}
           changed={problemTypeModifiedHandler}
         />
 
         <ProblemToBeAdded
-          inputType={typeOfProblem}
+          inputType={inputType}
+          problemType={problemType}
           chapters={chapters}
           selectedChapter={selectedChapter}
           chapterSummarySelectedHandler={chapterSummarySelectedHandler}

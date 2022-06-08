@@ -1,39 +1,38 @@
-import output from "../../../../../assets/img/addProblemsImages/output.png";
-import functionImage from "../../../../../assets/img/addProblemsImages/function.png";
+import keyboard from "../../../../../assets/img/addProblemsImages/keyboard.png";
+import file from "../../../../../assets/img/addProblemsImages/paper.png";
 import checked from "../../../../../assets/img/addProblemsImages/check.png";
-import styles from "./TypeOfProblem.module.css";
+import styles from "./InputAndOutputType.module.css";
 import { useState } from "react";
 import TextToShow from "../TextToShow/TextToShow";
 
-// upper component in addProblem page which allows author to choose type of problem to be added
-const TypeOfProblem = (props) => {
+const InputAndOutputType = (props) => {
   const [images, setImages] = useState([
     {
-      image: functionImage,
-      figureCaption: "Funcție",
-      id: 3,
-      selected: false,
-      type: "function",
+      image: keyboard,
+      figureCaption: "Citire și scriere din consolă",
+      id: 1,
+      selected: true,
+      type: "keyboardInput",
     },
     {
-      image: output,
-      figureCaption: "Output multiplu",
-      id: 3,
+      image: file,
+      figureCaption: "Citire și scriere din fișier",
+      id: 2,
       selected: false,
-      type: "multipleOutput",
+      type: "fileInput",
     },
   ]);
 
-  const selectType = (problemType) => {
+  const selectType = (inputType) => {
     for (let i = 0; i < images.length; i++) {
-      if (images[i].type === problemType) {
+      if (images[i].type === inputType) {
         images[i].selected = true;
       } else {
         images[i].selected = false;
       }
     }
 
-    props.changed(problemType);
+    props.changed(inputType);
   };
 
   return (
@@ -64,19 +63,17 @@ const TypeOfProblem = (props) => {
           );
         })}
       </div>
-      {props.problemType === "multipleOutput" ? (
-        <TextToShow text="Dacă există mai multe output-uri posibile pentru același input, autorul problemei va crea un program de verificare al corectitudinii rezultatelor." />
-      ) : props.problemType === "function" ? (
+      {props.inputType === "keyboardInput" ? (
+        <TextToShow text="Datele de intrare vor fi citite de la consolă respectiv datele de ieșire vor fi afișate la consolă." />
+      ) : props.inputType === "fileInput" ? (
         <TextToShow
-          text={`Problemă de creat subprograme. 
-                  Locul în care va fi inserată funcția se evidențiază prin șirul 
-                  <strong><i>&amp;&amp;===&amp;&amp;</i></strong>.`}
+          text={`Datele de intrare vor fi citite din fișierul 
+                      <strong><i>data.in</i></strong> iar datele
+                      de ieșire vor fi scrise în fișierul <strong><i>data.out</i></strong>.`}
         />
-      ) : (
-        <TextToShow text="" />
-      )}
+      ) : null}
     </div>
   );
 };
 
-export default TypeOfProblem;
+export default InputAndOutputType;

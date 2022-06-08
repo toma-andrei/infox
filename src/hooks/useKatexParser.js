@@ -1,3 +1,4 @@
+import katex from "katex";
 const useKatexParser = () => {
   const tm = require("markdown-it-texmath");
   //markdown-it-katex parser
@@ -6,7 +7,6 @@ const useKatexParser = () => {
     delimiters: "dollars",
     katexOptions: { macros: { "\\RR": "\\mathbb{R}" } },
   });
-
   return (textToBeParsed) => {
     return md.render(textToBeParsed);
   };

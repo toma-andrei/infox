@@ -1,4 +1,4 @@
-import styles from "./TypeOfProblem.module.css";
+import styles from "./TextToShow.module.css";
 
 const TextToShow = (props) => {
   return (

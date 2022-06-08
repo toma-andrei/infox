@@ -97,13 +97,13 @@ tr td:last-child {
 
 .problem_meta,
 .problem_page_table {
+  margin-top: auto !important;
   width: 100%;
   min-width: 100%;
   text-align: left;
   border-collapse: collapse;
   font-family: sans-serif;
   table-layout: auto;
-  width: 100%;
 }
 
 .problem_page_table td,

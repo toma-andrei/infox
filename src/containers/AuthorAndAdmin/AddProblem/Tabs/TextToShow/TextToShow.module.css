@@ -1,0 +1,11 @@
+.textWrapperDiv {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.textToShow {
+  font-size: 1.3rem;
+  color: #fff;
+  text-align: center;
+}

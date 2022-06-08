@@ -1,6 +1,8 @@
 import styles from "../SpecificProblem.module.css";
 import useKatexParser from "../../../../hooks/useKatexParser";
 import parseMermaidText from "../../../../assets/js/parseMermaidText";
+import Labels from "../../LabelsShort/Labels";
+import { useEffect } from "react";
 /**
  * Specific Problem Page Requirement Tab
  * Parse problem string
@@ -10,10 +12,18 @@ const ProblemRequirements = (props) => {
   let problem = props.problem;
   if (typeof problem.metadata === "string")
     problem.metadata = JSON.parse(problem.metadata);
-
   const md = useKatexParser();
   let full = problem.full;
   let data = parseMermaidText(full);
+
+  useEffect(() => {
+    let shouldFetch = true;
+    if (shouldFetch) window.scrollTo(0, 0);
+
+    return () => {
+      shouldFetch = false;
+    };
+  }, []);
 
   return (
     <div
@@ -27,6 +37,8 @@ const ProblemRequirements = (props) => {
               __html: problem.id + ". " + md(problem.title),
             }}
           />
+          <Labels labels={props.problem.labels} />
+          <div style={{ margin: "10px 0 10px 0" }}></div>
           <table
             className={[styles.problem_meta, styles.problem_page_table].join(
               " "

@@ -10,6 +10,8 @@ const Subchapter = (props) => {
   const [problems, setProblems] = useState([]);
   const { jwt } = useAuth();
   const [solvedCount, setSolvedCount] = useState(0);
+  const [triedCount, setTriedCount] = useState(0);
+
   //fetch problems for this subchapter to check problem number and solved status
   useState(() => {
     let shouldFetch = true;
@@ -33,15 +35,28 @@ const Subchapter = (props) => {
   useEffect(() => {
     let shouldFetch = true;
     if (problems.length > 0 && props.solvedProblemsIds) {
-      const ids = props.solvedProblemsIds.map((pr) => {
-        return pr.problem_id;
+      const ids = props.solvedProblemsIds;
+      let solved = 0;
+      let tried = 0;
+
+      // count solved and tried problems
+      problems.forEach((problem) => {
+        let idd = ids.find((id) => id.problem_id === problem.id);
+        if (idd && parseInt(idd.points) === 100) solved++;
+        else tried++;
       });
+
       if (shouldFetch) {
-        const solved = problems.filter((pr) => ids.includes(pr.id));
-        setSolvedCount(solved.length);
+        let problemData = problems.filter((pr) => {
+          return true;
+        });
+
+        setSolvedCount(solved);
+        setTriedCount(tried);
       }
+
+      return () => (shouldFetch = false);
     }
-    return () => (shouldFetch = false);
   }, [props.solvedProblemsIds, problems]);
 
   return (
@@ -51,8 +66,10 @@ const Subchapter = (props) => {
     >
       <div className={styles.card_title}>{props.title}</div>
       <div className={styles.stats}>
-        Probleme existente: {problems.length} <br /> Probleme rezolvate{" "}
-        {solvedCount} <br /> <br />
+        Probleme existente: {problems.length} <br /> Probleme rezolvate:{" "}
+        {solvedCount} <br />{" "}
+        {triedCount !== 0 ? "Probleme încercate: " + triedCount : null}
+        <br />
       </div>
       <div className={styles.percent}>
         {problems.length / solvedCount

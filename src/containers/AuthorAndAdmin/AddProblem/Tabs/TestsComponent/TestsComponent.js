@@ -24,7 +24,7 @@ const TestsComponent = (props) => {
         time: 0,
         score: 0,
         obtainedScore: 0,
-        isExemple: false,
+        isExample: false,
       });
     }
   };
@@ -71,13 +71,13 @@ const TestsComponent = (props) => {
     ]);
   };
 
-  const updateIsExemple = (id) => {
+  const updateIsExample = (id) => {
     props.updateTestHandler([
       ...tests.map((test) => {
         if (test.id === id) {
           return {
             ...test,
-            isExemple: !test.isExemple,
+            isExample: !test.isExample,
           };
         }
         return test;
@@ -108,11 +108,11 @@ const TestsComponent = (props) => {
         input={test.input}
         output={test.output}
         score={test.score}
-        isExemple={test.isExemple}
+        isExample={test.isExample}
         updateInput={(event) => updateInput(test.id, event.target.value)}
         updateOutput={(event) => updateOutput(test.id, event.target.value)}
         updateScore={(event) => updateScore(test.id, event.target.value)}
-        updateIsExemple={() => updateIsExemple(test.id)}
+        updateIsExample={() => updateIsExample(test.id)}
         removeTest={() => removeTest(test.id)}
       />
     );

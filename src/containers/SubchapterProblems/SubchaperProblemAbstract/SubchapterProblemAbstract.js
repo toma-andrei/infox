@@ -1,6 +1,11 @@
 import styles from "./SubchapterProblemAbstract.module.css";
 import { Link } from "react-router-dom";
-
+import Label from "../LabelsShort/Labels";
+import { useEffect, useState } from "react";
+import axios from "axios";
+import useAuth from "../../../hooks/useAuth";
+import { requestIP } from "../../../env";
+import Labels from "../LabelsShort/Labels";
 const tm = require("markdown-it-texmath");
 const md = require("markdown-it")({ html: true }).use(tm, {
   engine: require("katex"),
@@ -18,7 +23,6 @@ const SubchapterProblemAbstract = (props) => {
     100
   ).toFixed(0);
   successRate = successRate === "NaN" ? 50 : successRate;
-
   return props.shouldNotRedirect ? (
     <div
       className={styles.problem_title_and_abstract}
@@ -70,6 +74,9 @@ const SubchapterProblemAbstract = (props) => {
         >
           Rată succes: {successRate}
         </div>
+      </div>
+      <div style={{ marginTop: "20px" }}>
+        <Labels labels={props.fullProblem.labels} />
       </div>
     </Link>
   );

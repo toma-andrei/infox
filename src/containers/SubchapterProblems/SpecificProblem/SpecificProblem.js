@@ -23,7 +23,8 @@ const SpecificProblem = (props) => {
 
   //id from url
   const { id } = useParams();
-  const { jwt } = useContext(AuthContext);
+  const { jwt, admin, author } = useContext(AuthContext);
+  const userId = useContext(AuthContext).id;
   //information for each tab in the specific problem page
   const [tabs, setTabs] = useState([
     { className: [styles.tablink, styles.active], text: "Enunț", show: true },
@@ -145,8 +146,9 @@ const SpecificProblem = (props) => {
     setTabs(tabsCopy);
   };
 
+  // if problem is not approved and author is not current user and user is not admin shou unapproved
   let toBeShown = problem ? (
-    problem.approved === "0" ? (
+    problem.approved === "0" && problem.author_id !== userId && !admin ? (
       <Unapproved />
     ) : (
       <div className={styles.problem_page}>

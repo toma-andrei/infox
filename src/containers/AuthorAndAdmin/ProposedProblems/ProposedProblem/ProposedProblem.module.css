@@ -28,3 +28,23 @@
 .title p {
   display: inline;
 }
+
+.downButtons {
+  display: flex;
+  justify-content: space-around;
+}
+
+.wrapper {
+  display: flex;
+  justify-content: space-between;
+  flex-direction: column;
+}
+
+.button {
+  border: none;
+  padding: 7px;
+  border-radius: 5px;
+  font-size: 1.1rem;
+  background-color: rgb(1, 56, 38);
+  color: #fff;
+}
