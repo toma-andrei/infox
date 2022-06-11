@@ -5,22 +5,6 @@ const FunctionAndProgramSources = (props) => {
     <div className={styles.wrapperDiv}>
       <div className={styles.groupWrapper}>
         <label
-          className={
-            "col-sm-2 col-form-label " +
-            [styles.shortLabel, styles.changeLabel].join(" ")
-          }
-          htmlFor="sourceCode"
-        >
-          Numele funcției:
-        </label>
-        <input
-          className={["form-control", styles.changeInput].join(" ")}
-          value={props.functionName}
-          onChange={(event) => props.setFunctionName(event.target.value)}
-        />
-      </div>
-      <div className={styles.groupWrapper}>
-        <label
           className={"col-sm-2 col-form-label " + styles.changeLabel}
           htmlFor="sourceCode"
         >
@@ -31,7 +15,7 @@ const FunctionAndProgramSources = (props) => {
           id="sourceCode"
           onChange={(event) => props.setFunctionCode(event.target.value)}
           className={styles.textareaStyle}
-          value={props.source}
+          value={props.functionCode}
         ></textarea>
       </div>
       <div className={styles.groupWrapper}>

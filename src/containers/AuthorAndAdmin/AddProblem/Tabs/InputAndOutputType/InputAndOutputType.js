@@ -4,34 +4,30 @@ import checked from "../../../../../assets/img/addProblemsImages/check.png";
 import styles from "./InputAndOutputType.module.css";
 import { useState } from "react";
 import TextToShow from "../TextToShow/TextToShow";
+import { useEffect } from "react";
 
 const InputAndOutputType = (props) => {
-  const [images, setImages] = useState([
-    {
-      image: keyboard,
-      figureCaption: "Citire și scriere din consolă",
-      id: 1,
-      selected: true,
-      type: "keyboardInput",
-    },
-    {
-      image: file,
-      figureCaption: "Citire și scriere din fișier",
-      id: 2,
-      selected: false,
-      type: "fileInput",
-    },
-  ]);
+  const [images, setImages] = useState([]);
+
+  useEffect(() => {
+    console.log("inputType", props.inputType);
+    setImages(
+      images.map((image) => {
+        if (image.type === props.inputType) {
+          return {
+            ...image,
+            selected: true,
+          };
+        }
+        return {
+          ...image,
+          selected: false,
+        };
+      })
+    );
+  }, [props.inputType]);
 
   const selectType = (inputType) => {
-    for (let i = 0; i < images.length; i++) {
-      if (images[i].type === inputType) {
-        images[i].selected = true;
-      } else {
-        images[i].selected = false;
-      }
-    }
-
     props.changed(inputType);
   };
 
@@ -63,15 +59,6 @@ const InputAndOutputType = (props) => {
           );
         })}
       </div>
-      {props.inputType === "keyboardInput" ? (
-        <TextToShow text="Datele de intrare vor fi citite de la consolă respectiv datele de ieșire vor fi afișate la consolă." />
-      ) : props.inputType === "fileInput" ? (
-        <TextToShow
-          text={`Datele de intrare vor fi citite din fișierul 
-                      <strong><i>data.in</i></strong> iar datele
-                      de ieșire vor fi scrise în fișierul <strong><i>data.out</i></strong>.`}
-        />
-      ) : null}
     </div>
   );
 };

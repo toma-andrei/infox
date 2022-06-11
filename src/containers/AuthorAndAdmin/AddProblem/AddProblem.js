@@ -12,7 +12,6 @@ import Buttons from "./Buttons/Buttons";
 import Modal from "./Buttons/Modal/Modal";
 import ProblemToBeAdded from "./ProblemToBeAdded/ProblemToBeAdded";
 import { useParams } from "react-router";
-import InputAndOutputType from "./Tabs/InputAndOutputType/InputAndOutputType";
 
 const AddProblem = (props) => {
   // ################# PROBLEM SUMMARY COMPONENT #################
@@ -25,7 +24,7 @@ const AddProblem = (props) => {
   const [problemTitle, setProblemTitle] = useState("");
   const [problemSource, setProblemSource] = useState("Folclor");
   const [showHelp, setShowHelp] = useState(false);
-  const [problemId, setProblemId] = useState(id);
+  const [problemId, setProblemId] = useState(parseInt(id));
   // 0 - no, 1 - Save button, 2 - Finalize button
   const [showButtonModal, setShowButtonModal] = useState(0);
   const [savedWithSuccess, setSavedWithSuccess] = useState(false);
@@ -49,7 +48,7 @@ const AddProblem = (props) => {
             ? JSON.parse(res.data.problem.metadata)
             : res.data.problem.metadata;
 
-        let testes = Object.keys(meta.teste).map((key, index) => {
+        let tests = Object.keys(meta.teste).map((key, index) => {
           return {
             id: index,
             input: meta.teste[key].in,
@@ -64,16 +63,28 @@ const AddProblem = (props) => {
         setSelectedChapter(res.data.problem.subchapter_id);
         setProblemSummary(res.data.problem.abstract);
         setRequirements(res.data.problem.full);
-        setLabels({
-          selectedLabels: [...res.data.problem.labels.split(",")],
-          customLabel: labels.customLabel,
-        });
         setHints(res.data.problem.tips);
         setProponentSource(res.data.problem.proposer_code);
-        setMemoryLimit(meta.limita_memorie);
-        setStackMemoryLimit(meta.limita_memorie_pe_stiva);
-        setTimeLimit(meta.limita_timp);
-        setTests(testes);
+        setMemoryLimit(res.data.problem.limit_memory);
+        setStackMemoryLimit(res.data.problem.limit_stack);
+        setTimeLimit(res.data.problem.limit_time);
+        setTests(tests);
+        setProblemType(res.data.problem.type);
+      });
+
+      axios({
+        method: "post",
+        url: "http://" + requestIP,
+        data: {
+          method: "get",
+          jwt: jwt,
+          url: "https://infox.ro/new/lables/problem/" + problemId,
+        },
+      }).then((res) => {
+        setLabels({
+          selectedLabels: res.data.labels.map((label) => label.id),
+          customLabel: labels.customLabel,
+        });
       });
     }
   }, [problemId]);
@@ -199,17 +210,20 @@ const AddProblem = (props) => {
   // ################# END REQUIREMENT & PREVIEW COMPONENT #################
 
   // ################# PROPONENT SOURCE COMPONENT #################
+  //in case of function, proponentSource is used for the incomplete program
   const [proponentSource, setProponentSource] = useState("");
-  const [functionName, setFunctionName] = useState("");
   const [functionCode, setFunctionCode] = useState("");
+  const [outputVerificationCode, setOutputVerificationCode] = useState("");
   const sourceModifiedHandler = (event) => {
     event.preventDefault();
     const source = event.target.value;
     setProponentSource(source);
   };
 
-  const functionNameModifiedHandler = (name) => {
-    setFunctionName(name);
+  const outputVerificationCodeModifiedHandler = (event) => {
+    event.preventDefault();
+    const code = event.target.value;
+    setOutputVerificationCode(code);
   };
 
   const functionCodeModifiedHandler = (code) => {
@@ -218,7 +232,7 @@ const AddProblem = (props) => {
   // ################# END PROPONENT SOURCE COMPONENT #################
 
   // ################# SETTINGS COMPONENT #################
-  const [timeLimit, setTimeLimit] = useState(0.01); // Seconds
+  const [timeLimit, setTimeLimit] = useState(10); // Miliseconds
   const [memoryLimit, setMemoryLimit] = useState(32); // MB
   const [stackMemoryLimit, setStackMemoryLimit] = useState(32); // MB
 
@@ -302,16 +316,8 @@ const AddProblem = (props) => {
   };
   // ################# END TOGGLE MODAL #################
 
-  // ################# INPUT TYPE #################
-  const [inputType, setInputType] = useState("keyboardInput"); // may be: "keyboardInput", "fileInput", "function";
-
-  const inputTypeModifiedHandler = (inputTypeParam) => {
-    setInputType(inputTypeParam);
-  };
-  // ################# END INPUT TYPE #################
-
   // ################# PROBLEM TYPE #################
-  const [problemType, setProblemType] = useState("keyboardInput"); // may be: "keyboardInput", "fileInput", "function";
+  const [problemType, setProblemType] = useState("console_io");
 
   const problemTypeModifiedHandler = (problemTypeParam) => {
     setProblemType(problemTypeParam);
@@ -334,7 +340,35 @@ const AddProblem = (props) => {
     // console.log("compile test with id " + id);
     const test = tests.find((test) => test.id === id);
   };
-  const compileAllTests = () => {};
+  const compileAllTests = () => {
+    const body = {
+      testsNumber: tests.length,
+      inputType: problemType,
+      code: proponentSource,
+    };
+    console.log(body);
+    for (let i = 0; i < tests.length; i++) {
+      body[i + "-data"] = tests[i].input;
+    }
+    console.log(body);
+    console.log("sending...");
+
+    axios({
+      method: "post",
+      url: "http://" + requestIP,
+      data: {
+        ...body,
+        jwt: jwt,
+        url: "https://infox.ro/new/new/solution/output",
+      },
+    })
+      .then((res) => {
+        console.log(res.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
   // ################# END SENT TO COMPILE - TESTS COMPONENT #################
 
   // ################# SUBMIT PROBLEM #################
@@ -342,17 +376,21 @@ const AddProblem = (props) => {
     const problem = {
       title: problemTitle,
       source: problemSource,
-      subchapterId: parseInt(selectedChapter),
       abstract: problemSummary,
       full: requirements,
       tips: hints,
-      labels: labels.selectedLabels.join(","),
-      proposerCode: proponentSource,
-      problemId: problemId,
+      subchapterId: parseInt(selectedChapter),
+      proposerCode: problemType === "function" ? functionCode : proponentSource,
+      type: problemType,
+      functionTemplate: proponentSource,
+      check_outpu: "",
+      checkOutput: "",
+      timeLimit: parseInt(timeLimit),
+      memoryLimit: parseInt(memoryLimit),
+      stackMemoryLimit: parseInt(stackMemoryLimit),
     };
 
     let testsModified = {};
-
     for (let i = 0; i < tests.length; i++) {
       let testName = i < 10 ? "test0" + i : "test" + i;
       testsModified[testName + "-in"] = tests[i].input;
@@ -361,41 +399,37 @@ const AddProblem = (props) => {
       testsModified[testName + "-out"] = tests[i].output;
     }
 
-    const metadata = {
-      problemId: problemId,
-      timeLimit: parseFloat(timeLimit),
-      memoryLimit: parseFloat(memoryLimit),
-      stackMemoryLimit: parseFloat(stackMemoryLimit),
-      problemId: problemId,
-      testsNumber: tests.length,
-      ...testsModified,
-    };
-
     axios({
       method: "post",
       url: "http://" + requestIP,
       data: {
         jwt: jwt,
         ...problem,
-        url: "https://infox.ro/new/authors/problems/" + problemId,
+        url: "https://infox.ro/new/new/authors/problem/" + problemId,
       },
     }).then((res) => {
-      console.log("problem data saved successfully");
+      console.log("problem:");
+      console.log(res.data);
     });
+
+    let constLabels = [];
+    for (let i = 0; i < labels.selectedLabels.length; i++) {
+      constLabels.push(parseInt(labels.selectedLabels[i]));
+    }
 
     axios({
       method: "post",
       url: "http://" + requestIP,
       data: {
+        problemId: problemId,
+        labels: constLabels,
         jwt: jwt,
-        ...metadata,
-        url: "https://infox.ro/new/authors/problems/" + problemId + "/metadata",
+        url: "https://infox.ro/new/new/authors/labels/problem",
       },
-    })
-      .then((res) => {
-        console.log(res.data);
-      })
-      .catch((err) => console.log(err));
+    }).then((res) => {
+      console.log("labels");
+      console.log(res.data);
+    });
   };
 
   // function called when the problem is being finalized
@@ -452,11 +486,6 @@ const AddProblem = (props) => {
             ajutor 📚
           </span>
         </div>
-        <HRsAndTitles title={"Citire și scriere"} />
-        <InputAndOutputType
-          inputType={inputType}
-          changed={inputTypeModifiedHandler}
-        />
         <HRsAndTitles title={"Tipul problemei"} />
         <TypeOfProblem
           problemType={problemType}
@@ -464,7 +493,6 @@ const AddProblem = (props) => {
         />
 
         <ProblemToBeAdded
-          inputType={inputType}
           problemType={problemType}
           chapters={chapters}
           selectedChapter={selectedChapter}
@@ -492,9 +520,9 @@ const AddProblem = (props) => {
           hints={hints}
           hintsModifiedHandler={hintsModifiedHandler}
           proponentSource={proponentSource}
-          functionName={functionName}
-          functionNameModifiedHandler={functionNameModifiedHandler}
           functionCode={functionCode}
+          verificationCode={outputVerificationCode}
+          verificationCodeModified={outputVerificationCodeModifiedHandler}
           functionCodeModifiedHandler={functionCodeModifiedHandler}
           sourceModifiedHandler={sourceModifiedHandler}
           timeLimit={timeLimit}

@@ -10,7 +10,7 @@ import Loading from "../UI/Loading/Loading";
 import NoExistentProblems from "./NoExistentProblem/NoExistentProblems";
 
 const SubchapterProblemsAbstract = (props) => {
-  const { id } = useParams();
+  const { id, searchString } = useParams();
   const { jwt } = useContext(AuthContext);
   const [problemsAbstract, setProblemsAbstract] = useState([]);
   const [problemsFull, setProblemsFull] = useState([]);
@@ -25,10 +25,13 @@ const SubchapterProblemsAbstract = (props) => {
       url: "http://" + requestIP,
       data: JSON.stringify({
         method: "get",
-        url: "https://infox.ro/new/problems/problems/" + id,
+        url: props.url
+          ? props.url + "?searchString=" + searchString
+          : "https://infox.ro/new/problems/problems/" + id,
         jwt: jwt,
       }),
     }).then((res) => {
+      console.log(res);
       if (shouldFetch) {
         if (res.data.problems.length === 0) {
           setAreProblemsInThisSubchapter(false);

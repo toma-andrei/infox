@@ -11,7 +11,7 @@ const SettingsComponent = (props) => {
           className={"col-sm-2 col-form-label " + styles.changeLabel}
           htmlFor="timeLimit"
         >
-          Limita de timp <i>(secunde)</i>:
+          Limita de timp <i>(milisecunde)</i>:
         </label>
         <div className={"col-sm-10 " + styles.inputWidth}>
           <input

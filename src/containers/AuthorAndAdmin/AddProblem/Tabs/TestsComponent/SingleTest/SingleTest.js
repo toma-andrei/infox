@@ -9,7 +9,7 @@ const SingleTest = (props) => {
       </div>
       <div className={"form-group row " + styles.addSpaces}>
         <label className={styles.changeLabel} htmlFor="firstTextarea">
-          {props.inputType === "fileInput" ? " data.in:" : " Input:"}
+          {props.inputType === "file_io" ? " data.in:" : " Input:"}
         </label>
         <textarea
           className={styles.textareaField}
@@ -20,7 +20,7 @@ const SingleTest = (props) => {
       </div>
       <div className={"form-group row " + styles.addSpaces}>
         <label className={styles.changeLabel} htmlFor="secondTextarea">
-          {props.inputType === "fileInput" ? " data.out:" : " Output:"}
+          {props.inputType === "file_io" ? " data.out:" : " Output:"}
         </label>
         <textarea
           className={styles.textareaField}

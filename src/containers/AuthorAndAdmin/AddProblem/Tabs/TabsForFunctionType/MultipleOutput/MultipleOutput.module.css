@@ -1,0 +1,34 @@
+.wrapperDiv {
+  width: 100%;
+  height: 100%;
+  margin-bottom: 20px;
+}
+
+.groupWrapper {
+  margin-bottom: 15px;
+}
+
+.changeLabel {
+  width: 100% !important;
+  color: #fff;
+}
+
+.shortLabel {
+  width: 200px !important;
+}
+
+.textareaStyle {
+  width: 100%;
+  min-height: 150px;
+}
+
+.changeInput {
+  width: 300px;
+  display: inline-block;
+}
+
+.sourceCodeStyle {
+  width: 100%;
+  min-height: 150px;
+  padding: 10px;
+}

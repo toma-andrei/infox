@@ -90,6 +90,13 @@ function App(props) {
             element={<SpecificProblem />}
           />
           <Route path="/problems/hard" exact element={<HardProblems />} />
+          <Route
+            path="/problems/search/:searchString"
+            exact
+            element={
+              <SubchapterProblemsAbstract url="https://infox.ro/new/problems/search" />
+            }
+          />
 
           {/* Routes only available for admin and authors */}
           <Route element={<RequireAdmin />}>

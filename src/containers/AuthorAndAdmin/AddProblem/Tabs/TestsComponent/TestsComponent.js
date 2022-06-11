@@ -96,8 +96,9 @@ const TestsComponent = (props) => {
   };
 
   const generateOutput = () => {
-    console.log("generate output");
+    props.compileAllTests();
   };
+
   let testsComponents = tests.map((test) => {
     return (
       <SingleTest

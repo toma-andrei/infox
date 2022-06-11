@@ -7,6 +7,7 @@ import RequirementsAndPreview from "../Tabs/RequirementsAndPreview/RequirementsA
 import Labels from "../Tabs/Labels/Labels";
 import TestsComponent from "../Tabs/TestsComponent/TestsComponent";
 import FunctionAndProgramSources from "../Tabs/TabsForFunctionType/FunctionAndProgramSources/FunctionAndProgramSources";
+import MultipleOutput from "../Tabs/TabsForFunctionType/MultipleOutput/MultipleOutput";
 const ProblemToBeAdded = (props) => {
   return (
     <>
@@ -45,14 +46,19 @@ const ProblemToBeAdded = (props) => {
         hintsModifiedHandler={props.hintsModifiedHandler}
       />
       <HRsAndTitles title={"Sursa propunătorului"} />
-      {props.inputType === "function" ? (
+      {props.problemType === "function" ? (
         <FunctionAndProgramSources
-          functionName={props.functionName}
-          setFunctionName={props.functionNameModifiedHandler}
           source={props.source}
           sourceModifiedHandler={props.sourceModifiedHandler}
           functionCode={props.functionCode}
           setFunctionCode={props.functionCodeModifiedHandler}
+        />
+      ) : props.problemType === "check_solution" ? (
+        <MultipleOutput
+          source={props.proponentSource}
+          sourceModifiedHandler={props.sourceModifiedHandler}
+          verificationCode={props.verificationCode}
+          verificationCodeModified={props.verificationCodeModified}
         />
       ) : (
         <ProponentSource

@@ -18,8 +18,16 @@ const NavbarAuth = () => {
 
   const navigate = useNavigate();
 
+  // function called when user press a key on keyboard
+  const onPressedEnter = (event) => {
+    if (event.key === "Enter") {
+      navigate("/problems/search/" + event.target.value);
+    } else if (event.key === "Backspace" && event.target.value.length <= 1)
+      navigate("/", { replace: false });
+  };
+
   const fromContext = useContext(AuthContext);
-  // function to logout. Delete all jwt tokens and redirect to login page
+  // function to logout. Delete all jwt tokens and redirect to logout page
   const logout = () => {
     localStorage.clear();
     fromContext.updateJWT(null);
@@ -79,8 +87,8 @@ const NavbarAuth = () => {
                 className="form-control mr-lg-2"
                 id="search_problems"
                 name="search"
-                onInput="showPossibleAnswer()"
                 placeholder="Căutare"
+                onKeyDown={onPressedEnter}
                 type="text"
                 style={{ backgroundColor: "#fff", border: "1px solid #ced4da" }}
               />
