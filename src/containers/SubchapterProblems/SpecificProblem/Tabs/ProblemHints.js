@@ -4,6 +4,7 @@ import { requestIP } from "../../../../env";
 import styles from "./ProblemHints.module.css";
 import useAuth from "../../../../hooks/useAuth";
 import useKatexParser from "../../../../hooks/useKatexParser";
+import ajax from "../../../../assets/js/ajax";
 
 const ProblemHints = (props) => {
   const { jwt } = useAuth();
@@ -14,31 +15,25 @@ const ProblemHints = (props) => {
   useEffect(() => {
     let shouldFetch = true;
     if (shouldFetch) {
-      axios({
-        method: "post",
-        url: "http://" + requestIP,
-        data: JSON.stringify({
-          method: "get",
-          url: "https://infox.ro/new/tests/" + props.id,
-          jwt: jwt,
-        }),
-      }).then((response) => {
-        if (!response.data.success) {
-          setError(
-            "A apărut o eroare la încărcarea testelor de evaluare. Lucrăm pentru remedierea acestei probleme."
-          );
-        } else {
-          if (response.data.length !== 0) {
-            let temp = [];
-            for (let i in Object.keys(response.data)) {
-              if (response.data[i]) {
-                temp.push(response.data[i]);
+      ajax("https://infox.ro/new/tests/" + props.id, "get", jwt, {}).then(
+        (response) => {
+          if (!response.data.success) {
+            setError(
+              "A apărut o eroare la încărcarea testelor de evaluare. Lucrăm pentru remedierea acestei probleme."
+            );
+          } else {
+            if (response.data.length !== 0) {
+              let temp = [];
+              for (let i in Object.keys(response.data)) {
+                if (response.data[i]) {
+                  temp.push(response.data[i]);
+                }
               }
+              setTests(temp);
             }
-            setTests(temp);
           }
         }
-      });
+      );
     }
   }, []);
 

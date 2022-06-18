@@ -4,6 +4,7 @@ import Input from "../../UI/Input/Input";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { requestIP } from "../../../env";
+import ajax from "../../../assets/js/ajax";
 
 const Register = (props) => {
   const [registerForm, setRegisterForm] = useState({
@@ -155,16 +156,11 @@ const Register = (props) => {
 
       if (formIsValid) {
         setLoading(true);
-        axios({
-          method: "post",
-          url: "http://" + requestIP,
-          data: {
-            url: "https://infox.ro/new/auth/register",
-            email: email,
-            password: password,
-            lastName: lastName,
-            firstName: firstName,
-          },
+        ajax("https://infox.ro/new/auth/register", "post", "", {
+          email: email,
+          password: password,
+          lastName: lastName,
+          firstName: firstName,
         })
           .then((res) => {
             setLoading(false);
@@ -198,7 +194,7 @@ const Register = (props) => {
 
   useEffect(() => {
     setTimeout(() => {
-      if (success) navigate("/user/login");
+      if (success) navigate("/login");
     }, 4000);
   }, [success]);
 

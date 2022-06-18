@@ -7,9 +7,10 @@ import useAuth from "../../../hooks/useAuth";
 import { requestIP } from "../../../env";
 import Labels from "../LabelsShort/Labels";
 import useKatexParser from "../../../hooks/useKatexParser";
+import ajax from "../../../assets/js/ajax";
 
 /*
- * Abstract problem component on route /problems/display_subchapter/id
+ * Abstract problem component on route /problems/subchapter/id
  */
 const SubchapterProblemAbstract = (props) => {
   const md = useKatexParser();
@@ -18,15 +19,12 @@ const SubchapterProblemAbstract = (props) => {
   const [solutions, setSolutions] = useState([]);
 
   useEffect(() => {
-    axios({
-      method: "post",
-      url: "http://" + requestIP,
-      data: {
-        method: "get",
-        jwt: jwt,
-        url: "https://infox.ro/new/solutions/problem/" + props.fullProblem.id,
-      },
-    }).then((res) => {
+    ajax(
+      "https://infox.ro/new/solutions/problem/" + props.fullProblem.id,
+      "get",
+      jwt,
+      {}
+    ).then((res) => {
       const temp = res.data.solutions.sort((a, b) => {
         let aa = new Date(a.created_at);
         let bb = new Date(b.created_at);
@@ -76,7 +74,7 @@ const SubchapterProblemAbstract = (props) => {
     </div>
   ) : (
     <Link
-      to={"/problems/display_problem/" + props.fullProblem.id}
+      to={"/problems/problem/" + props.fullProblem.id}
       state={{ ...props.fullProblem, solutions: solutions }}
       className={styles.problem_title_and_abstract}
     >

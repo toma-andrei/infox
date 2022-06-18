@@ -2,8 +2,6 @@ import styles from "./AddProblem.module.css";
 import { useState, useContext, useEffect } from "react";
 import { ProblemsContext } from "../../../App";
 import { AuthContext } from "../../../components/Layout/Layout";
-import axios from "axios";
-import { requestIP } from "../../../env";
 import formatChapters from "../../../assets/js/parseProblemChapters";
 import TypeOfProblem from "./Tabs/TypeOfProblem/TypeOfProblem";
 import HelpModal from "./Tabs/HelpModal/HelpModal";
@@ -14,6 +12,7 @@ import ProblemToBeAdded from "./ProblemToBeAdded/ProblemToBeAdded";
 import SavedWithSuccess from "./SavedWithSuccess/SavedWithSuccess";
 import { useParams } from "react-router";
 import { saveProblem } from "./ajax";
+import ajax from "../../../assets/js/ajax";
 
 const AddProblem = (props) => {
   // ################# PROBLEM SUMMARY COMPONENT #################
@@ -38,16 +37,12 @@ const AddProblem = (props) => {
   //if the url has an id, it means that the problem is being edited
   useEffect(() => {
     if (problemId) {
-      axios({
-        method: "post",
-        url: "http://" + requestIP,
-        data: {
-          method: "get",
-          problemId: problemId,
-          jwt: jwt,
-          url: "https://infox.ro/new/authors/problems/" + problemId,
-        },
-      }).then((res) => {
+      ajax(
+        "https://infox.ro/new/authors/problems/" + problemId,
+        "get",
+        jwt,
+        {}
+      ).then((res) => {
         setProblemTitle(res.data.problem.title);
         setProblemSource(res.data.problem.source);
         setSelectedChapter(res.data.problem.subchapter_id);
@@ -67,30 +62,21 @@ const AddProblem = (props) => {
       });
 
       // get labels for the problem
-      axios({
-        method: "post",
-        url: "http://" + requestIP,
-        data: {
-          method: "get",
-          jwt: jwt,
-          url: "https://infox.ro/new/lables/problem/" + problemId,
-        },
-      }).then((res) => {
-        setLabels({
-          selectedLabels: res.data.labels.map((label) => label.id),
-          customLabel: labels.customLabel,
-        });
-      });
+      ajax("https://infox.ro/new/lables/problem/" + problemId, "get", jwt).then(
+        (res) => {
+          setLabels({
+            selectedLabels: res.data.labels.map((label) => label.id),
+            customLabel: labels.customLabel,
+          });
+        }
+      );
 
-      axios({
-        method: "post",
-        url: "http://" + requestIP,
-        data: {
-          jwt: jwt,
-          method: "get",
-          url: "https://infox.ro/new/new/authors/tests/problem/" + problemId,
-        },
-      }).then((res) => {
+      ajax(
+        "https://infox.ro/new/new/authors/tests/problem/" + problemId,
+        "get",
+        jwt,
+        {}
+      ).then((res) => {
         if (res.data.success) {
           let teste = res.data.tests.map((test, index) => {
             return {
@@ -139,18 +125,12 @@ const AddProblem = (props) => {
     }
 
     const fetchProblems = (year) => {
-      return axios({
-        method: "post",
-        url: "http://" + requestIP,
-        data: JSON.stringify({
-          url: "https://infox.ro/new/problems/chapters/" + year,
-          method: "get",
-          jwt: jwt,
-        }),
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
+      return ajax(
+        "https://infox.ro/new/problems/chapters/" + year,
+        "get",
+        jwt,
+        {}
+      );
     };
 
     //create an array of promises with response for each chapter
@@ -391,15 +371,7 @@ const AddProblem = (props) => {
 
     body["function"] = functionCode;
 
-    axios({
-      method: "post",
-      url: "http://" + requestIP,
-      data: {
-        ...body,
-        jwt: jwt,
-        url: "https://infox.ro/new/new/solution/output",
-      },
-    })
+    ajax("https://infox.ro/new/new/solution/output", "post", jwt, body)
       .then((res) => {
         console.log(res.data);
         if (res.data.output.teste["1"].eroare !== "0") {
@@ -450,15 +422,8 @@ const AddProblem = (props) => {
 
     setCurrentlyCompiling(true);
     console.log(body);
-    axios({
-      method: "post",
-      url: "http://" + requestIP,
-      data: {
-        ...body,
-        jwt: jwt,
-        url: "https://infox.ro/new/new/solution/output",
-      },
-    })
+
+    ajax("https://infox.ro/new/new/solution/output", "post", jwt, body)
       .then((res) => {
         console.log(res.data);
         setCurrentlyCompiling(false);
@@ -517,14 +482,12 @@ const AddProblem = (props) => {
   const finalizeProblemHandler = () => {
     console.log("uncomment code in VSCode to finalize problem");
     return;
-    axios({
-      method: "post",
-      url: "http://" + requestIP,
-      data: {
-        jwt: jwt,
-        url: "https://infox.ro/new/authors/" + problemId + "/finalize",
-      },
-    })
+    ajax(
+      "https://infox.ro/new/authors/" + problemId + "/finalize",
+      "post",
+      jwt,
+      {}
+    )
       .then((res) => {
         console.log(res.data);
       })

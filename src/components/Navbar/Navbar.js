@@ -1,4 +1,4 @@
-import whiteInfoXLogo from "../../assets/img/infox_logo_white.svg";
+import whiteInfoXLogo from "../../assets/img/infox_logo_white.png";
 import styles from "./Navbar.module.css";
 import { Link } from "react-router-dom";
 
@@ -38,7 +38,7 @@ const Navbar = () => {
       <div className="collapse navbar-collapse" id="navbarSupportedContent">
         <ul className={"navbar-nav " + styles.MoveRight}>
           <li className="nav-item">
-            <Link className="nav-link xnavbar-item" to="/user/login">
+            <Link className="nav-link xnavbar-item" to="/login">
               Autentificare
             </Link>
           </li>

@@ -8,6 +8,7 @@ import defaultAvatar from "../../../assets/img/navbarImages/basic_avatar.jpg";
 import useAuth from "../../../hooks/useAuth";
 import ColorPicker from "../../UI/ColorPicker/ColorPicker";
 import UserModal from "./Modal/UserModal";
+import ajax from "../../../assets/js/ajax";
 const CurrentUserProfile = (props) => {
   const fromContext = useContext(AuthContext);
 
@@ -76,22 +77,16 @@ const CurrentUserProfile = (props) => {
     event.preventDefault();
 
     if (formIsValid) {
-      axios({
-        method: "post",
-        url: "http://" + requestIP,
-        data: {
-          url: "https://infox.ro/new/users/profile",
-          jwt: fromContext.jwt,
-          firstname: profileForm.firstName.value,
-          lastname: profileForm.lastName.value,
-          nickname: profileForm.nickname.value,
-          public: fromContext.public,
-          password: profileForm.password.value,
-          confirmPassword: profileForm.confirmPassword.value,
-          school: profileForm.school.value,
-          county: profileForm.county.value,
-          locality: profileForm.locality.value,
-        },
+      ajax("https://infox.ro/new/users/profile", "post", fromContext.jwt, {
+        firstname: profileForm.firstName.value,
+        lastname: profileForm.lastName.value,
+        nickname: profileForm.nickname.value,
+        public: fromContext.public,
+        password: profileForm.password.value,
+        confirmPassword: profileForm.confirmPassword.value,
+        school: profileForm.school.value,
+        county: profileForm.county.value,
+        locality: profileForm.locality.value,
       }).then((res) => {
         console.log(res.data);
       });
@@ -109,14 +104,13 @@ const CurrentUserProfile = (props) => {
       return;
     }
 
-    axios({
-      method: "post",
-      url: "http://" + requestIP,
-      data: {
-        url: "https://infox.ro/new/new/authors/rights",
-        jwt: fromContext.jwt,
-      },
-    }).then((res) => {
+    ajax(
+      "https://infox.ro/new/new/authors/rights",
+      "post",
+      fromContext.jwt,
+      {}
+    ).then((res) => {
+      console.log(res.data);
       setShowModal(false);
       setAuthorBought(true);
       fromContext.updateUserInfo({

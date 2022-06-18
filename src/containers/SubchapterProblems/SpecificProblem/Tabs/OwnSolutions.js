@@ -7,6 +7,7 @@ import SelectSolutionModal from "../Modals/SelectSolutionModal";
 import { useEffect } from "react";
 import createSourceProgressBar from "../../../../assets/js/createScoreBarForSolutions";
 import useAuth from "../../../../hooks/useAuth";
+import ajax from "../../../../assets/js/ajax";
 /**
  *Component showing code editor and current user's solutions
  * @param {*} props data received from SpecificProblem Component: jwt, problem id, solution array, show
@@ -45,15 +46,13 @@ const OwnSolutions = (props) => {
     /**Send code written by user to compiler and fetch new solution*/
     const sendData = async () => {
       //Send code written by user to compiler
-      const response = await axios.post(
-        "http://" + requestIP,
-        JSON.stringify({
-          url: "https://infox.ro/new/new/solutions",
-          jwt: props.jwt,
-          problemId: parseInt(props.id),
-          code: code,
-        })
+      const response = await ajax(
+        "https://infox.ro/new/new/solutions",
+        "post",
+        props.jwt,
+        { problemId: parseInt(props.id), code: code }
       );
+
       let guid = "";
       let idSolution = 0;
 
@@ -70,15 +69,9 @@ const OwnSolutions = (props) => {
       }
 
       const intervalId = setInterval(() => {
-        axios({
-          method: "post",
-          url: "http://" + requestIP,
-          data: {
-            jwt: props.jwt,
-            url: "https://infox.ro/new/new/solution/compile",
-            GUID: response.data.GUID,
-            idSolution: parseInt(response.data.idSolution),
-          },
+        ajax("https://infox.ro/new/new/solution/compile", "post", props.jwt, {
+          GUID: response.data.GUID,
+          idSolution: parseInt(response.data.idSolution),
         }).then((res) => {
           if (res.data.results) {
             console.log();
@@ -99,14 +92,12 @@ const OwnSolutions = (props) => {
               res.data.results.punctaj_final === 100 &&
               !solutions.some((solution) => solution.points === "100")
             ) {
-              axios({
-                method: "post",
-                url: "http://" + requestIP,
-                data: {
-                  url: "https://infox.ro/new/solution/coins/" + props.id,
-                  jwt: props.jwt,
-                },
-              }).then((res) => {
+              ajax(
+                "https://infox.ro/new/solution/coins/" + props.id,
+                "post",
+                props.jwt,
+                {}
+              ).then((res) => {
                 if (res.data.success) {
                   userData.updateUserInfo({
                     ...userData,
@@ -126,11 +117,12 @@ const OwnSolutions = (props) => {
   //fetch source for a problem and put it in the textarea
   const putSolutionOnTextarea = (solId) => {
     const fetchSolutionFull = async (solutionId) => {
-      const response = await axios.post("http://" + requestIP, {
-        method: "get",
-        url: "https://infox.ro/new/solutions/" + solutionId,
-        jwt: props.jwt,
-      });
+      const response = await ajax(
+        "https://infox.ro/new/solutions/" + solutionId,
+        "get",
+        props.jwt,
+        {}
+      );
 
       setFullSolutions({
         ...fullSolutions,

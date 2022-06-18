@@ -62,37 +62,37 @@ function App(props) {
       }}
     >
       <Routes>
-        <Route path="/main" exact element={<Main />} />
+        <Route path="/new/main" exact element={<Main />} />
         <Route path="/" exact element={<Main />} />
-        <Route path="/user/logout" exact element={<Main fromLogout={true} />} />
+        <Route path="/logout" exact element={<Main fromLogout={true} />} />
         {/* Routes only available for unauthenticated users */}
         <Route element={<RequireUnauth />}>
-          <Route path="/user/login" exact element={<Login />} />
-          <Route path="/user/register" exact element={<Register />} />
-          <Route path="/user/restore" exact element={<Restore />} />
+          <Route path="/login" exact element={<Login />} />
+          <Route path="/register" exact element={<Register />} />
+          <Route path="/restore" exact element={<Restore />} />
         </Route>
         <Route path="/about" exact element={<About />} />
 
         {/* Routes only available for authenticated users */}
         <Route element={<RequireAuth />}>
-          <Route path="/user/user_page" exact element={<UserPage />} />
-          <Route path="/user/show_profile" exact element={<UserProfile />} />
-          <Route path="/user/problems" exact element={<UserTriedProblems />} />
+          <Route path="/user_page" exact element={<UserPage />} />
+          <Route path="/show_profile" exact element={<UserProfile />} />
+          <Route path="/problems" exact element={<UserTriedProblems />} />
+          <Route path="/problems/hard" exact element={<HardProblems />} />
           <Route
-            path="/problems/display_year/:yearParam"
+            path="/problems/year/:yearParam"
             element={<Chapters problems={chapters} />}
           />
           <Route
-            path="/problems/display_subchapter/:id"
+            path="/problems/subchapter/:id"
             exact
             element={<SubchapterProblemsAbstract problems={chapters} />}
           />
           <Route
-            path="/problems/display_problem/:id"
+            path="/problems/problem/:id"
             exact
             element={<SpecificProblem />}
           />
-          <Route path="/problems/hard" exact element={<HardProblems />} />
           <Route
             path="/problems/search/:searchString"
             exact
@@ -122,34 +122,21 @@ function App(props) {
           />
           <Route element={<RequireAuthor />}>
             <Route
-              path="/user/proposed_problems"
+              path="/proposed_problems"
               exact
               element={<ProposedProblems />}
             />
-            <Route path="/user/admin" exact element={<Main />} />
-            <Route
-              path="/addproblem/editor/:id"
-              exact
-              element={<AddProblem />}
-            />
-            <Route path="/addproblem/editor" exact element={<AddProblem />} />
+            <Route path="/admin" exact element={<Main />} />
+            <Route path="/addproblem/:id" exact element={<AddProblem />} />
+            <Route path="/addproblem" exact element={<AddProblem />} />
           </Route>
 
           {/* Routes only available for admin and authors */}
           <Route element={<RequireAdmin />}>
-            <Route
-              path="/user/proposed_problems"
-              exact
-              element={<ProposedProblems />}
-            />
-            <Route path="/user/admin" exact element={<Main />} />
-            <Route path="/user/accept_problems" exact element={<Main />} />
-            <Route
-              path="/addproblem/editor/:id"
-              exact
-              element={<AddProblem />}
-            />
-            <Route path="/addproblem/editor" exact element={<AddProblem />} />
+            <Route path="/admin" exact element={<Main />} />
+            <Route path="/accept_problems" exact element={<Main />} />
+            <Route path="/addproblem/:id" exact element={<AddProblem />} />
+            <Route path="/addproblem" exact element={<AddProblem />} />
           </Route>
         </Route>
         <Route path="*" element={<NotFound />} />

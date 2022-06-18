@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import { requestIP } from "../../../env";
 import useAuth from "../../../hooks/useAuth";
+import ajax from "../../../assets/js/ajax";
 // props be like {labels: "id1,id2,id3"}
 
 const Labels = (props) => {
@@ -12,15 +13,7 @@ const Labels = (props) => {
 
   useEffect(() => {
     let shouldFetch = true;
-    axios({
-      method: "post",
-      url: "http://" + requestIP,
-      data: JSON.stringify({
-        jwt: jwt,
-        method: "get",
-        url: "https://infox.ro/new/labels",
-      }),
-    }).then((res) => {
+    ajax("https://infox.ro/new/labels", "get", jwt, {}).then((res) => {
       if (shouldFetch) setLabels([...res.data.labels]);
     });
 

@@ -2,10 +2,9 @@ import { createContext, Fragment, useEffect, useState } from "react";
 import Navbar from "../Navbar/Navbar";
 import "./Layout.module.css";
 import NavbarAuth from "../Navbar/NavbarAuth";
-import axios from "axios";
-import { requestIP } from "../../env";
 import defaultAvatar from "../../assets/img/navbarImages/basic_avatar.jpg";
 import jwt_decode from "jwt-decode";
+import ajax from "../../assets/js/ajax";
 
 export const AuthContext = createContext({});
 
@@ -43,42 +42,33 @@ const Layout = (props) => {
       }
 
       //fetch user data from api
-      axios({
-        method: "post",
-        url: "http://" + requestIP,
-        data: JSON.stringify({
-          url: "https://infox.ro/new/users/profile",
-          method: "get",
-          jwt: infoxJWT,
-        }),
-        headers: {
-          Authorization: `Bearer ${infoxJWT}`,
-          "Content-Type": "application/json",
-        },
-      }).then((res) => {
-        userInfo = {
-          admin: parseInt(res.data.id) === 1,
-          avatar: res.data.avatar,
-          author: author,
-          coins: res.data.coins,
-          county: res.data.county,
-          firstname: res.data.firstname,
-          id: res.data.id,
-          lastname: res.data.lastname,
-          locality: res.data.locality,
-          nickname: res.data.nickname,
-          public:
-            res.data.public == "0"
-              ? false
-              : res.data.public == "1"
-              ? true
-              : res.data.public,
-          school: res.data.school,
-          teacher: res.data.teacher,
-        };
 
-        setUserInfo(userInfo);
-      });
+      ajax("https://infox.ro/new/users/profile", "get", infoxJWT, {}).then(
+        (res) => {
+          userInfo = {
+            admin: parseInt(res.data.id) === 1,
+            avatar: res.data.avatar,
+            author: author,
+            coins: res.data.coins,
+            county: res.data.county,
+            firstname: res.data.firstname,
+            id: res.data.id,
+            lastname: res.data.lastname,
+            locality: res.data.locality,
+            nickname: res.data.nickname,
+            public:
+              res.data.public == "0"
+                ? false
+                : res.data.public == "1"
+                ? true
+                : res.data.public,
+            school: res.data.school,
+            teacher: res.data.teacher,
+          };
+
+          setUserInfo(userInfo);
+        }
+      );
     }
   }, [infoxJWT]);
 

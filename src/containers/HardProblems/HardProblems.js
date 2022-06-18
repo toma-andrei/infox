@@ -6,6 +6,7 @@ import Loading from "../UI/Loading/Loading";
 import SubchapterProblemAbstract from "../SubchapterProblems/SubchaperProblemAbstract/SubchapterProblemAbstract";
 import stylesProblemList from "../SubchapterProblems/SubchapterProblems.module.css";
 import Pagination from "../UI/Pagination/Pagination";
+import ajax from "../../assets/js/ajax";
 
 const HardProblems = (props) => {
   const [pageIndex, setPageIndex] = useState(0);
@@ -17,15 +18,12 @@ const HardProblems = (props) => {
     let shouldFetch = true;
     setLoading(true);
     if (shouldFetch) {
-      axios({
-        method: "post",
-        url: "http://" + requestIP,
-        data: {
-          method: "get",
-          url: "https://infox.ro/new/problems/hard?index=" + pageIndex * 50,
-          jwt: jwt,
-        },
-      }).then((res) => {
+      ajax(
+        "https://infox.ro/new/problems/hard?index=" + pageIndex * 50,
+        "get",
+        jwt,
+        {}
+      ).then((res) => {
         setProblemsAbstract(res.data.problems);
         setLoading(false);
       });
@@ -40,13 +38,11 @@ const HardProblems = (props) => {
     setLoading(true);
     if (shouldFetch) {
       let requests = problemsAbstract.map((problem) => {
-        return axios.post(
-          "http://" + requestIP,
-          JSON.stringify({
-            method: "get",
-            url: "https://infox.ro/new/problems/full/" + problem.id,
-            jwt: jwt,
-          })
+        return ajax(
+          "https://infox.ro/new/problems/full/" + problem.id,
+          "get",
+          jwt,
+          {}
         );
       });
 

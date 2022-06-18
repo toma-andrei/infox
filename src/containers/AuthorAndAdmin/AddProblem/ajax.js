@@ -1,4 +1,5 @@
 import axios from "axios";
+import ajax from "../../../assets/js/ajax";
 import { requestIP } from "../../../env";
 const prepareTests = (tests, problemId) => {
   let body = { problemId: problemId, testsNumber: tests.length };
@@ -74,15 +75,12 @@ export const saveProblem = (
       testsModified[testName + "-out"] = tests[i].output;
     }
 
-    axios({
-      method: "post",
-      url: "http://" + requestIP,
-      data: {
-        jwt: jwt,
-        ...problem,
-        url: "https://infox.ro/new/new/authors/problem/" + problemId,
-      },
-    }).then((res) => {
+    ajax(
+      "https://infox.ro/new/new/authors/problem/" + problemId,
+      "post",
+      jwt,
+      problem
+    ).then((res) => {
       console.log(res.data);
       if (res.data.success) {
         setProblemSaved(true);
@@ -100,15 +98,9 @@ export const saveProblem = (
       constLabels.push(parseInt(labels.selectedLabels[i]));
     }
 
-    axios({
-      method: "post",
-      url: "http://" + requestIP,
-      data: {
-        problemId: problemId,
-        labels: constLabels,
-        jwt: jwt,
-        url: "https://infox.ro/new/new/authors/labels/problem",
-      },
+    ajax("https://infox.ro/new/new/authors/labels/problem", "post", jwt, {
+      problemId: problemId,
+      labels: constLabels,
     }).then((res) => {
       if (res.data.success) {
         setLabelsSaved(true);
@@ -117,15 +109,13 @@ export const saveProblem = (
         setLabelsSaved(false);
       }
     });
-    axios({
-      method: "post",
-      url: "http://" + requestIP,
-      data: {
-        jwt: jwt,
-        ...prepareTests(tests, problemId),
-        url: "https://infox.ro/new/new/authors/tests/problem",
-      },
-    }).then((res) => {
+
+    ajax(
+      "https://infox.ro/new/new/authors/tests/problem",
+      "post",
+      jwt,
+      prepareTests(tests, problemId)
+    ).then((res) => {
       console.log(res.data);
       if (res.data.success) {
         setTestsSaved(true);
@@ -180,98 +170,82 @@ const saveProblemWithoutId = (
   setTestsSaved
 ) => {
   //create problem id
-  axios({
-    method: "post",
-    url: "http://" + requestIP,
-    data: {
-      jwt: jwt,
-      url: "https://infox.ro/new/new/authors/problem",
-    },
-  }).then((res) => {
-    let problemId = res.data.problemId;
-    const problem = {
-      title: problemTitle,
-      source: problemSource,
-      abstract: problemSummary,
-      full: requirements,
-      tips: hints,
-      subchapterId: parseInt(selectedChapter),
-      proposerCode: problemType === "function" ? functionCode : proponentSource,
-      type: problemType,
-      functionTemplate: proponentSource,
-      checkOutput: "",
-      timeLimit: parseInt(timeLimit),
-      memoryLimit: parseInt(memoryLimit),
-      stackMemoryLimit: parseInt(stackMemoryLimit),
-    };
+  ajax("https://infox.ro/new/new/authors/problem", "post", jwt, {}).then(
+    (res) => {
+      let problemId = res.data.problemId;
+      const problem = {
+        title: problemTitle,
+        source: problemSource,
+        abstract: problemSummary,
+        full: requirements,
+        tips: hints,
+        subchapterId: parseInt(selectedChapter),
+        proposerCode:
+          problemType === "function" ? functionCode : proponentSource,
+        type: problemType,
+        functionTemplate: proponentSource,
+        checkOutput: "",
+        timeLimit: parseInt(timeLimit),
+        memoryLimit: parseInt(memoryLimit),
+        stackMemoryLimit: parseInt(stackMemoryLimit),
+      };
 
-    let testsModified = {};
-    for (let i = 0; i < tests.length; i++) {
-      let testName = i < 10 ? "test0" + i : "test" + i;
-      testsModified[testName + "-in"] = tests[i].input;
-      testsModified[testName + "-score"] = parseInt(tests[i].score);
-      testsModified[testName + "-example"] = tests[i].isExample;
-      testsModified[testName + "-out"] = tests[i].output;
-    }
-
-    // save problem data
-    axios({
-      method: "post",
-      url: "http://" + requestIP,
-      data: {
-        jwt: jwt,
-        ...problem,
-        url: "https://infox.ro/new/new/authors/problem/" + problemId,
-      },
-    }).then((res) => {
-      console.log("problem:", res.data);
-      if (res.data.statusCode === 200) {
-        setProblemSaved(true);
-      } else {
-        setProblemSaved(false);
+      let testsModified = {};
+      for (let i = 0; i < tests.length; i++) {
+        let testName = i < 10 ? "test0" + i : "test" + i;
+        testsModified[testName + "-in"] = tests[i].input;
+        testsModified[testName + "-score"] = parseInt(tests[i].score);
+        testsModified[testName + "-example"] = tests[i].isExample;
+        testsModified[testName + "-out"] = tests[i].output;
       }
-    });
 
-    let constLabels = [];
-    for (let i = 0; i < labels.selectedLabels.length; i++) {
-      constLabels.push(parseInt(labels.selectedLabels[i]));
-    }
+      // save problem data
+      ajax(
+        "https://infox.ro/new/new/authors/problem/" + problemId,
+        "post",
+        jwt,
+        problem
+      ).then((res) => {
+        console.log("problem:", res.data);
+        if (res.data.statusCode === 200) {
+          setProblemSaved(true);
+        } else {
+          setProblemSaved(false);
+        }
+      });
 
-    // save labels data
-    axios({
-      method: "post",
-      url: "http://" + requestIP,
-      data: {
+      let constLabels = [];
+      for (let i = 0; i < labels.selectedLabels.length; i++) {
+        constLabels.push(parseInt(labels.selectedLabels[i]));
+      }
+
+      // save labels data
+      ajax("https://infox.ro/new/new/authors/labels/problem", "post", jwt, {
         problemId: problemId,
         labels: constLabels,
-        jwt: jwt,
-        url: "https://infox.ro/new/new/authors/labels/problem",
-      },
-    }).then((res) => {
-      console.log("labels:", res.data);
-      if (res.data.statusCode === 200) {
-        setLabelsSaved(true);
-      } else {
-        setLabelsSaved(false);
-      }
-    });
+      }).then((res) => {
+        console.log("labels:", res.data);
+        if (res.data.statusCode === 200) {
+          setLabelsSaved(true);
+        } else {
+          setLabelsSaved(false);
+        }
+      });
 
-    // save tests data
-    axios({
-      method: "post",
-      url: "http://" + requestIP,
-      data: {
-        jwt: jwt,
-        ...prepareTests(tests, problemId),
-        url: "https://infox.ro/new/new/authors/tests/problem",
-      },
-    }).then((res) => {
-      console.log("tests:", res.data);
-      if (res.data.statusCode === 200) {
-        setTestsSaved(true);
-      } else {
-        setTestsSaved(false);
-      }
-    });
-  });
+      // save tests data
+      ajax(
+        "https://infox.ro/new/new/authors/tests/problem",
+        "post",
+        jwt,
+        prepareTests(tests, problemId)
+      ).then((res) => {
+        console.log("tests:", res.data);
+        if (res.data.statusCode === 200) {
+          setTestsSaved(true);
+        } else {
+          setTestsSaved(false);
+        }
+      });
+    }
+  );
 };

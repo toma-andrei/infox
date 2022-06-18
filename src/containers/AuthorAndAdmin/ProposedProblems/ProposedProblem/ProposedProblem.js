@@ -13,7 +13,7 @@ const ProposedProblem = (props) => {
 
   return (
     // <Link
-    //   to={"/problems/display_problem/" + props.id}
+    //   to={"/problems/problem/" + props.id}
     //   className={proposedProblemStyles.join(" ")}
     // >
     <div className={[styles.wrapper, ...proposedProblemStyles].join(" ")}>
@@ -34,14 +34,14 @@ const ProposedProblem = (props) => {
       <div className={styles.downButtons}>
         <button
           className={styles.button}
-          onClick={() => navigate("/addProblem/editor/" + props.id)}
+          onClick={() => navigate("/addProblem/" + props.id)}
         >
           Editeaza
         </button>
         <button
           className={styles.button}
           onClick={() => {
-            navigate("/problems/display_problem/" + props.id, {
+            navigate("/problems/problem/" + props.id, {
               replace: false,
             });
           }}

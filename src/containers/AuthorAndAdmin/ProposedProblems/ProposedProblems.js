@@ -1,13 +1,11 @@
 import { useEffect, useState, useContext } from "react";
-import axios from "axios";
 import styles from "./ProposedProblems.module.css";
 import { ProblemsContext } from "../../../App";
 import ProposedProblem from "./ProposedProblem/ProposedProblem";
-import { requestIP } from "../../../env";
-import { AuthContext } from "../../../components/Layout/Layout";
 import Loading from "../../UI/Loading/Loading";
 import { Link } from "react-router-dom";
 import useAuth from "../../../hooks/useAuth";
+import ajax from "../../../assets/js/ajax";
 
 const ProposedProblems = (props) => {
   const fromProblemsContext = useContext(ProblemsContext);
@@ -16,11 +14,12 @@ const ProposedProblems = (props) => {
   const [proposedProblems, setProposedProblems] = useState([]);
 
   const fetchData = async () => {
-    const response = await axios.post("http://" + requestIP, {
-      url: "https://infox.ro/new/authors/problems",
-      jwt: jwt,
-      method: "get",
-    });
+    const response = await ajax(
+      "https://infox.ro/new/authors/problems",
+      "get",
+      jwt,
+      {}
+    );
 
     // sort proposed problems after their id;
     response.data.problems.sort((a, b) => {
@@ -69,7 +68,7 @@ const ProposedProblems = (props) => {
       <div className={styles.title}>Probleme propuse</div>
       <div className={styles.addNewProblemDiv}>
         <div className={styles.proposedProblemsWrapper}>
-          <Link to="/addproblem/editor" className={styles.modifyAnchor}>
+          <Link to="/addproblem" className={styles.modifyAnchor}>
             <span className={styles.plusCircle}>➕</span>
             <p className={styles.abstract}>Adaugă o problemă nouă.</p>
           </Link>

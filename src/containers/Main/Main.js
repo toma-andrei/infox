@@ -21,7 +21,7 @@ const Main = (props) => {
 
   const cards = [
     {
-      to: "/problems/display_year/9",
+      to: "/problems/year/9",
       image: pawn,
       alt: "pawn",
       title: "Clasa a IX-a",
@@ -29,7 +29,7 @@ const Main = (props) => {
         "Bazele limbajelor C şi C++: variabile, structuri de control, tablouri, algoritmi elementari.",
     },
     {
-      to: "/problems/display_year/10",
+      to: "/problems/year/10",
       image: horse,
       alt: "horse",
       title: "Clasa a X-a",
@@ -37,7 +37,7 @@ const Main = (props) => {
         "Şiruri de caractere, subprograme, recursivitate, divide & impera, alocare dinamica.",
     },
     {
-      to: "/problems/display_year/11",
+      to: "/problems/year/11",
       image: tower,
       alt: "tower",
       title: "Clasa a XI-a",

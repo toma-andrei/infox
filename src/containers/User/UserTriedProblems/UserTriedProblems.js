@@ -1,11 +1,11 @@
 import axios from "axios";
 import { useContext, useEffect, useState } from "react";
-import { requestIP } from "../../../env";
 import TriedProblem from "./TriedProblem/TriedProblem";
 import styles from "./UserTriedProblems.module.css";
 import { AuthContext } from "../../../components/Layout/Layout";
 import Loading from "../../UI/Loading/Loading";
 import { ProblemsContext } from "../../../App";
+import ajax from "../../../assets/js/ajax";
 
 const UserTriedProblems = (props) => {
   const { jwt } = useContext(AuthContext);
@@ -17,23 +17,21 @@ const UserTriedProblems = (props) => {
   const fetchData = async () => {
     let answer = null;
 
-    let problemIdsAndScore = await axios({
-      method: "post",
-      url: "http://" + requestIP,
-      data: {
-        method: "get",
-        url: "https://infox.ro/new/users/problems",
-        jwt: jwt,
-      },
-    });
+    let problemIdsAndScore = await ajax(
+      "https://infox.ro/new/users/problems",
+      "get",
+      jwt,
+      {}
+    );
 
     // for each problem id, get full problem requirements
     let requests = problemIdsAndScore.data.problemHistory.map((entry) =>
-      axios.post("http://" + requestIP, {
-        method: "get",
-        url: "https://infox.ro/new/problems/full/" + entry.problem_id,
-        jwt: jwt,
-      })
+      ajax(
+        "https://infox.ro/new/problems/full/" + entry.problem_id,
+        "get",
+        jwt,
+        {}
+      )
     );
 
     let problems = await axios.all(requests);

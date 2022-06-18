@@ -23,7 +23,7 @@ const TriedProblem = (props) => {
 
   return (
     <Link
-      to={"/problems/display_problem/" + props.id}
+      to={"/problems/problem/" + props.id}
       className={triedProblemStyles.join(" ")}
     >
       <div>

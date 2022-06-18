@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import axios from "axios";
 import { requestIP } from "../../../../env";
 import useAuth from "../../../../hooks/useAuth";
+import ajax from "../../../../assets/js/ajax";
 
 //card for each chapter (like Structura liniara, Structura repetitiva)
 const Subchapter = (props) => {
@@ -15,15 +16,13 @@ const Subchapter = (props) => {
   //fetch problems for this subchapter to check problem number and solved status
   useState(() => {
     let shouldFetch = true;
-    axios({
-      method: "post",
-      url: "http://" + requestIP,
-      data: JSON.stringify({
-        jwt: jwt,
-        method: "get",
-        url: "https://infox.ro/new/problems/problems/" + props.id,
-      }),
-    }).then((res) => {
+
+    ajax(
+      "https://infox.ro/new/problems/problems/" + props.id,
+      "get",
+      jwt,
+      {}
+    ).then((res) => {
       if (shouldFetch) setProblems([...res.data.problems]);
     });
 
@@ -56,10 +55,7 @@ const Subchapter = (props) => {
   }, [props.solvedProblemsIds, problems]);
 
   return (
-    <Link
-      className={styles.card}
-      to={"/problems/display_subchapter/" + props.id}
-    >
+    <Link className={styles.card} to={"/problems/subchapter/" + props.id}>
       <div className={styles.card_title}>{props.title}</div>
       <div className={styles.stats}>
         Probleme existente: {problems.length} <br /> Probleme rezolvate:{" "}

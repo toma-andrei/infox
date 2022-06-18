@@ -7,7 +7,7 @@ const UserPage = (props) => {
   const { admin, author } = useAuth();
   const cards = [
     {
-      to: "/user/show_profile",
+      to: "/show_profile",
       image: "😃",
       title: "Profil",
       description: "Editare date personale (parolă, oraș, etc.)",
@@ -15,7 +15,7 @@ const UserPage = (props) => {
       shouldBeAuthor: false,
     },
     {
-      to: "/user/problems",
+      to: "/problems",
       image: "🏁",
       title: "Probleme",
       description: "Lista problemelor încercate și/sau rezolvate de tine",
@@ -23,7 +23,7 @@ const UserPage = (props) => {
       shouldBeAuthor: false,
     },
     {
-      to: "/user/proposed_problems",
+      to: "/proposed_problems",
       image: "🧡",
       title: "Probleme propuse",
       description: "Propune o problemă nouă sau editează una propusă anterior",
@@ -31,7 +31,7 @@ const UserPage = (props) => {
       shouldBeAuthor: true,
     },
     {
-      to: "/user/accept_problems",
+      to: "/accept_problems",
       image: "👀",
       title: "Probleme de acceptat",
       description: "Acceptă probleme propuse de alți utilizatori",

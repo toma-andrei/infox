@@ -1,6 +1,4 @@
 import { useParams } from "react-router";
-import axios from "axios";
-import { requestIP } from "../../env";
 import { AuthContext } from "../../components/Layout/Layout";
 import { useContext, useEffect, useState } from "react";
 import Chapter from "./Chapter/Chapter";
@@ -8,6 +6,7 @@ import styles from "./Chapters.module.css";
 import { ProblemsContext } from "../../App";
 import Loading from "../UI/Loading/Loading";
 import formatChapters from "../../assets/js/parseProblemChapters";
+import ajax from "../../assets/js/ajax";
 
 /**
  * Chapter component. Fetches the chapters from the server and renders them.
@@ -26,13 +25,8 @@ const Chapters = (props) => {
   useEffect(() => {
     let shouldFetch = true;
     if (!solvedProblemsIds) {
-      axios
-        .post("http://" + requestIP, {
-          method: "get",
-          url: "https://infox.ro/new/users/problems",
-          jwt: jwt,
-        })
-        .then((response) => {
+      ajax("https://infox.ro/new/users/problems", "get", jwt, {}).then(
+        (response) => {
           //set solved problems ids
           if (response.data.success) {
             if (shouldFetch) {
@@ -43,7 +37,8 @@ const Chapters = (props) => {
               });
             }
           }
-        });
+        }
+      );
     }
     return () => (shouldFetch = false);
   }, [solvedProblemsIds]);
@@ -82,18 +77,13 @@ const Chapters = (props) => {
         let chapters = null;
 
         //fetch chapters from server
-        axios({
-          method: "post",
-          url: "http://" + requestIP,
-          data: JSON.stringify({
-            url: "https://infox.ro/new/problems/chapters/" + yearParam,
-            method: "get",
-            jwt: jwt,
-          }),
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }).then((res) => {
+
+        ajax(
+          "https://infox.ro/new/problems/chapters/" + yearParam,
+          "get",
+          jwt,
+          {}
+        ).then((res) => {
           chapters = res.data.chapters;
           let formated = formatChapters(chapters, yearParam);
           if (shouldFetch) problemContext.setChapters(formated);

@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router";
-import whiteInfoXLogo from "../../assets/img/infox_logo_white.svg";
+import whiteInfoXLogo from "../../assets/img/infox_logo_white.png";
 import styles from "./Navbar.module.css";
 import { Link } from "react-router-dom";
 import { AuthContext } from "../Layout/Layout";
@@ -32,7 +32,7 @@ const NavbarAuth = () => {
     localStorage.clear();
     fromContext.updateJWT(null);
     fromContext.updateUserInfo(null);
-    navigate("/user/logout");
+    navigate("/logout");
   };
 
   let classes = "navbar-nav ml-auto " + styles.MoveRight;
@@ -98,7 +98,7 @@ const NavbarAuth = () => {
             <Link
               className="nav-link"
               style={{ fontSize: "24px", margin: 0, padding: 0 }}
-              to="/problems/display_year/9"
+              to="/problems/year/9"
             >
               <img src={smallPawn} />
             </Link>
@@ -107,7 +107,7 @@ const NavbarAuth = () => {
             <Link
               className="nav-link"
               style={{ fontSize: "24px", margin: 0, padding: 0 }}
-              to="/problems/display_year/10"
+              to="/problems/year/10"
             >
               <img src={smallHorse} />
             </Link>
@@ -116,7 +116,7 @@ const NavbarAuth = () => {
             <Link
               className="nav-link"
               style={{ fontSize: "24px", margin: 0, padding: 0 }}
-              to="/problems/display_year/11"
+              to="/problems/year/11"
             >
               <img src={smallTower} />
             </Link>
@@ -145,7 +145,7 @@ const NavbarAuth = () => {
             </a>
           </li>
           <li className="nav-item">
-            <Link to="/user/user_page">
+            <Link to="/user_page">
               <img
                 className="nav-link xnavbar-item small_navbar_avatar"
                 src={

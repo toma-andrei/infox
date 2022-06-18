@@ -8,6 +8,7 @@ import SubchapterProblemAbstract from "./SubchaperProblemAbstract/SubchapterProb
 import { ProblemsContext } from "../../App";
 import Loading from "../UI/Loading/Loading";
 import NoExistentProblems from "./NoExistentProblem/NoExistentProblems";
+import ajax from "../../assets/js/ajax";
 
 const SubchapterProblemsAbstract = (props) => {
   const { id, searchString, labelId, authorId } = useParams();
@@ -21,21 +22,16 @@ const SubchapterProblemsAbstract = (props) => {
   //fetch problems abstract requirements for this subchapter
   useEffect(() => {
     let shouldFetch = true;
-    axios({
-      method: "post",
-      url: "http://" + requestIP,
-      data: JSON.stringify({
-        method: "get",
-        url: searchString
-          ? props.url + "?searchString=" + searchString
-          : labelId
-          ? props.url + labelId
-          : authorId
-          ? props.url + authorId
-          : "https://infox.ro/new/problems/problems/" + id,
-        jwt: jwt,
-      }),
-    }).then((res) => {
+
+    const url = searchString
+      ? props.url + "?searchString=" + searchString
+      : labelId
+      ? props.url + labelId
+      : authorId
+      ? props.url + authorId
+      : "https://infox.ro/new/problems/problems/" + id;
+
+    ajax(url, "get", jwt, {}).then((res) => {
       if (shouldFetch) {
         if (res.data.problems.length === 0) {
           setAreProblemsInThisSubchapter(false);
@@ -44,31 +40,22 @@ const SubchapterProblemsAbstract = (props) => {
       }
     });
     if (authorId && shouldFetch) {
-      axios({
-        method: "post",
-        url: "http://" + requestIP,
-        data: {
-          url: "https://infox.ro/new/users/profile/head/" + authorId,
-          jwt: jwt,
-          method: "get",
-        },
-      }).then((res) => {
+      ajax(
+        "https://infox.ro/new/users/profile/head/" + authorId,
+        "get",
+        jwt,
+        {}
+      ).then((res) => {
         if (shouldFetch) setAuthorHead(res.data);
       });
     }
 
     if (labelId && shouldFetch) {
-      axios({
-        method: "post",
-        url: "http://" + requestIP,
-        data: {
-          url: "https://infox.ro/new/labels/" + labelId,
-          jwt: jwt,
-          method: "get",
-        },
-      }).then((res) => {
-        if (shouldFetch) setLabelName(res.data);
-      });
+      ajax("https://infox.ro/new/labels/" + labelId, "get", jwt, {}).then(
+        (res) => {
+          if (shouldFetch) setLabelName(res.data);
+        }
+      );
     }
     return () => (shouldFetch = false);
   }, []);
@@ -77,13 +64,11 @@ const SubchapterProblemsAbstract = (props) => {
   useEffect(async () => {
     let shouldFetch = true;
     let requests = problemsAbstract.map((problem) => {
-      return axios.post(
-        "http://" + requestIP,
-        JSON.stringify({
-          method: "get",
-          url: "https://infox.ro/new/problems/full/" + problem.id,
-          jwt: jwt,
-        })
+      return ajax(
+        "https://infox.ro/new/problems/full/" + problem.id,
+        "get",
+        jwt,
+        {}
       );
     });
 

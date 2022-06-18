@@ -5,6 +5,7 @@ import axios from "axios";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import { requestIP } from "../../../env";
 import useAuth from "../../../hooks/useAuth";
+import ajax from "../../../assets/js/ajax";
 
 const Login = (props) => {
   //input elements for login with different attributes
@@ -106,15 +107,9 @@ const Login = (props) => {
 
     if (formIsValid) {
       setLoading(true);
-
-      axios({
-        method: "post",
-        url: "http://" + requestIP,
-        data: JSON.stringify({
-          url: "https://infox.ro/new/auth/login",
-          email: email,
-          password: password,
-        }),
+      ajax("https://infox.ro/new/auth/login", "post", "", {
+        email: email,
+        password: password,
       })
         .then((res) => {
           setLoading(false);
@@ -163,7 +158,7 @@ const Login = (props) => {
     >
       <h2 className={styles.LoginH2}>Autentificare</h2>
       <div className={styles.RegisterLinkDiv}>
-        <Link className={styles.RegisterLink} to="/user/register">
+        <Link className={styles.RegisterLink} to="/register">
           Înregistrare
         </Link>
       </div>
@@ -199,7 +194,7 @@ const Login = (props) => {
               Autentificare esuata !
             </span>
             <Link
-              to="/user/restore"
+              to="/restore"
               className={[styles.forgotPw, styles.FailedAuthA].join(" ")}
             >
               Ați uitat parola ?

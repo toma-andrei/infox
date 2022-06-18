@@ -1,8 +1,6 @@
-import axios from "axios";
 import { useEffect, useContext, useState } from "react";
 import { useLocation, useParams } from "react-router";
 import { AuthContext } from "../../../components/Layout/Layout";
-import { requestIP } from "../../../env";
 import Loading from "../../UI/Loading/Loading";
 import Unapproved from "../../../components/Errors/Unapproved/Unapproved";
 import styles from "./SpecificProblem.module.css";
@@ -11,6 +9,7 @@ import OwnSolutions from "./Tabs/OwnSolutions";
 import ProblemHints from "./Tabs/ProblemHints";
 import CorrectSolutions from "./Tabs/CorrectSolutions";
 import ProblemDiscussions from "./Tabs/ProblemDiscussions";
+import ajax from "../../../assets/js/ajax";
 
 /**
  * @param props empty object (nothing given from parent component)
@@ -55,11 +54,12 @@ const SpecificProblem = (props) => {
 
   //fetch problem solution if those doesn't exist
   const fetchProblemSolutions = async () => {
-    const response = await axios.post("http://" + requestIP, {
-      method: "get",
-      jwt: jwt,
-      url: "https://infox.ro/new/solutions/problem/" + id,
-    });
+    const response = await ajax(
+      "https://infox.ro/new/solutions/problem/" + id,
+      "get",
+      jwt,
+      {}
+    );
 
     //sort solutions for the current problem by date to be displayed on the right order
     let temp = { ...problem };
@@ -76,13 +76,11 @@ const SpecificProblem = (props) => {
   const fetchProblemRequirements = async () => {
     let answer = null;
 
-    let axiosPostAnswer = await axios.post(
-      "http://" + requestIP,
-      JSON.stringify({
-        method: "get",
-        url: "https://infox.ro/new/problems/full/" + id,
-        jwt: jwt,
-      })
+    let axiosPostAnswer = await ajax(
+      "https://infox.ro/new/problems/full/" + id,
+      "get",
+      jwt,
+      {}
     );
 
     answer = axiosPostAnswer.data.problem;
@@ -106,29 +104,23 @@ const SpecificProblem = (props) => {
       if (shouldFetch && !problem.solutions) {
         fetchProblemSolutions();
       }
+
       // fetch creator profile
-      axios({
-        method: "post",
-        url: "http://" + requestIP,
-        data: {
-          method: "get",
-          url: "https://infox.ro/new/users/profile/head/" + problem.author_id,
-          jwt: jwt,
-        },
-      }).then((response) => {
+      ajax(
+        "https://infox.ro/new/users/profile/head/" + problem.author_id,
+        "get",
+        jwt,
+        {}
+      ).then((response) => {
         if (shouldFetch) setProblemCreator(response.data);
       });
 
-      axios({
-        method: "post",
-        url: "http://" + requestIP,
-        data: {
-          method: "get",
-          url:
-            "https://infox.ro/new/problems/subchapter/" + problem.subchapter_id,
-          jwt: jwt,
-        },
-      }).then((response) => {
+      ajax(
+        "https://infox.ro/new/problems/subchapter/" + problem.subchapter_id,
+        "get",
+        jwt,
+        {}
+      ).then((response) => {
         if (shouldFetch) setProblemMeta(response.data.about[0]);
       });
     }
