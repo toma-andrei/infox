@@ -13,6 +13,7 @@ import { requestIP } from "../../env";
 // };
 
 const ajax = (url, method, jwt, body) => {
+  console.log(url, method, jwt, body);
   return axios({
     method: method,
     url: url,
