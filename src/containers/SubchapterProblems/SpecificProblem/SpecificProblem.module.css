@@ -45,8 +45,7 @@
   animation: fadeEffect 0.2s; /* Fading effect takes 1 second */
 }
 
-.problem h2,
-.problem_points h2 {
+.problem h2 {
   background-color: lightgrey;
   font-size: 28px;
   padding: 3px;
@@ -58,24 +57,12 @@
   display: inline;
 }
 
-.problem h3,
-.problem_points h3,
-.code_editor h3,
-#output_problem h3 {
+.problem h3 {
   background-color: rgba(200, 200, 200, 0.3);
   font-size: 24px;
   padding: 3px;
   border-radius: 3px;
   margin-top: 25px;
-}
-
-.problem h4,
-.problem_points h4,
-.code_editor h4,
-#output_problem h4 {
-  font-size: 18px;
-  padding: 3px;
-  border-radius: 3px;
 }
 
 .text_area_for_code {
@@ -86,7 +73,16 @@
   font-family: Consolas, Monaco, "Lucida Console", Courier, monospace;
 }
 
-.problem_meta > p {
+.isLink {
+  color: #003789;
+  font-weight: bold;
+}
+
+.isLink:hover {
+  text-decoration: underline;
+}
+
+.metas > p {
   display: inline;
 }
 
@@ -95,8 +91,13 @@ tr td:last-child {
   white-space: nowrap;
 }
 
-.problem_meta,
-.problem_page_table {
+.isLink {
+  user-select: none;
+  cursor: pointer;
+}
+
+.metas,
+.metaTable {
   margin-top: auto !important;
   width: 100%;
   min-width: 100%;
@@ -106,49 +107,42 @@ tr td:last-child {
   table-layout: auto;
 }
 
-.problem_page_table td,
-.problem_page_table th {
+.metaTable td,
+.metaTable th {
   border: 1px solid #ddd;
   padding: 8px;
 }
 
-.problem_page_table th {
+.metaTable th {
   background-color: #ddd;
   color: black;
 }
 
-.problem_page_table tr:nth-child(even) {
-  background-color: #ddd;
-}
-
-.problem_page_table tr:nth-child(odd) {
+.metaTable tr:nth-child(odd) {
   background-color: #f5f5f5;
 }
 
-.problem_page_table td:hover {
-  background-color: #aaa;
-}
-
-@media (max-width: 670px) {
-  .problem_page_table thead {
+@media (max-width: 700px) {
+  .metaTable thead {
     display: none;
   }
-  .problem_page_table,
-  .problem_page_table tbody,
-  .problem_page_table tr,
-  .problem_page_table td {
+  .metaTable,
+  .metaTable tbody,
+  .metaTable tr,
+  .metaTable td {
     display: block;
     width: 100%;
   }
-  .problem_page_table tr {
+  .metaTable tr {
     margin-bottom: 15px;
   }
-  .problem_page_table td {
+
+  .metaTable td {
     text-align: right;
     padding-left: 50%;
     position: relative;
   }
-  .problem_page_table td::before {
+  .metaTable td::before {
     content: attr(data-label);
     position: absolute;
     left: 0;

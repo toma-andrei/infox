@@ -22,8 +22,8 @@ const TypeOfProblem = (props) => {
       image: file,
       figureCaption: "Citire și scriere din fișier",
       id: 2,
-      selected: props.problemType === "file_io",
-      type: "file_io",
+      selected: props.problemType === "files_io",
+      type: "files_io",
       text: `Datele de intrare vor fi citite din fișierul 
       <strong><i>data.in</i></strong> iar datele
       de ieșire vor fi scrise în fișierul <strong><i>data.out</i></strong>.`,

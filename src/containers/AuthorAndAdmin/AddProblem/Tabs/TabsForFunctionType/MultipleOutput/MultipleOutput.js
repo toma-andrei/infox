@@ -36,7 +36,7 @@ const MultipleOutput = (props) => {
       char userOuput[255], correctOutput[255];
       cin>>userOuput>>correctOutput;
       if(strlen(userOuput) == strlen(correctOutput))
-      return 1;
+          return 1;
       return 0;
     }`}</pre>
         <hr style={{ width: "40%" }} />

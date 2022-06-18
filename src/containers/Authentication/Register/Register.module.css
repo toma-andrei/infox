@@ -34,51 +34,18 @@
   box-shadow: 0 15px 25px rgba(0, 0, 0, 0.5);
 }
 
-.RegisterForm::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 50%;
-  height: 100%;
-  background: rgba(255, 255, 255, 0.08);
-  transform: skewX(-22deg);
-  transform-origin: bottom left;
+.success {
+  background-color: rgb(16, 115, 65);
+  text-align: center;
+  padding: 4px;
+  margin-bottom: 10px;
   border-radius: 10px;
-  pointer-events: none;
-}
-
-.RegisterForm::before {
-  transform: skewX(-14deg);
-}
-
-@media only screen and (max-width: 370px) {
-  .RegisterForm::before {
-    transform: skewX(-15deg);
-  }
 }
 
 .RegisterH2 {
   text-align: center;
   letter-spacing: 1px;
   color: var(--main-txt-color-always-light);
-}
-
-#labels_div #label_failed {
-  visibility: hidden;
-  text-align: center;
-}
-.RegisterForm #failed_email,
-.RegisterForm #failed_unknown,
-.RegisterForm #failed_passwords,
-.RegisterForm #failed_null {
-  text-align: center;
-  letter-spacing: 1px;
-  color: var(--main-txt-color-always-light);
-  display: none;
-  margin-top: 5px;
-  margin-bottom: 1rem;
-  min-width: 100%;
 }
 
 .SocialLogin {

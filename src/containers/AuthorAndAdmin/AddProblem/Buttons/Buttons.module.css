@@ -1,8 +1,8 @@
 .buttonsWrapper {
   position: fixed;
-  top: 93%;
-  left: 48%;
-  transform: translate(-50%, 0);
+  top: 100%;
+  left: 50%;
+  transform: translate(-65%, -120%);
   margin-left: 40px;
 }
 

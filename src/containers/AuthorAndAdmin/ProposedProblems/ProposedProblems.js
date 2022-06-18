@@ -66,6 +66,7 @@ const ProposedProblems = (props) => {
 
   return (
     <main>
+      <div className={styles.title}>Probleme propuse</div>
       <div className={styles.addNewProblemDiv}>
         <div className={styles.proposedProblemsWrapper}>
           <Link to="/addproblem/editor" className={styles.modifyAnchor}>

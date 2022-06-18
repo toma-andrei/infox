@@ -20,6 +20,8 @@ import RequireAuth from "./components/Require/RequireAuth";
 import RequireAdmin from "./components/Require/RequireAdmin";
 import RequireUnauth from "./components/Require/RequireUnauth";
 import NotFound from "./components/Errors/NotFound/NotFound";
+import About from "./containers/Main/About";
+import RequireAuthor from "./components/Require/RequireAuthor";
 
 export const ProblemsContext = createContext({});
 
@@ -69,6 +71,7 @@ function App(props) {
           <Route path="/user/register" exact element={<Register />} />
           <Route path="/user/restore" exact element={<Restore />} />
         </Route>
+        <Route path="/about" exact element={<About />} />
 
         {/* Routes only available for authenticated users */}
         <Route element={<RequireAuth />}>
@@ -97,6 +100,40 @@ function App(props) {
               <SubchapterProblemsAbstract url="https://infox.ro/new/problems/search" />
             }
           />
+          <Route
+            path="/problems/label/:labelId"
+            exact
+            element={
+              <SubchapterProblemsAbstract
+                url="https://infox.ro/new/lables/problems/"
+                search={false}
+              />
+            }
+          />
+          <Route
+            path="/problems/author/:authorId"
+            exact
+            element={
+              <SubchapterProblemsAbstract
+                url="https://infox.ro/new/authors/problems_by/"
+                search={false}
+              />
+            }
+          />
+          <Route element={<RequireAuthor />}>
+            <Route
+              path="/user/proposed_problems"
+              exact
+              element={<ProposedProblems />}
+            />
+            <Route path="/user/admin" exact element={<Main />} />
+            <Route
+              path="/addproblem/editor/:id"
+              exact
+              element={<AddProblem />}
+            />
+            <Route path="/addproblem/editor" exact element={<AddProblem />} />
+          </Route>
 
           {/* Routes only available for admin and authors */}
           <Route element={<RequireAdmin />}>

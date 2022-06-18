@@ -48,9 +48,9 @@ const ProblemToBeAdded = (props) => {
       <HRsAndTitles title={"Sursa propunătorului"} />
       {props.problemType === "function" ? (
         <FunctionAndProgramSources
-          source={props.source}
-          sourceModifiedHandler={props.sourceModifiedHandler}
+          proponentSource={props.proponentSource}
           functionCode={props.functionCode}
+          sourceModifiedHandler={props.sourceModifiedHandler}
           setFunctionCode={props.functionCodeModifiedHandler}
         />
       ) : props.problemType === "check_solution" ? (
@@ -62,14 +62,16 @@ const ProblemToBeAdded = (props) => {
         />
       ) : (
         <ProponentSource
-          source={props.proponentSource}
+          proponentSource={props.proponentSource}
           sourceModifiedHandler={props.sourceModifiedHandler}
         />
       )}
 
       <HRsAndTitles title={"Teste"} />
       <TestsComponent
-        inputType={props.inputType}
+        inputFromFile={props.inputFromFile}
+        currentlyCompiling={props.currentlyCompiling}
+        problemType={props.problemType}
         tests={props.tests}
         addTestHandler={props.addTestHandler}
         compileSingleTest={props.compileSingleTest}

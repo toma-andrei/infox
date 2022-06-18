@@ -7,6 +7,7 @@ import styles from "./UserProfile.module.css";
 import defaultAvatar from "../../../assets/img/navbarImages/basic_avatar.jpg";
 import useAuth from "../../../hooks/useAuth";
 import ColorPicker from "../../UI/ColorPicker/ColorPicker";
+import UserModal from "./Modal/UserModal";
 const CurrentUserProfile = (props) => {
   const fromContext = useContext(AuthContext);
 
@@ -15,6 +16,8 @@ const CurrentUserProfile = (props) => {
   const [formIsValid, setFormIsValid] = useState(false);
   const [success, setSuccess] = useState(false);
   const { setBackgroundColor } = useAuth();
+  const [showModal, setShowModal] = useState(false);
+  const [authorBought, setAuthorBought] = useState(false);
 
   const inputChangedHandler = (id, event) => {
     let elementCopy = { ...profileForm };
@@ -98,6 +101,30 @@ const CurrentUserProfile = (props) => {
   useEffect(() => {
     //TODO a success/fail message
   }, [success]);
+
+  // button for buying author right was pressed
+  const buyAuthor = () => {
+    if (fromContext.coins < 1000) {
+      alert("You don't have enough coins!");
+      return;
+    }
+
+    axios({
+      method: "post",
+      url: "http://" + requestIP,
+      data: {
+        url: "https://infox.ro/new/new/authors/rights",
+        jwt: fromContext.jwt,
+      },
+    }).then((res) => {
+      setShowModal(false);
+      setAuthorBought(true);
+      fromContext.updateUserInfo({
+        ...fromContext,
+        coins: fromContext.coins - 1000,
+      });
+    });
+  };
 
   let formInputsArray = [];
 
@@ -242,11 +269,33 @@ const CurrentUserProfile = (props) => {
     </form>
   );
 
+  const toggleModal = () => {
+    setShowModal(!showModal);
+    setAuthorBought(false);
+  };
+
+  let becomeProposerButton = showModal ? (
+    <UserModal
+      text={`Doriți să cumpărați drept de autor? 
+      Prin apăsarea butonului 'Da' veți deveni propunător de probleme.
+      Acesta va costa 1000 de coins.`}
+      toggleModal={toggleModal}
+      choiceFromModal={buyAuthor}
+    />
+  ) : authorBought ? (
+    <UserModal
+      toggleModal={toggleModal}
+      authorBought={authorBought}
+      text="Felicitări! Ați cumpărat dreptul de autor! Pentru a avea efect, vă rugăm să vă autentificați din nou în aplicație."
+    />
+  ) : null;
+
   return (
     <main>
+      {becomeProposerButton}
       <div className={styles.userProfile}>
         <div className={styles.user_info_box}>
-          <div>
+          <div className={styles.wrapperDiv}>
             <img
               className={styles.profile_picture}
               src={
@@ -262,48 +311,22 @@ const CurrentUserProfile = (props) => {
             >
               <div className={styles.changePhotoContent}>Change photo</div>
             </div>
-
             <p className={styles.description}>
               Email: {localStorage.getItem("userEmail")}
               <br />
               Statut: {fromContext.teacher === "0" ? "Elev" : "Profesor"}
             </p>
+            <div>
+              <button className={styles.buyAuthorRight} onClick={toggleModal}>
+                devino propunător: 1000
+              </button>
+            </div>
           </div>
           <div className={styles.profile_editable_data}>{ownProfileForm}</div>
           <div className={styles.colorCustomization}>
             <p className={styles.colorLabel}>Culoare de fundal</p>
             <div className={styles.colorPicker}>
               <ColorPicker changeBackground={setBackgroundColor} />
-              {/* <button
-                className={[styles.colorButton, styles.clasicColor].join(" ")}
-                onClick={() => {
-                  setBackgroundColor("#208f8f");
-                }}
-              ></button>
-              <button
-                className={[styles.colorButton, styles.yellowColor].join(" ")}
-                onClick={() => {
-                  setBackgroundColor("#fcc603");
-                }}
-              ></button>
-              <button
-                className={[styles.colorButton, styles.purpleColor].join(" ")}
-                onClick={() => {
-                  setBackgroundColor("#8000FF");
-                }}
-              ></button>
-              <button
-                className={[styles.colorButton, styles.blueColor].join(" ")}
-                onClick={() => {
-                  setBackgroundColor("#2e77b8");
-                }}
-              ></button>
-              <button
-                className={[styles.colorButton, styles.grayColor].join(" ")}
-                onClick={() => {
-                  setBackgroundColor("#ccc");
-                }}
-              ></button> */}
             </div>
           </div>
         </div>

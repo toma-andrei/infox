@@ -1,0 +1,17 @@
+import { useEffect } from "react";
+import styles from "./SavedWithSuccess.module.css";
+const SavedWithSuccess = (props) => {
+  useEffect(() => {
+    setTimeout(() => {
+      props.moveToFalse();
+    }, 4000);
+  }, []);
+
+  return (
+    <div className={[styles.wrapperDiv]}>
+      <span>{props.text}</span>
+    </div>
+  );
+};
+
+export default SavedWithSuccess;

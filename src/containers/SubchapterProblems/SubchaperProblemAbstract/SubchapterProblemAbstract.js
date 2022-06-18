@@ -6,23 +6,48 @@ import axios from "axios";
 import useAuth from "../../../hooks/useAuth";
 import { requestIP } from "../../../env";
 import Labels from "../LabelsShort/Labels";
-const tm = require("markdown-it-texmath");
-const md = require("markdown-it")({ html: true }).use(tm, {
-  engine: require("katex"),
-  delimiters: "dollars",
-  katexOptions: { macros: { "\\RR": "\\mathbb{R}" } },
-});
+import useKatexParser from "../../../hooks/useKatexParser";
 
 /*
  * Abstract problem component on route /problems/display_subchapter/id
  */
 const SubchapterProblemAbstract = (props) => {
+  const md = useKatexParser();
+  const { jwt } = useAuth();
+  const [successRate, setSuccessRate] = useState(0);
+  const [solutions, setSolutions] = useState([]);
+
+  useEffect(() => {
+    axios({
+      method: "post",
+      url: "http://" + requestIP,
+      data: {
+        method: "get",
+        jwt: jwt,
+        url: "https://infox.ro/new/solutions/problem/" + props.fullProblem.id,
+      },
+    }).then((res) => {
+      const temp = res.data.solutions.sort((a, b) => {
+        let aa = new Date(a.created_at);
+        let bb = new Date(b.created_at);
+
+        return aa < bb ? 1 : aa > bb ? -1 : 0;
+      });
+      setSolutions(temp);
+    });
+  }, []);
+
+  useEffect(() => {
+    //get all solutions with score == 100 to compute success rate
+    let solvedNumber = solutions.filter((solution) => {
+      return parseInt(solution.points) === 100;
+    }).length;
+
+    let successRateNum = Math.round((solvedNumber / solutions.length) * 100);
+    setSuccessRate(successRateNum);
+  }, [solutions]);
+
   //compute success rate based on data from server
-  let successRate = (
-    (props.fullProblem.correct / props.fullProblem.submitted) *
-    100
-  ).toFixed(0);
-  successRate = successRate === "NaN" ? 50 : successRate;
   return props.shouldNotRedirect ? (
     <div
       className={styles.problem_title_and_abstract}
@@ -33,7 +58,7 @@ const SubchapterProblemAbstract = (props) => {
       <div
         className="abstract_requirements"
         dangerouslySetInnerHTML={{
-          __html: md.render(props.fullProblem.abstract),
+          __html: md(props.fullProblem.abstract),
         }}
       />
       <div className="progress">
@@ -52,7 +77,7 @@ const SubchapterProblemAbstract = (props) => {
   ) : (
     <Link
       to={"/problems/display_problem/" + props.fullProblem.id}
-      state={props.fullProblem}
+      state={{ ...props.fullProblem, solutions: solutions }}
       className={styles.problem_title_and_abstract}
     >
       <b>{props.fullProblem.id + ": " + props.fullProblem.title}</b>
@@ -60,7 +85,7 @@ const SubchapterProblemAbstract = (props) => {
       <div
         className="abstract_requirements"
         dangerouslySetInnerHTML={{
-          __html: md.render(props.fullProblem.abstract),
+          __html: md(props.fullProblem.abstract),
         }}
       />
       <div className="progress">

@@ -10,13 +10,14 @@ import Loading from "../UI/Loading/Loading";
 import NoExistentProblems from "./NoExistentProblem/NoExistentProblems";
 
 const SubchapterProblemsAbstract = (props) => {
-  const { id, searchString } = useParams();
+  const { id, searchString, labelId, authorId } = useParams();
   const { jwt } = useContext(AuthContext);
   const [problemsAbstract, setProblemsAbstract] = useState([]);
   const [problemsFull, setProblemsFull] = useState([]);
   const [areProblemsInThisSubchapter, setAreProblemsInThisSubchapter] =
     useState(true);
-
+  const [authorHead, setAuthorHead] = useState(null);
+  const [labelName, setLabelName] = useState(null);
   //fetch problems abstract requirements for this subchapter
   useEffect(() => {
     let shouldFetch = true;
@@ -25,13 +26,16 @@ const SubchapterProblemsAbstract = (props) => {
       url: "http://" + requestIP,
       data: JSON.stringify({
         method: "get",
-        url: props.url
+        url: searchString
           ? props.url + "?searchString=" + searchString
+          : labelId
+          ? props.url + labelId
+          : authorId
+          ? props.url + authorId
           : "https://infox.ro/new/problems/problems/" + id,
         jwt: jwt,
       }),
     }).then((res) => {
-      console.log(res);
       if (shouldFetch) {
         if (res.data.problems.length === 0) {
           setAreProblemsInThisSubchapter(false);
@@ -39,6 +43,33 @@ const SubchapterProblemsAbstract = (props) => {
         if (shouldFetch) setProblemsAbstract(res.data.problems);
       }
     });
+    if (authorId && shouldFetch) {
+      axios({
+        method: "post",
+        url: "http://" + requestIP,
+        data: {
+          url: "https://infox.ro/new/users/profile/head/" + authorId,
+          jwt: jwt,
+          method: "get",
+        },
+      }).then((res) => {
+        if (shouldFetch) setAuthorHead(res.data);
+      });
+    }
+
+    if (labelId && shouldFetch) {
+      axios({
+        method: "post",
+        url: "http://" + requestIP,
+        data: {
+          url: "https://infox.ro/new/labels/" + labelId,
+          jwt: jwt,
+          method: "get",
+        },
+      }).then((res) => {
+        if (shouldFetch) setLabelName(res.data);
+      });
+    }
     return () => (shouldFetch = false);
   }, []);
 
@@ -73,6 +104,9 @@ const SubchapterProblemsAbstract = (props) => {
 
   if (problemsFull.length) {
     problemsList = problemsFull.map((problem, index) => {
+      if (!problem) {
+        return null;
+      }
       return (
         <SubchapterProblemAbstract
           key={problem.id}
@@ -92,6 +126,16 @@ const SubchapterProblemsAbstract = (props) => {
 
   return (
     <main>
+      {authorId ? (
+        <div className={styles.title}>
+          Probleme adăugate de {authorHead?.nickname ?? ""}
+        </div>
+      ) : null}
+      {labelId ? (
+        <div className={styles.title}>
+          Probleme cu eticheta {"'" + labelName?.label + "'" ?? ""}
+        </div>
+      ) : null}
       <div className={styles.abstracts}>{toBeShown}</div>
     </main>
   );

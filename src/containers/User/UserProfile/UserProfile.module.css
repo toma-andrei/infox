@@ -41,6 +41,30 @@
   text-shadow: 1px 2px 10px #000;
 }
 
+.buyAuthorRight {
+  text-align: center;
+  font-weight: 500;
+  width: 150px;
+  border: none;
+  border-radius: 8px 0 8px 0;
+  background-color: #9155cc;
+  color: white;
+  -webkit-box-shadow: 5px 5px 15px 5px #000000;
+  box-shadow: 5px 5px 15px 5px #000000;
+}
+.buyAuthorRight:hover {
+  -webkit-box-shadow: 5px 5px 15px 1px #000000;
+  box-shadow: 5px 5px 15px 1px #000000;
+}
+
+.wrapperDiv {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+  width: 100%;
+}
+
 .colorCustomization {
   margin-left: 40px;
   display: flex;
@@ -156,7 +180,7 @@
 .changeProfilePicture {
   position: absolute;
   color: rgb(40, 40, 40);
-  transform: translate(0, -100%);
+  transform: translate(0, -34%);
   height: 200px;
   width: 200px;
   vertical-align: bottom;

@@ -6,12 +6,14 @@ import pawn from "../../assets/img/mainPage/pawn.png";
 import horse from "../../assets/img/mainPage/horse.png";
 import tower from "../../assets/img/mainPage/tower.png";
 import brain from "../../assets/img/mainPage/brain.png";
+import logo from "../../assets/img/favicon.ico";
 import exercises from "../../assets/img/mainPage/exercises.png";
 import useAuth from "../../hooks/useAuth";
 import ImageTextCard from "../UI/ImageTextCard/ImageTextCard";
 import { ProblemsContext } from "../../App";
 import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
+
 const Main = (props) => {
   const { jwt } = useAuth();
   const problems = useContext(ProblemsContext);
@@ -47,6 +49,13 @@ const Main = (props) => {
       image: brain,
       alt: "brain",
       title: "Probleme dificile",
+      description: "Problemele cu cele mai puține surse corecte trimise.",
+    },
+    {
+      to: "/about",
+      image: logo,
+      alt: "about",
+      title: "Despre InfoX",
       description: "Problemele cu cele mai puține surse corecte trimise.",
     },
   ];

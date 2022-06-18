@@ -52,40 +52,10 @@
   box-shadow: 0 15px 25px rgba(0, 0, 0, 0.5);
 }
 
-.LoginForm::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 50%;
-  height: 100%;
-  background: rgba(255, 255, 255, 0.08);
-  transform: skewX(-22deg);
-  transform-origin: bottom left;
-  border-radius: 10px;
-  pointer-events: none;
-}
-
-@media only screen and (max-width: 370px) {
-  .LoginForm::before {
-    transform: skewX(-19deg);
-  }
-}
-
 .LoginH2 {
   text-align: center;
   letter-spacing: 1px;
   color: var(--main-txt-color-always-light);
-}
-
-#labels_div #label_failed {
-  visibility: hidden;
-  text-align: center;
-}
-
-.social-login {
-  text-align: center;
-  margin-bottom: 15px;
 }
 
 .LoginForm .inputGroup {
@@ -115,27 +85,20 @@
   transition: 0.3s ease-out;
 }
 
-.LoginForm .inputGroup input:focus + label,
-.LoginForm .inputGroup input:valid + label {
-  transform: translateY(-18px);
-  color: var(--main-txt-color-always-light);
-  font-size: 0.8rem;
-}
-
 .loginSubmitBtn {
-  color: var(--main-txt-color-always-light);
+  border-radius: 5px;
   width: 100%;
-  text-shadow: 1px 1px black;
   display: block;
-  margin-left: auto;
+  letter-spacing: 1px;
+  cursor: pointer;
   border: none;
+  margin-left: auto;
   outline: none;
   background: darkcyan;
   font-size: 1rem;
-  letter-spacing: 1px;
+  text-shadow: 1px 1px black;
   padding: 10px 20px;
-  border-radius: 5px;
-  cursor: pointer;
+  color: var(--main-txt-color-always-light);
 }
 
 .loginSubmitBtnDisabled {

@@ -1,0 +1,51 @@
+.hintsPage {
+  background-color: #fff;
+  padding: 15px;
+}
+
+.title {
+  font-size: 2.3rem;
+  color: black;
+  margin-bottom: 1rem;
+  font-weight: 500;
+}
+
+.title:not(:first-child) {
+  margin-top: 2rem;
+}
+
+.hintText {
+  font-size: 1.4rem;
+  color: black;
+  margin-bottom: 1rem;
+}
+
+.tests {
+  display: flex;
+  flex-wrap: wrap;
+  border: 3px solid #c5c3c3;
+  border-radius: 15px;
+  padding: 15px;
+  justify-content: space-around;
+}
+
+.testWrapper {
+  font-size: larger;
+  margin: 15px;
+  padding: 15px;
+  min-width: 300px;
+  border: 1px solid #e6e6e6;
+  text-align: center;
+}
+
+.testWrapper a {
+  color: #000;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.testText {
+  font-size: 1.4rem;
+  color: black;
+  margin-bottom: 1rem;
+}

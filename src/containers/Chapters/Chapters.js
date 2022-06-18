@@ -124,6 +124,10 @@ const Chapters = (props) => {
 
   return (
     <main>
+      <div className={styles.title}>
+        Probleme de clasa a{" "}
+        {yearParam === "9" ? "IX" : yearParam === "10" ? "X" : "XI"}-a
+      </div>
       <div className={styles.chapters}>{toBeShown}</div>
     </main>
   );

@@ -9,8 +9,9 @@
   overflow-x: auto;
   overflow-y: auto;
   height: 400px;
-  resize: none;
   font-family: Consolas, Monaco, "Lucida console";
+  padding: 10px;
+  font-size: 1.1rem;
 }
 
 .compileError {
@@ -38,7 +39,7 @@
 }
 
 .errorMessage {
-  width: 150px;
+  width: 250px;
   color: white;
   padding: 8px;
   margin: auto;
@@ -74,6 +75,45 @@
   box-shadow: 6px 8px 23px -4px rgba(0, 0, 0, 0.35);
 }
 
+.currentScore {
+  display: inline-block !important;
+  background-color: #1dcee9;
+  text-align: center;
+  padding: 0px;
+  font-size: 0.8rem;
+  color: #fff;
+}
+
+.errors {
+  padding-bottom: 4px;
+  border-bottom: 4px solid #d13939;
+  margin-top: 15px;
+  margin-bottom: 15px;
+}
+
+.textDiv {
+  display: inline;
+}
+.textAndButtonDiv {
+  display: flex;
+  justify-content: space-between;
+}
+
+.scoresWrapper {
+  margin-top: 15px;
+  margin-bottom: 15px;
+}
+
+.currentScore:not(:last-child) {
+  border-right: 1px solid #000;
+}
+
+.currentScore:first-child {
+  border-radius: 5px 0 0 5px;
+}
+.currentScore:last-child {
+  border-radius: 0px 5px 5px 0px;
+}
 /*
 Loading animation
 */

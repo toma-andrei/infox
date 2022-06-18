@@ -43,14 +43,10 @@ const Subchapter = (props) => {
       problems.forEach((problem) => {
         let idd = ids.find((id) => id.problem_id === problem.id);
         if (idd && parseInt(idd.points) === 100) solved++;
-        else tried++;
+        else if (idd) tried++;
       });
 
       if (shouldFetch) {
-        let problemData = problems.filter((pr) => {
-          return true;
-        });
-
         setSolvedCount(solved);
         setTriedCount(tried);
       }

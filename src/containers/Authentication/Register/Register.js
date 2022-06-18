@@ -132,8 +132,7 @@ const Register = (props) => {
 
   const registerButtonPressedHandler = (event) => {
     event.preventDefault();
-
-    if (formIsValid) {
+    if (!formIsValid) {
       for (let key in registerForm) {
         if (
           registerForm[key].validation.required &&
@@ -159,17 +158,18 @@ const Register = (props) => {
         axios({
           method: "post",
           url: "http://" + requestIP,
-          data: JSON.stringify({
+          data: {
             url: "https://infox.ro/new/auth/register",
             email: email,
             password: password,
             lastName: lastName,
             firstName: firstName,
-          }),
+          },
         })
           .then((res) => {
             setLoading(false);
             if (res.data.success) {
+              setSuccess(true);
             } else {
               setReasonForRegisterFail(res.data.reason);
               setSomethingWentWrong(true);
@@ -197,7 +197,9 @@ const Register = (props) => {
   }
 
   useEffect(() => {
-    if (success) return navigate("/main");
+    setTimeout(() => {
+      if (success) navigate("/user/login");
+    }, 4000);
   }, [success]);
 
   let form = (
@@ -229,6 +231,12 @@ const Register = (props) => {
           </div>
         );
       })}
+      {success ? (
+        <div className={styles.success}>
+          Înregistrat cu succes! Vă rugăm verificați emailul pentru validare.
+        </div>
+      ) : null}
+
       <input
         id="registerButton"
         type="submit"

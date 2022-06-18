@@ -2,6 +2,7 @@ import styles from "./TestsComponent.module.css";
 import SingleTest from "./SingleTest/SingleTest";
 import { useState, useEffect } from "react";
 import ProponentSource from "../ProponentSource/ProponentSource";
+import Loading from "../../../../UI/Loading/Loading";
 
 const TestsComponent = (props) => {
   //state for managing a test
@@ -23,8 +24,9 @@ const TestsComponent = (props) => {
         stackMemory: 0,
         time: 0,
         score: 0,
-        obtainedScore: 0,
         isExample: false,
+        loading: false,
+        error: "",
       });
     }
   };
@@ -99,16 +101,26 @@ const TestsComponent = (props) => {
     props.compileAllTests();
   };
 
+  const loadFile = (id, event) => {
+    let fr = new FileReader();
+    fr.onload = (e) => {
+      props.inputFromFile(id, fr.result);
+    };
+    fr.readAsText(event.target.files[0]);
+  };
+  console.log(tests);
   let testsComponents = tests.map((test) => {
     return (
       <SingleTest
+        loadFile={loadFile}
         compileSingleTest={props.compileSingleTest}
-        inputType={props.inputType}
+        problemType={props.problemType}
         id={test.id}
         key={test.id}
         input={test.input}
         output={test.output}
         score={test.score}
+        loading={test.loading}
         isExample={test.isExample}
         updateInput={(event) => updateInput(test.id, event.target.value)}
         updateOutput={(event) => updateOutput(test.id, event.target.value)}
@@ -133,18 +145,27 @@ const TestsComponent = (props) => {
         >
           <div className={styles.buttonText}>{`Adaugă test`}</div>
         </button>
-        <button
-          className={[
-            styles.testComponentButton,
-            styles.generateOutputButton,
-          ].join(" ")}
-          onClick={generateOutput}
-        >
-          <div className={styles.buttonText}>
-            {`Compilează codul (Se vor genera outputurile & timpul maxim pe baza
-          codului sursă de mai sus și a inputurilor de aici. Obținerea outputurilor poate dura.)`}
+        {props.currentlyCompiling ? (
+          <div className={styles.loaderContainer}>
+            <div className={styles.animationYellow}></div>
+            <div className={styles.animationRed}></div>
+            <div className={styles.animationBlue}></div>
+            <div className={styles.animationViolet}></div>
           </div>
-        </button>
+        ) : (
+          <button
+            className={[
+              styles.testComponentButton,
+              styles.generateOutputButton,
+            ].join(" ")}
+            onClick={generateOutput}
+          >
+            <div className={styles.buttonText}>
+              {`Compilează codul (Se vor genera outputurile & timpul maxim pe baza
+          codului sursă de mai sus și a inputurilor de aici. Obținerea outputurilor poate dura.)`}
+            </div>
+          </button>
+        )}
       </div>
     </>
   );

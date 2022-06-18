@@ -35,7 +35,8 @@ const FunctionAndProgramSources = (props) => {
           id="sourceCode"
           onChange={props.sourceModifiedHandler}
           className={styles.textareaStyle}
-          value={props.source}
+          value={props.proponentSource}
+          spellCheck="false"
         ></textarea>
       </div>
     </div>

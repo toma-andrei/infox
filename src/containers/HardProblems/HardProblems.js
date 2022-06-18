@@ -14,44 +14,55 @@ const HardProblems = (props) => {
   const { jwt } = useContext(AuthContext);
   const [problemsFull, setProblemsFull] = useState([]);
   useEffect(() => {
+    let shouldFetch = true;
     setLoading(true);
-    axios({
-      method: "post",
-      url: "http://" + requestIP,
-      data: {
-        method: "get",
-        url: "https://infox.ro/new/problems/hard?index=" + pageIndex * 50,
-        jwt: jwt,
-      },
-    }).then((res) => {
-      setProblemsAbstract(res.data.problems);
-      setLoading(false);
-    });
+    if (shouldFetch) {
+      axios({
+        method: "post",
+        url: "http://" + requestIP,
+        data: {
+          method: "get",
+          url: "https://infox.ro/new/problems/hard?index=" + pageIndex * 50,
+          jwt: jwt,
+        },
+      }).then((res) => {
+        setProblemsAbstract(res.data.problems);
+        setLoading(false);
+      });
+    }
+    return () => {
+      shouldFetch = false;
+    };
   }, [pageIndex]);
 
   useEffect(async () => {
+    let shouldFetch = true;
     setLoading(true);
-    let requests = problemsAbstract.map((problem) => {
-      return axios.post(
-        "http://" + requestIP,
-        JSON.stringify({
-          method: "get",
-          url: "https://infox.ro/new/problems/full/" + problem.id,
-          jwt: jwt,
-        })
-      );
-    });
-
-    let problemsFullFromRequest = [];
-    await axios.all(requests).then((responses) => {
-      problemsFullFromRequest = responses.map((response) => {
-        return response.data.problem;
+    if (shouldFetch) {
+      let requests = problemsAbstract.map((problem) => {
+        return axios.post(
+          "http://" + requestIP,
+          JSON.stringify({
+            method: "get",
+            url: "https://infox.ro/new/problems/full/" + problem.id,
+            jwt: jwt,
+          })
+        );
       });
-    });
 
-    // console.log(problemsFullFromRequest);
-    setProblemsFull(problemsFullFromRequest);
-    setLoading(false);
+      let problemsFullFromRequest = [];
+      if (shouldFetch) {
+        await axios.all(requests).then((responses) => {
+          problemsFullFromRequest = responses.map((response) => {
+            return response.data.problem;
+          });
+        });
+      }
+
+      if (shouldFetch) setProblemsFull(problemsFullFromRequest);
+      setLoading(false);
+    }
+    return () => (shouldFetch = false);
   }, [problemsAbstract]);
 
   const incDecPageIndex = (value) => {

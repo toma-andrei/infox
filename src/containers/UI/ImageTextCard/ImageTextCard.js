@@ -6,7 +6,7 @@ const ImageTextCard = (props) => {
     <Link to={props.to} className={styles.main_page_chapter_select}>
       <div className={styles.box}>
         <i className={styles.chapter_icon} aria-hidden="true">
-          <img src={props.image}></img>
+          <img src={props.image} style={{ maxWidth: "120px" }}></img>
         </i>
 
         <h3 className={styles.name}>{props.title}</h3>

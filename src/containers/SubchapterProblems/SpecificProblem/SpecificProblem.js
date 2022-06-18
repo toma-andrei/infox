@@ -53,6 +53,7 @@ const SpecificProblem = (props) => {
     { th: "Limită de memorie", corespondent: "memory" },
   ];
 
+  //fetch problem solution if those doesn't exist
   const fetchProblemSolutions = async () => {
     const response = await axios.post("http://" + requestIP, {
       method: "get",
@@ -61,14 +62,14 @@ const SpecificProblem = (props) => {
     });
 
     //sort solutions for the current problem by date to be displayed on the right order
-    problem.solutions = response.data.solutions.sort((a, b) => {
+    let temp = { ...problem };
+    temp["solutions"] = response.data.solutions.sort((a, b) => {
       let aa = new Date(a.created_at);
       let bb = new Date(b.created_at);
 
       return aa < bb ? 1 : aa > bb ? -1 : 0;
     });
-
-    setProblem(problem);
+    setProblem(temp);
   };
 
   //function to fetch problem requirements from api
@@ -102,7 +103,9 @@ const SpecificProblem = (props) => {
   useEffect(() => {
     let shouldFetch = true;
     if (problem) {
-      if (shouldFetch) fetchProblemSolutions();
+      if (shouldFetch && !problem.solutions) {
+        fetchProblemSolutions();
+      }
       // fetch creator profile
       axios({
         method: "post",
@@ -126,7 +129,7 @@ const SpecificProblem = (props) => {
           jwt: jwt,
         },
       }).then((response) => {
-        if (shouldFetch) setProblemMeta(response.data.about);
+        if (shouldFetch) setProblemMeta(response.data.about[0]);
       });
     }
     return () => {
@@ -176,7 +179,11 @@ const SpecificProblem = (props) => {
           jwt={jwt}
           id={id}
         />
-        <ProblemHints show={tabs[2].show} />
+        <ProblemHints
+          show={tabs[2].show}
+          hints={problem.tips}
+          id={problem.id}
+        />
         <CorrectSolutions show={tabs[3].show} />
         <ProblemDiscussions show={tabs[4].show} />
       </div>

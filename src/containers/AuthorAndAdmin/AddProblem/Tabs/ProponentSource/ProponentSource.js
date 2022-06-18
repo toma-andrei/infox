@@ -15,7 +15,7 @@ const ProponentSource = (props) => {
           id="sourceCode"
           onChange={props.sourceModifiedHandler}
           className={styles.sourceCodeStyle}
-          value={props.source}
+          value={props.proponentSource}
         ></textarea>
       </div>
     </>

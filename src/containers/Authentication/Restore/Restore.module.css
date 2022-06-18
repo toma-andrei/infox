@@ -60,23 +60,6 @@
   color: var(--main-txt-color-always-light);
 }
 
-#labels_div #label_failed {
-  visibility: hidden;
-  text-align: center;
-}
-
-.RestoreForm #no_email,
-.RestoreForm #failed_unknown,
-.RestoreForm #failed_passwords {
-  text-align: center;
-  letter-spacing: 1px;
-  color: var(--main-txt-color-always-light);
-  display: none;
-  margin-top: 5px;
-  margin-bottom: 1rem;
-  min-width: 100%;
-}
-
 .SocialLogin {
   text-align: center;
   margin-bottom: 15px;

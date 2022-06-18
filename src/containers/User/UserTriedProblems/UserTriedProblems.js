@@ -87,6 +87,7 @@ const UserTriedProblems = (props) => {
 
   return (
     <main>
+      <div className={styles.title}>Probleme încercate sau rezolvate</div>
       <div className={styles.shapeProblem}>{problemList}</div>
     </main>
   );
