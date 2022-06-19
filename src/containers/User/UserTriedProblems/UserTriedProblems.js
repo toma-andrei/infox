@@ -25,24 +25,26 @@ const UserTriedProblems = (props) => {
     );
 
     // for each problem id, get full problem requirements
-    let requests = problemIdsAndScore.data.problemHistory.map((entry) =>
-      ajax(
+    let requests = problemIdsAndScore.data.problemHistory.map((entry) => {
+      return ajax(
         "https://infox.ro/new/problems/full/" + entry.problem_id,
         "get",
         jwt,
         {}
-      )
-    );
+      );
+    });
 
-    let problems = await axios.all(requests);
+    let problems = await axios.all(requests).catch((err) => {});
     answer = problems.map((respons, index) => {
-      if (respons.data.success)
+      if (respons?.data?.success ?? false)
         return {
           id: respons.data.problem.id,
           title: respons.data.problem.title,
           score: problemIdsAndScore.data.problemHistory[index].points,
           abstract: respons.data.problem.abstract,
         };
+      else {
+      }
     });
 
     fromProblemContex.setSolvedProblems({

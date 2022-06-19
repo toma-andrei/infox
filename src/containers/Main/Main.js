@@ -13,6 +13,7 @@ import ImageTextCard from "../UI/ImageTextCard/ImageTextCard";
 import { ProblemsContext } from "../../App";
 import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
+import particles from "../../assets/js/particles";
 
 const Main = (props) => {
   const { jwt } = useAuth();
@@ -66,7 +67,6 @@ const Main = (props) => {
       navigate("/");
 
       return () => {
-        console.log("unmounting");
         problems.clearContext();
       };
     }
@@ -82,7 +82,14 @@ const Main = (props) => {
       </div>
     </main>
   ) : (
-    <div></div>
+    <>
+      {particles(120, true, 120)}
+      <div className={styles.mainUnauthenticated}>
+        <img src={logo} alt="logo" />
+        <div className={styles.textDiv}>InfoX</div>
+        <p>Platformă de rezolvare a problemelor de informatică</p>
+      </div>
+    </>
   );
 };
 

@@ -1,6 +1,4 @@
-import axios from "axios";
 import ajax from "../../../assets/js/ajax";
-import { requestIP } from "../../../env";
 const prepareTests = (tests, problemId) => {
   let body = { problemId: problemId, testsNumber: tests.length };
   for (let i = 0; i < tests.length; i++) {
@@ -81,7 +79,6 @@ export const saveProblem = (
       jwt,
       problem
     ).then((res) => {
-      console.log(res.data);
       if (res.data.success) {
         setProblemSaved(true);
       } else {
@@ -116,7 +113,6 @@ export const saveProblem = (
       jwt,
       prepareTests(tests, problemId)
     ).then((res) => {
-      console.log(res.data);
       if (res.data.success) {
         setTestsSaved(true);
       } else {
@@ -206,7 +202,6 @@ const saveProblemWithoutId = (
         jwt,
         problem
       ).then((res) => {
-        console.log("problem:", res.data);
         if (res.data.statusCode === 200) {
           setProblemSaved(true);
         } else {
@@ -224,7 +219,6 @@ const saveProblemWithoutId = (
         problemId: problemId,
         labels: constLabels,
       }).then((res) => {
-        console.log("labels:", res.data);
         if (res.data.statusCode === 200) {
           setLabelsSaved(true);
         } else {
@@ -239,7 +233,6 @@ const saveProblemWithoutId = (
         jwt,
         prepareTests(tests, problemId)
       ).then((res) => {
-        console.log("tests:", res.data);
         if (res.data.statusCode === 200) {
           setTestsSaved(true);
         } else {

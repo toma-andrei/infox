@@ -1,7 +1,5 @@
-import axios from "axios";
 import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../../../components/Layout/Layout";
-import { requestIP } from "../../../env";
 import Input from "../../UI/Input/Input";
 import styles from "./UserProfile.module.css";
 import defaultAvatar from "../../../assets/img/navbarImages/basic_avatar.jpg";
@@ -9,6 +7,8 @@ import useAuth from "../../../hooks/useAuth";
 import ColorPicker from "../../UI/ColorPicker/ColorPicker";
 import UserModal from "./Modal/UserModal";
 import ajax from "../../../assets/js/ajax";
+import SavedWithSuccess from "../../AuthorAndAdmin/AddProblem/SavedWithSuccess/SavedWithSuccess";
+
 const CurrentUserProfile = (props) => {
   const fromContext = useContext(AuthContext);
 
@@ -19,6 +19,7 @@ const CurrentUserProfile = (props) => {
   const { setBackgroundColor } = useAuth();
   const [showModal, setShowModal] = useState(false);
   const [authorBought, setAuthorBought] = useState(false);
+  const [error, setError] = useState("");
 
   const inputChangedHandler = (id, event) => {
     let elementCopy = { ...profileForm };
@@ -70,7 +71,7 @@ const CurrentUserProfile = (props) => {
   };
 
   const changeProfilePicture = () => {
-    console.log("change profile pic");
+    alert("TODO: on backend : posibility to change picture url");
   };
 
   const submitButtonPressedHandler = (event) => {
@@ -88,14 +89,14 @@ const CurrentUserProfile = (props) => {
         county: profileForm.county.value,
         locality: profileForm.locality.value,
       }).then((res) => {
-        console.log(res.data);
+        if (res.data.success) {
+          setSuccess(true);
+        } else {
+          setError("Datele nu au putut fi salvate.");
+        }
       });
     }
   };
-
-  useEffect(() => {
-    //TODO a success/fail message
-  }, [success]);
 
   // button for buying author right was pressed
   const buyAuthor = () => {
@@ -110,7 +111,6 @@ const CurrentUserProfile = (props) => {
       fromContext.jwt,
       {}
     ).then((res) => {
-      console.log(res.data);
       setShowModal(false);
       setAuthorBought(true);
       fromContext.updateUserInfo({
@@ -286,6 +286,13 @@ const CurrentUserProfile = (props) => {
 
   return (
     <main>
+      {success ? (
+        <SavedWithSuccess
+          text="Datele au fost salvate cu succes."
+          moveToFalse={() => setSuccess(false)}
+          error={error}
+        />
+      ) : null}
       {becomeProposerButton}
       <div className={styles.userProfile}>
         <div className={styles.user_info_box}>

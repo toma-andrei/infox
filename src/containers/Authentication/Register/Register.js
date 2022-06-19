@@ -1,10 +1,9 @@
 import React, { useEffect, useState } from "react";
 import styles from "./Register.module.css";
 import Input from "../../UI/Input/Input";
-import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import { requestIP } from "../../../env";
 import ajax from "../../../assets/js/ajax";
+import particles from "../../../assets/js/particles";
 
 const Register = (props) => {
   const [registerForm, setRegisterForm] = useState({
@@ -262,9 +261,12 @@ const Register = (props) => {
   );
 
   return (
-    <main style={{ margin: "30px" }}>
-      <div className={styles.RegisterWrapper}>{form}</div>
-    </main>
+    <>
+      {particles(60, false, 80)}
+      <main style={{ margin: "30px" }}>
+        <div className={styles.RegisterWrapper}>{form}</div>
+      </main>
+    </>
   );
 };
 

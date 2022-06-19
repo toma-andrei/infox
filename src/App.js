@@ -62,7 +62,7 @@ function App(props) {
       }}
     >
       <Routes>
-        <Route path="/new/main" exact element={<Main />} />
+        <Route path="/main" exact element={<Main />} />
         <Route path="/" exact element={<Main />} />
         <Route path="/logout" exact element={<Main fromLogout={true} />} />
         {/* Routes only available for unauthenticated users */}
@@ -77,7 +77,7 @@ function App(props) {
         <Route element={<RequireAuth />}>
           <Route path="/user_page" exact element={<UserPage />} />
           <Route path="/show_profile" exact element={<UserProfile />} />
-          <Route path="/problems" exact element={<UserTriedProblems />} />
+          <Route path="/triedProblems" exact element={<UserTriedProblems />} />
           <Route path="/problems/hard" exact element={<HardProblems />} />
           <Route
             path="/problems/year/:yearParam"

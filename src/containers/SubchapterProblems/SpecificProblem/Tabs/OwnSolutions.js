@@ -1,7 +1,5 @@
 import axios from "axios";
 import { Fragment, useContext, useState } from "react";
-import { AuthContext } from "../../../../components/Layout/Layout";
-import { requestIP } from "../../../../env";
 import styles from "./OwnSolutions.module.css";
 import SelectSolutionModal from "../Modals/SelectSolutionModal";
 import { useEffect } from "react";
@@ -56,13 +54,10 @@ const OwnSolutions = (props) => {
       let guid = "";
       let idSolution = 0;
 
-      console.log(response.data);
-
       if (response.data.success) {
         guid = response.data.guid;
         idSolution = response.data.id;
       } else {
-        console.log("not gud");
         setError("Ceva nu a mers bine. Încercați mai târziu.");
         setLoading(false);
         return;
@@ -74,7 +69,6 @@ const OwnSolutions = (props) => {
           idSolution: parseInt(response.data.idSolution),
         }).then((res) => {
           if (res.data.results) {
-            console.log();
             setLoading(false);
             clearInterval(intervalId);
             setCurrentSolution([

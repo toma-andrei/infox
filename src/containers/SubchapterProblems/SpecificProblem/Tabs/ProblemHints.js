@@ -1,6 +1,4 @@
 import { useEffect, useState } from "react";
-import axios from "axios";
-import { requestIP } from "../../../../env";
 import styles from "./ProblemHints.module.css";
 import useAuth from "../../../../hooks/useAuth";
 import useKatexParser from "../../../../hooks/useKatexParser";

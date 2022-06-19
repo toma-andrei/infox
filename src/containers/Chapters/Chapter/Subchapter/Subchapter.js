@@ -1,8 +1,6 @@
 import { useState, useEffect } from "react";
 import styles from "../../Chapters.module.css";
 import { Link } from "react-router-dom";
-import axios from "axios";
-import { requestIP } from "../../../../env";
 import useAuth from "../../../../hooks/useAuth";
 import ajax from "../../../../assets/js/ajax";
 

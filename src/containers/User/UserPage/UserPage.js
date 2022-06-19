@@ -15,7 +15,7 @@ const UserPage = (props) => {
       shouldBeAuthor: false,
     },
     {
-      to: "/problems",
+      to: "/triedProblems",
       image: "🏁",
       title: "Probleme",
       description: "Lista problemelor încercate și/sau rezolvate de tine",

@@ -373,9 +373,7 @@ const AddProblem = (props) => {
 
     ajax("https://infox.ro/new/new/solution/output", "post", jwt, body)
       .then((res) => {
-        console.log(res.data);
         if (res.data.output.teste["1"].eroare !== "0") {
-          console.log(res.data.output.teste["1"].eroare);
           alert(
             "Codul conține erori de compilare!\neroare: " +
               res.data.output.teste["1"].eroare.split("error:").pop()
@@ -403,7 +401,6 @@ const AddProblem = (props) => {
       })
       .catch((err) => {
         setCurrentlyCompiling(false);
-        console.log(err);
       });
   };
 
@@ -421,11 +418,9 @@ const AddProblem = (props) => {
     body["function"] = functionCode;
 
     setCurrentlyCompiling(true);
-    console.log(body);
 
     ajax("https://infox.ro/new/new/solution/output", "post", jwt, body)
       .then((res) => {
-        console.log(res.data);
         setCurrentlyCompiling(false);
 
         let teste = [...tests];
@@ -445,7 +440,6 @@ const AddProblem = (props) => {
       })
       .catch((err) => {
         setCurrentlyCompiling(false);
-        console.log(err);
       });
   };
 
@@ -480,7 +474,9 @@ const AddProblem = (props) => {
 
   // function called when the problem is being finalized
   const finalizeProblemHandler = () => {
-    console.log("uncomment code in VSCode to finalize problem");
+    alert(
+      "For security reasons, this feature is not available during development."
+    );
     return;
     ajax(
       "https://infox.ro/new/authors/" + problemId + "/finalize",
@@ -488,10 +484,8 @@ const AddProblem = (props) => {
       jwt,
       {}
     )
-      .then((res) => {
-        console.log(res.data);
-      })
-      .catch((err) => console.log(err));
+      .then((res) => {})
+      .catch((err) => {});
   };
 
   const submitProblemHandler = (saveOrFinalize) => {

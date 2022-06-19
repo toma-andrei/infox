@@ -1,11 +1,10 @@
 import styles from "./Login.module.css";
 import Input from "../../UI/Input/Input";
 import { useEffect, useState } from "react";
-import axios from "axios";
 import { Link, useNavigate, useLocation } from "react-router-dom";
-import { requestIP } from "../../../env";
 import useAuth from "../../../hooks/useAuth";
 import ajax from "../../../assets/js/ajax";
+import particles from "../../../assets/js/particles";
 
 const Login = (props) => {
   //input elements for login with different attributes
@@ -218,6 +217,7 @@ const Login = (props) => {
   return (
     <>
       <main style={{ margin: 30 }}>
+        {particles(65, false, 80)}
         <div className={styles.loginWrapper}>{form}</div>
       </main>
     </>

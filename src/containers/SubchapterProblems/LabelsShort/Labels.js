@@ -1,8 +1,6 @@
 import styles from "./Labels.module.css";
 import Label from "./Label";
 import { useState, useEffect } from "react";
-import axios from "axios";
-import { requestIP } from "../../../env";
 import useAuth from "../../../hooks/useAuth";
 import ajax from "../../../assets/js/ajax";
 // props be like {labels: "id1,id2,id3"}

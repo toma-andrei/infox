@@ -1,10 +1,7 @@
 import styles from "./SubchapterProblemAbstract.module.css";
 import { Link } from "react-router-dom";
-import Label from "../LabelsShort/Labels";
 import { useEffect, useState } from "react";
-import axios from "axios";
 import useAuth from "../../../hooks/useAuth";
-import { requestIP } from "../../../env";
 import Labels from "../LabelsShort/Labels";
 import useKatexParser from "../../../hooks/useKatexParser";
 import ajax from "../../../assets/js/ajax";

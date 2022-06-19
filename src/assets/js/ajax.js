@@ -1,5 +1,4 @@
 import axios from "axios";
-import { requestIP } from "../../env";
 
 // const ajax = (url, method, jwt, body) => {
 //   return axios({
@@ -13,7 +12,6 @@ import { requestIP } from "../../env";
 // };
 
 const ajax = (url, method, jwt, body) => {
-  console.log(url, method, jwt, body);
   return axios({
     method: method,
     url: url,
@@ -21,21 +19,8 @@ const ajax = (url, method, jwt, body) => {
     headers: {
       Authorization: `Bearer ${jwt}`,
       "Content-Type": "application/json",
-      connection: "keep-alive",
     },
-  });
+  }).catch((err) => {});
 };
-
-/**axios({
-        method: "post",
-        url: "http://" + requestIP,
-        data: JSON.stringify({
-          url: ,
-          method: "get",
-          jwt: jwt,
-        }),
-         
-      });
-    }; */
 
 export default ajax;

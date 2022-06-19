@@ -108,7 +108,6 @@ const TestsComponent = (props) => {
     };
     fr.readAsText(event.target.files[0]);
   };
-  console.log(tests);
   let testsComponents = tests.map((test) => {
     return (
       <SingleTest
