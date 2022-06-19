@@ -21,6 +21,7 @@ const ajax = (url, method, jwt, body) => {
     headers: {
       Authorization: `Bearer ${jwt}`,
       "Content-Type": "application/json",
+      connection: "keep-alive",
     },
   });
 };

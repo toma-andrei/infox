@@ -125,13 +125,11 @@ const Login = (props) => {
               return;
             }
           } else {
-            console.log(res.data);
             setReasonForLoginFail(res.data.reason);
             setSomethingWentWrong(true);
           }
         })
         .catch((err) => {
-          console.log(err);
           const response = err.hasOwnProperty("response")
             ? ""
             : err.response.data.reason;
