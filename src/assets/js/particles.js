@@ -65,13 +65,13 @@ const particles = (fps, interact, number) => {
               default: "bounce",
             },
             random: false,
-            speed: 2,
+            speed: 0.7,
             straight: false,
           },
           number: {
             density: {
               enable: true,
-              area: 800,
+              area: 600,
             },
             value: 120,
           },
@@ -82,7 +82,7 @@ const particles = (fps, interact, number) => {
             type: "circle",
           },
           size: {
-            value: { min: 2, max: 5 },
+            value: { min: 3, max: 7 },
           },
         },
         detectRetina: true,
