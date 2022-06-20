@@ -111,9 +111,8 @@ const Login = (props) => {
       })
         .then((res) => {
           setLoading(false);
-
-          if (res.data.success) {
-            if (res.data.jwt) {
+          if (res?.data?.success) {
+            if (res?.data?.jwt) {
               localStorage.setItem("infoxJWT", res.data.jwt);
               //set jwt in auth context
               updateJWT(res.data.jwt);
@@ -123,14 +122,14 @@ const Login = (props) => {
               return;
             }
           } else {
-            setReasonForLoginFail(res.data.reason);
+            setReasonForLoginFail(res?.data?.reason ?? "");
             setSomethingWentWrong(true);
           }
         })
         .catch((err) => {
           const response = err.hasOwnProperty("response")
             ? ""
-            : err.response.data.reason;
+            : err?.response?.data.reason;
           setSomethingWentWrong(true);
           setLoading(false);
           setReasonForLoginFail(response);
