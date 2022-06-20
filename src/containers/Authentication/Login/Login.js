@@ -111,7 +111,7 @@ const Login = (props) => {
       })
         .then((res) => {
           setLoading(false);
-          if (res?.data?.success) {
+          if (res?.data?.success ?? false) {
             if (res?.data?.jwt) {
               localStorage.setItem("infoxJWT", res.data.jwt);
               //set jwt in auth context
@@ -129,7 +129,7 @@ const Login = (props) => {
         .catch((err) => {
           const response = err.hasOwnProperty("response")
             ? ""
-            : err?.response?.data.reason;
+            : err?.response?.data?.reason ?? "";
           setSomethingWentWrong(true);
           setLoading(false);
           setReasonForLoginFail(response);

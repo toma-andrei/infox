@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import styles from "./Restore.module.css";
 import Input from "../../UI/Input/Input";
 import { useNavigate } from "react-router-dom";
+import ajax from "../../../assets/js/ajax";
+import SavedWithSuccess from "../../AuthorAndAdmin/AddProblem/SavedWithSuccess/SavedWithSuccess";
 
 const Restore = (props) => {
   const [restoreForm, setRestoreForm] = useState({
@@ -22,9 +24,7 @@ const Restore = (props) => {
   const [formIsValid, setFormIsValid] = useState(false);
   const [loading, setLoading] = useState(false);
   const [somethingWentWrong, setSomethingWentWrong] = useState(false);
-  const [reasonForRestoreFail, setReasonForRestoreFail] = useState(
-    "???\n /auth/restore"
-  );
+  const [reasonForRestoreFail, setReasonForRestoreFail] = useState("");
   const [success, setSuccess] = useState(false);
 
   const checkValidity = (value, rules) => {
@@ -64,7 +64,6 @@ const Restore = (props) => {
     element.value = event.target.value;
     element.touched = true;
     element.valid = checkValidity(element.value, element.validation);
-
     let allValid = true;
 
     for (let key in restoreForm) {
@@ -78,7 +77,15 @@ const Restore = (props) => {
 
   const restoreButtonPressedHandler = (event) => {
     event.preventDefault();
-    setSuccess(true);
+    ajax("https://infox.ro/new/auth/reset", "post", "", {
+      email: restoreForm.email.value,
+    }).then((res) => {
+      if (res?.data?.success ?? false) {
+        setSuccess(true);
+      } else {
+        setReasonForRestoreFail(res?.data?.reason ?? "");
+      }
+    });
   };
 
   const formElementArray = [];
@@ -90,9 +97,6 @@ const Restore = (props) => {
   }
 
   //if login is successfull redirect to /main
-  if (success) {
-    return navigate("/main");
-  }
 
   let form = (
     <form
@@ -103,28 +107,37 @@ const Restore = (props) => {
     >
       <h2 className={styles.RestoreH2}>Recuperare cont</h2>
 
-      <div className="alert alert-primary" role="alert">
+      {/* <div className="alert alert-primary" role="alert">
         Recomandăm să autentificați folosind Google sau Facebook
-      </div>
+      </div> */}
+
       <div className="alert alert-secondary" role="alert">
         După ce apăsați recuperare veți primii un e-mail care vă va ajuta să vă
         recuperați contul!
       </div>
       {formElementArray.map((elem) => {
         return (
-          <div className={styles.InputGroup} key={elem.id}>
-            <Input
-              classes={styles.InputElement}
-              invalid={!elem.config.valid}
-              shouldValidate={elem.config.validation}
-              touched={elem.config.touched}
-              key={elem.id}
-              elementType={elem.id}
-              elementConfig={elem.config.elementConfig}
-              value={elem.config.value}
-              changed={() => inputChangedHandler(elem.id)}
-            />
-          </div>
+          <>
+            {success ? (
+              <SavedWithSuccess
+                text="Un email de verificare va fi trimis în curând."
+                moveToFalse={() => setSuccess(false)}
+              />
+            ) : null}
+            <div className={styles.InputGroup} key={elem.id}>
+              <Input
+                classes={styles.InputElement}
+                invalid={!elem.config.valid}
+                shouldValidate={elem.config.validation}
+                touched={elem.config.touched}
+                key={elem.id}
+                elementType={elem.id}
+                elementConfig={elem.config.elementConfig}
+                value={elem.config.value}
+                changed={(event) => inputChangedHandler(elem.id, event)}
+              />
+            </div>
+          </>
         );
       })}
       <input
@@ -133,7 +146,7 @@ const Restore = (props) => {
         value="Recuperare"
         style={formIsValid ? {} : { opacity: 0.6 }}
         className={styles.RestoreSubmitBtn}
-        onClick={() => restoreButtonPressedHandler()}
+        onClick={(event) => restoreButtonPressedHandler(event)}
       />
 
       <div
