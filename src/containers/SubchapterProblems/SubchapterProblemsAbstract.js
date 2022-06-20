@@ -75,11 +75,12 @@ const SubchapterProblemsAbstract = (props) => {
 
     await axios.all(requests).then((responses) => {
       problemsFullFromRequest = responses.map((response) => {
-        return response.data.problem;
+        return response?.data?.problem ?? null;
       });
     });
 
-    if (shouldFetch) setProblemsFull(problemsFullFromRequest);
+    if (shouldFetch)
+      setProblemsFull(problemsFullFromRequest.filter((pr) => pr !== null));
 
     return () => (shouldFetch = false);
   }, [problemsAbstract]);
