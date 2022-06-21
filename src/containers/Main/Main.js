@@ -57,7 +57,7 @@ const Main = (props) => {
       image: logo,
       alt: "about",
       title: "Despre InfoX",
-      description: "Problemele cu cele mai puține surse corecte trimise.",
+      description: "Despre InfoX: informații generale, dezvoltatori, contact.",
     },
   ];
 
