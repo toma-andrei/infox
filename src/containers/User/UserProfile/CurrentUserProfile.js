@@ -317,7 +317,7 @@ const CurrentUserProfile = (props) => {
               <br />
               Statut: {fromContext.teacher === "0" ? "Elev" : "Profesor"}
             </p>
-            <div>
+            <div className="mb-3">
               <button className={styles.buyAuthorRight} onClick={toggleModal}>
                 devino propunător: 1000
               </button>

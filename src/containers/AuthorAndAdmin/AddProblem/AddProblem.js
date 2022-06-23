@@ -43,29 +43,29 @@ const AddProblem = (props) => {
         jwt,
         {}
       ).then((res) => {
-        setProblemTitle(res.data.problem.title);
-        setProblemSource(res.data.problem.source);
-        setSelectedChapter(res.data.problem.subchapter_id);
-        setProblemSummary(res.data.problem.abstract);
-        setRequirements(res.data.problem.full);
-        setHints(res.data.problem.tips);
-        if (res.data.problem.type === "function") {
-          setProponentSource(res.data.problem.functions_template);
-          setFunctionCode(res.data.problem.proposer_code);
+        setProblemTitle(res?.data?.problem.title ?? "");
+        setProblemSource(res?.data?.problem.source ?? "");
+        setSelectedChapter(res?.data?.problem.subchapter_id ?? "");
+        setProblemSummary(res?.data?.problem.abstract ?? "");
+        setRequirements(res?.data?.problem.full ?? "");
+        setHints(res?.data?.problem.tips ?? "");
+        if (res?.data?.problem.type === "function" ?? "") {
+          setProponentSource(res?.data?.problem.functions_template ?? "");
+          setFunctionCode(res?.data?.problem.proposer_code ?? "");
         } else {
-          setProponentSource(res.data.problem.proposer_code);
+          setProponentSource(res?.data?.problem.proposer_code ?? "");
         }
-        setMemoryLimit(res.data.problem.limit_memory);
-        setStackMemoryLimit(res.data.problem.limit_stack);
-        setTimeLimit(res.data.problem.limit_time);
-        setProblemType(res.data.problem.type);
+        setMemoryLimit(res?.data?.problem.limit_memory ?? "");
+        setStackMemoryLimit(res?.data?.problem.limit_stack ?? "");
+        setTimeLimit(res?.data?.problem.limit_time ?? "");
+        setProblemType(res?.data?.problem.type ?? "");
       });
 
       // get labels for the problem
       ajax("https://infox.ro/new/lables/problem/" + problemId, "get", jwt).then(
         (res) => {
           setLabels({
-            selectedLabels: res.data.labels.map((label) => label.id),
+            selectedLabels: res?.data?.labels.map((label) => label.id),
             customLabel: labels.customLabel,
           });
         }

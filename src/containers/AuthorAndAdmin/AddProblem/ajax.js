@@ -52,7 +52,7 @@ export const saveProblem = (
       title: problemTitle,
       source: problemSource,
       abstract: problemSummary,
-      full: requirements,
+      full: requirements + " ",
       tips: hints,
       subchapterId: parseInt(selectedChapter),
       proposerCode: problemType === "function" ? functionCode : proponentSource,
@@ -79,7 +79,7 @@ export const saveProblem = (
       jwt,
       problem
     ).then((res) => {
-      if (res.data.success) {
+      if (res?.data?.success ?? false) {
         setProblemSaved(true);
       } else {
         alert(

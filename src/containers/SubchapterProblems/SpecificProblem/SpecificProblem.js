@@ -10,6 +10,7 @@ import ProblemHints from "./Tabs/ProblemHints";
 import CorrectSolutions from "./Tabs/CorrectSolutions";
 import ProblemDiscussions from "./Tabs/ProblemDiscussions";
 import ajax from "../../../assets/js/ajax";
+import Modal from "../../AuthorAndAdmin/AddProblem/Buttons/Modal/Modal";
 
 /**
  * @param props empty object (nothing given from parent component)
@@ -19,6 +20,7 @@ const SpecificProblem = (props) => {
   const [problem, setProblem] = useState(useLocation().state);
   const [problemCreator, setProblemCreator] = useState(null);
   const [problemMeta, setProblemMeta] = useState(null);
+  const [clonePressed, setClonePressed] = useState(false);
 
   //id from url
   const { id } = useParams();
@@ -37,9 +39,16 @@ const SpecificProblem = (props) => {
       text: "Indicații + Teste de evaluare",
       show: false,
     },
-    { className: [styles.tablink], text: "Soluții corecte", show: false },
-    { className: [styles.tablink], text: "Discuții", show: false },
+    // { className: [styles.tablink], text: "Soluții corecte", show: false },
+    // { className: [styles.tablink], text: "Discuții", show: false },
+    // { className: [styles.tablink], text: "Clonează problema", show: false },
   ]);
+
+  // useEffect(() => {
+  //   if (tabs[3].show) {
+  //     setClonePressed(true);
+  //   }
+  // }, [tabs[3].show]);
 
   //table heads on problem tabs and its corespondent in data fetched from server
   const tHeads = [
@@ -141,44 +150,67 @@ const SpecificProblem = (props) => {
     setTabs(tabsCopy);
   };
 
+  const toggleModal = () => {
+    setClonePressed(!clonePressed);
+    toggleActive(0);
+  };
+
+  const cloneProblem = () => {
+    ajax(
+      "https://infox.ro/new/authors/" + problem.id + "/clone",
+      "post",
+      jwt,
+      {}
+    ).then((res) => console.log(res));
+  };
+
   // if problem is not approved and author is not current user and user is not admin shou unapproved
   let toBeShown = problem ? (
     problem.approved === "0" && problem.author_id !== userId && !admin ? (
       <Unapproved />
     ) : (
-      <div className={styles.problem_page}>
-        <div className="tab">
-          {tabs.map((tab, index) => (
-            <button
-              className={tab.className.join(" ")}
-              key={tab.text}
-              onClick={() => toggleActive(index)}
-            >
-              {tab.text}
-            </button>
-          ))}
+      <>
+        {clonePressed ? (
+          <Modal
+            onYesClicked={cloneProblem}
+            toggleModal={toggleModal}
+            message="Daca clonați problema, veți putea să o modificați și să o propuneți spre rezolvare. Doriți să clonați problema?"
+          />
+        ) : null}
+        <div className={styles.problem_page}>
+          <div className="tab">
+            {tabs.map((tab, index) => (
+              <button
+                className={tab.className.join(" ")}
+                key={tab.text}
+                onClick={() => toggleActive(index)}
+              >
+                {tab.text}
+              </button>
+            ))}
+          </div>
+          <ProblemRequirements
+            problem={problem}
+            metadataIdentifiers={tHeads}
+            show={tabs[0].show}
+            problemCreator={problemCreator}
+            problemMeta={problemMeta}
+          />
+          <OwnSolutions
+            show={tabs[1].show}
+            solutions={problem.solutions}
+            jwt={jwt}
+            id={id}
+          />
+          <ProblemHints
+            show={tabs[2].show}
+            hints={problem.tips}
+            id={problem.id}
+          />
+          {/* <CorrectSolutions show={tabs[3].show} />
+        <ProblemDiscussions show={tabs[4].show} /> */}
         </div>
-        <ProblemRequirements
-          problem={problem}
-          metadataIdentifiers={tHeads}
-          show={tabs[0].show}
-          problemCreator={problemCreator}
-          problemMeta={problemMeta}
-        />
-        <OwnSolutions
-          show={tabs[1].show}
-          solutions={problem.solutions}
-          jwt={jwt}
-          id={id}
-        />
-        <ProblemHints
-          show={tabs[2].show}
-          hints={problem.tips}
-          id={problem.id}
-        />
-        <CorrectSolutions show={tabs[3].show} />
-        <ProblemDiscussions show={tabs[4].show} />
-      </div>
+      </>
     )
   ) : (
     <Loading />
