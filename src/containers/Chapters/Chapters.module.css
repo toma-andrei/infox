@@ -47,16 +47,16 @@
 }
 
 .cards_collection .card {
-  cursor: pointer;
+  transition: 0.2s ease-out;
+  background-color: rgba(255, 255, 255, 0.2);
   min-width: 200px;
   max-width: 200px;
   display: flex;
   min-height: 200px;
   max-height: 200px;
   padding: 0 5px 5px 5px;
-  background-color: rgba(255, 255, 255, 0.2);
   margin: 3px;
-  transition: 0.2s ease-out;
+  cursor: pointer;
 }
 .cards_collection .card_title {
   font-size: 20px;

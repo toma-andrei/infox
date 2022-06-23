@@ -78,15 +78,6 @@
   transition: 0.3s ease-out;
 }
 
-.RegisterForm .InputGroup input:focus + label,
-.RegisterForm .InputGroup input:valid + label,
-.RestoreForm .InputGroup input:focus + label,
-.RestoreForm .InputGroup input:valid + label {
-  transform: translateY(-18px);
-  color: var(--main-txt-color-always-light);
-  font-size: 0.8rem;
-}
-
 .RestoreSubmitBtn {
   color: var(--main-txt-color-always-light);
   width: 100%;
