@@ -101,7 +101,7 @@ const CurrentUserProfile = (props) => {
   // button for buying author right was pressed
   const buyAuthor = () => {
     if (fromContext.coins < 1000) {
-      alert("You don't have enough coins!");
+      alert("Nu ai destule monede!");
       return;
     }
 
@@ -272,7 +272,7 @@ const CurrentUserProfile = (props) => {
     <UserModal
       text={`Doriți să cumpărați drept de autor? 
       Prin apăsarea butonului 'Da' veți deveni propunător de probleme.
-      Acesta va costa 1000 de coins.`}
+      Acesta va costa 1000 de monede.`}
       toggleModal={toggleModal}
       choiceFromModal={buyAuthor}
     />
