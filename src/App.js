@@ -126,7 +126,6 @@ function App(props) {
               exact
               element={<ProposedProblems />}
             />
-            <Route path="/admin" exact element={<Main />} />
             <Route path="/addproblem/:id" exact element={<AddProblem />} />
             <Route path="/addproblem" exact element={<AddProblem />} />
           </Route>
@@ -135,8 +134,6 @@ function App(props) {
           <Route element={<RequireAdmin />}>
             <Route path="/admin" exact element={<Main />} />
             <Route path="/accept_problems" exact element={<Main />} />
-            <Route path="/addproblem/:id" exact element={<AddProblem />} />
-            <Route path="/addproblem" exact element={<AddProblem />} />
           </Route>
         </Route>
         <Route path="*" element={<NotFound />} />

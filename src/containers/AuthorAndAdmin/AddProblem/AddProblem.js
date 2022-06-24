@@ -422,7 +422,6 @@ const AddProblem = (props) => {
     ajax("https://infox.ro/new/new/solution/output", "post", jwt, body)
       .then((res) => {
         setCurrentlyCompiling(false);
-
         let teste = [...tests];
         let max = 0;
         for (let i = 1; i <= teste.length; i++) {
