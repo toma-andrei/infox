@@ -50,7 +50,7 @@ const createSourceProgressBar = (solution, styles, toggleModal) => {
           let classes = ["progress-bar", styles.rightVerticalRuler];
 
           //set styles depending on response (compilation error, wrong answer, etc)
-          if (["g", "c"].includes(mark.myScore)) classes.push("bg-danger");
+          if (["g", "c", "0"].includes(mark.myScore)) classes.push("bg-danger");
           else if (["t", "m1", "m2"].includes(mark.myScore))
             classes.push("bg-primary");
           else if (mark.myScore == mark.testScore) classes.push("bg-success");
@@ -63,7 +63,7 @@ const createSourceProgressBar = (solution, styles, toggleModal) => {
             >
               {mark.myScore === "c"
                 ? "Compilare"
-                : mark.myScore === "g"
+                : mark.myScore === "g" || mark.myScore < mark.testScore
                 ? "Răspuns greșit"
                 : mark.myScore === "t"
                 ? "Timp"
