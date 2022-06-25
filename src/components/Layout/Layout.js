@@ -14,7 +14,7 @@ const Layout = (props) => {
   const [backgroundColor, setBackgroundColor] = useState(
     localStorage.getItem("background")
       ? localStorage.getItem("background")
-      : "#208f8f"
+      : "#535d8d"
   );
 
   const backgroundColorModifiedHandler = (color) => {

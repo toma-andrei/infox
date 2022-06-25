@@ -17,7 +17,7 @@ const particles = (fps, interact, number) => {
           color: {
             value: localStorage.getItem("background")
               ? localStorage.getItem("background")
-              : "#208f8f",
+              : "#535d8d",
           },
           opacity: 0,
         },

@@ -12,7 +12,7 @@ select:-webkit-autofill:focus {
   transition: background-color 5000s ease-in-out 0s;
 }
 :root {
-  --main-bg-color: #208f8f;
+  --main-bg-color: #535d8d;
   --main-txt-color-light: #ffffff;
   --main-txt-color-dark: #222222;
   --main-txt-color-one: #cdff33;
