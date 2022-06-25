@@ -1,0 +1,55 @@
+.allProblemsWrapper {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.title {
+  font-size: 2.5rem;
+  color: white;
+  font-weight: bold;
+  text-align: center;
+  margin: 20px 0 40px 0;
+}
+
+.problemTitle {
+  font-size: 1.5rem;
+}
+
+.problemTitle p {
+  margin-bottom: 0;
+}
+
+.problemWrapper {
+  background: rgb(186, 255, 193);
+  background: linear-gradient(
+    135deg,
+    rgba(186, 255, 193, 1) 0%,
+    rgba(242, 242, 242, 1) 50%,
+    rgba(241, 195, 195, 1) 96%
+  );
+  width: 60%;
+  margin-bottom: 40px;
+  border-radius: 10px;
+  padding: 10px;
+  border: 2px solid #999;
+  user-select: none;
+}
+
+.problemWrapper:hover {
+  background: linear-gradient(
+    135deg,
+    rgba(241, 195, 195, 1) 0%,
+    rgba(242, 242, 242, 1) 50%,
+    rgba(186, 255, 193, 1) 96%
+  );
+  cursor: pointer;
+}
+
+.abstract {
+  font-size: 1.4rem;
+}
+
+.author {
+  font-size: 1.2rem;
+}

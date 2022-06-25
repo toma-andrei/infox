@@ -102,7 +102,7 @@ const OwnSolutions = (props) => {
             }
           }
         });
-      }, 1000);
+      }, 2000);
     };
 
     sendData();

@@ -1,0 +1,181 @@
+.problem_page {
+  max-width: 1200px;
+  margin: auto;
+  padding: 10px 0 10px 0;
+}
+
+.problem,
+.code_editor {
+  display: flex;
+  flex-direction: column;
+  background-color: white;
+  flex: 1;
+  padding: 20px;
+  min-width: 400px;
+}
+
+.tab {
+  overflow: hidden;
+  background-color: inherit;
+}
+.tablink {
+  background-color: inherit;
+  border: none;
+  cursor: pointer;
+  padding: 14px 16px;
+  transition: 0.2s;
+  border-radius: 10px 10px 0 0;
+}
+
+.tablink:hover {
+  background-color: #ddd;
+}
+
+.tablink.active {
+  background-color: #fff;
+}
+
+.tabcontent {
+  border-top: none;
+  background-color: white;
+}
+
+.tabcontent {
+  animation: fadeEffect 0.2s;
+}
+
+.rawData {
+  background-color: #fff;
+  padding: 20px;
+}
+
+.title {
+  font-weight: 500;
+  font-size: 1.5rem;
+  margin-bottom: 20px;
+}
+
+.title:nth-child(3) {
+  margin-top: 20px;
+}
+
+.neformatat {
+  padding: 20px;
+  font-size: 1.2rem;
+  border: 2px solid #aaa;
+  border-radius: 15px;
+}
+
+.acceptProblem {
+  font-weight: bold;
+  background-color: rgb(199, 247, 202);
+}
+
+.problem h2 {
+  background-color: lightgrey;
+  font-size: 28px;
+  padding: 3px;
+  border-radius: 3px;
+  margin-top: 15px;
+}
+
+.problem h2 p {
+  display: inline;
+}
+
+.problem h3 {
+  background-color: rgba(200, 200, 200, 0.3);
+  font-size: 24px;
+  padding: 3px;
+  border-radius: 3px;
+  margin-top: 25px;
+}
+
+.text_area_for_code {
+  width: 100%;
+  height: calc(100% - 100px);
+  min-height: 400px;
+  flex: 1;
+  font-family: Consolas, Monaco, "Lucida Console", Courier, monospace;
+}
+
+.isLink {
+  color: #003789;
+  font-weight: bold;
+}
+
+.isLink:hover {
+  text-decoration: underline;
+}
+
+.metas > p {
+  display: inline;
+}
+
+tr td:last-child {
+  width: 1%;
+  white-space: nowrap;
+}
+
+.isLink {
+  user-select: none;
+  cursor: pointer;
+}
+
+.metas,
+.metaTable {
+  margin-top: auto !important;
+  width: 100%;
+  min-width: 100%;
+  text-align: left;
+  border-collapse: collapse;
+  font-family: sans-serif;
+  table-layout: auto;
+}
+
+.metaTable td,
+.metaTable th {
+  border: 1px solid #ddd;
+  padding: 8px;
+}
+
+.metaTable th {
+  background-color: #ddd;
+  color: black;
+}
+
+.metaTable tr:nth-child(odd) {
+  background-color: #f5f5f5;
+}
+
+@media (max-width: 700px) {
+  .metaTable thead {
+    display: none;
+  }
+  .metaTable,
+  .metaTable tbody,
+  .metaTable tr,
+  .metaTable td {
+    display: block;
+    width: 100%;
+  }
+  .metaTable tr {
+    margin-bottom: 15px;
+  }
+
+  .metaTable td {
+    text-align: right;
+    padding-left: 50%;
+    position: relative;
+  }
+  .metaTable td::before {
+    content: attr(data-label);
+    position: absolute;
+    left: 0;
+    width: 50%;
+    padding-left: 15px;
+    font-size: 15px;
+    font-weight: bold;
+    text-align: left;
+  }
+}

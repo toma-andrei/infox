@@ -22,6 +22,8 @@ import RequireUnauth from "./components/Require/RequireUnauth";
 import NotFound from "./components/Errors/NotFound/NotFound";
 import About from "./containers/Main/About";
 import RequireAuthor from "./components/Require/RequireAuthor";
+import AcceptProblems from "./containers/AuthorAndAdmin/AcceptProblems/AcceptProblems";
+import AcceptingProblemPage from "./containers/AuthorAndAdmin/AcceptProblems/AcceptingProblemPage/AcceptingProblemPage";
 
 export const ProblemsContext = createContext({});
 
@@ -133,7 +135,12 @@ function App(props) {
           {/* Routes only available for admin and authors */}
           <Route element={<RequireAdmin />}>
             <Route path="/admin" exact element={<Main />} />
-            <Route path="/accept_problems" exact element={<Main />} />
+            <Route path="/accept_problems" exact element={<AcceptProblems />} />
+            <Route
+              path="/accept_problem/:id"
+              exact
+              element={<AcceptingProblemPage />}
+            />
           </Route>
         </Route>
         <Route path="*" element={<NotFound />} />
