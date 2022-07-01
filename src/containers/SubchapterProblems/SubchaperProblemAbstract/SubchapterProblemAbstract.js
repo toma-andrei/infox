@@ -16,6 +16,7 @@ const SubchapterProblemAbstract = (props) => {
   const [solutions, setSolutions] = useState([]);
 
   useEffect(() => {
+    let shouldContinue = true;
     ajax(
       "https://infox.ro/new/solutions/problem/" + props.fullProblem.id,
       "get",
@@ -28,18 +29,21 @@ const SubchapterProblemAbstract = (props) => {
 
         return aa < bb ? 1 : aa > bb ? -1 : 0;
       });
-      setSolutions(temp);
+      if (shouldContinue) setSolutions(temp);
     });
+    return () => (shouldContinue = false);
   }, []);
 
   useEffect(() => {
+    let shouldContinue = true;
     //get all solutions with score == 100 to compute success rate
     let solvedNumber = solutions.filter((solution) => {
       return parseInt(solution.points) === 100;
     }).length;
 
     let successRateNum = Math.round((solvedNumber / solutions.length) * 100);
-    setSuccessRate(successRateNum);
+    if (shouldContinue) setSuccessRate(successRateNum);
+    return () => (shouldContinue = false);
   }, [solutions]);
 
   //compute success rate based on data from server

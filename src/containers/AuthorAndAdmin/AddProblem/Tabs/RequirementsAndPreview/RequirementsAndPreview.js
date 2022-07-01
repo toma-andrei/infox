@@ -1,9 +1,18 @@
 import styles from "./RequirementsAndPreview.module.css";
 import parseProblemRequirements from "../../../../../assets/js/parseProblemRequirements";
 import parseMermaidText from "../../../../../assets/js/parseMermaidText";
+import { useEffect, useState } from "react";
 
 const RequirementsAndPreview = (props) => {
-  const parsedMermaidText = parseMermaidText(props.req.requirements);
+  const [parsedMermaidText, setParsedMermaidText] = useState("");
+  // const parsedMermaidText = parseMermaidText(props?.req?.requirements ?? "");
+  useEffect(() => {
+    let shouldContinue = true;
+    if (shouldContinue && props?.req?.requirements)
+      setParsedMermaidText(parseMermaidText(props.req.requirements));
+
+    return () => (shouldContinue = false);
+  }, [props.req.requirements]);
 
   return (
     <div className={styles.problem}>
